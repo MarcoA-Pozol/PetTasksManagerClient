@@ -10,13 +10,13 @@
   }
   
   /* Light mode */
-  .light .task-card {
+  .light {
     background: white;
     color: #333;
   }
   
   /* Dark mode */
-  .dark .task-card {
+  .dark {
     background: #222;
     color: white;
   }

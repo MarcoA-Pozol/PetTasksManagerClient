@@ -1,0 +1,10 @@
+.app-container {
+    padding: 20px 20px ;
+}
+.app-container .dark {
+    background-color: #333;
+    
+}
+.app-container .light {
+    background-color: white;
+}

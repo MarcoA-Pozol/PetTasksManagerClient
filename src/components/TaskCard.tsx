@@ -4,14 +4,14 @@ type TaskCardProps = {
     title: string;
     description: string;
     status: 'pending' | 'in-progress' | 'done';
+    themeMode: string;
 };
   
-export default function TaskCard({ title, description, status }: TaskCardProps) {
+export default function TaskCard({ title, description, status, themeMode }: TaskCardProps) {
 return (
-        <div className={`task-card ${status}`}>
+        <div className={`task-card ${status} ${themeMode}`}>
             <h3 className="task-title">{title}</h3>
             <p className="task-description">{description}</p>
-            <span className="task-status">{status.replace("-", " ")}</span>
 
             <div className="task-actions">
                 <button className="start-btn">Begin Task</button>
