@@ -1,0 +1,87 @@
+/* General */
+.task-card {
+    margin-block: 20px;
+    max-width: 350px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Light mode */
+  .light .task-card {
+    background: white;
+    color: #333;
+  }
+  
+  /* Dark mode */
+  .dark .task-card {
+    background: #222;
+    color: white;
+  }
+  
+  /* Task status */
+  .pending {
+    border-left: 6px solid #e09a3f;
+  }
+  .in-progress {
+    border-left: 6px solid #662d91;
+  }
+  .done {
+    border-left: 6px solid #288c42;
+  }
+  
+  /* Text */
+  .task-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  .task-description {
+    font-size: 1rem;
+    opacity: 0.8;
+  }
+  .task-status {
+    display: inline-block;
+    margin: 10px 0;
+    font-weight: bold;
+  }
+  
+  /* Animations */
+  .task-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Buttons */
+  .task-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  .start-btn,
+  .complete-btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  .start-btn {
+    background: #0db5d3;
+    color: white;
+    border: none;
+    font-weight: bold;
+  }
+  .start-btn:hover {
+    background: #3b8ea5;
+  }
+  .complete-btn {
+    background: #4f00ce;
+    color: white;
+    border: none;
+    font-weight: bold;
+  }
+  .complete-btn:hover {
+    background: #1c1396;
+  }
+  
