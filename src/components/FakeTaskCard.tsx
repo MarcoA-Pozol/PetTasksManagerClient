@@ -12,7 +12,7 @@ const statusColors = {
   
 export default function TaskCard({ title, description, status }: TaskCardProps) {
 return (
-    <div className="rounded-2xl shadow-md border border-gray-200 p-4 w-full max-w-md bg-white">
+    <div className="rounded-2xl shadow-md border border-gray-200 p-4 w-full max-w-md bg-red">
     <h3 className="text-xl font-semibold text-gray-800 mb-2">{title}</h3>
     <p className="text-gray-600 mb-3">{description}</p>
     <span className={`text-sm px-3 py-1 rounded-full font-medium ${statusColors[status]}`}>
