@@ -1,4 +1,4 @@
-import '../static/styles/taskCard.css';
+import '../../static/styles/taskCard.css';
 
 type TaskCardProps = {
     title: string;
@@ -19,5 +19,5 @@ return (
             </div>
         </div>
     );
-}
+};
   
