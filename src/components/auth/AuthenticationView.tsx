@@ -14,16 +14,16 @@ export default function AuthenticationView() {
         <>
             {isLoginVisible ? (
                     <>
-                        <LoginForm/>
-                        <br></br>
-                        <span id="no-account-button" onClick={toggleForm}>I do not have an account yet</span>
+                        <LoginForm>
+                            <b><span id="no-account-button" onClick={toggleForm}>I do not have an account yet</span></b>
+                        </LoginForm>
                     </>
                     
                 ): (
                     <>
-                        <RegisterForm/>
-                        <br></br>
-                        <span id="existing-account-button" onClick={toggleForm}>I already have an account</span>
+                        <RegisterForm>
+                            <b><span id="existing-account-button" onClick={toggleForm}>I already have an account</span></b>
+                        </RegisterForm>
                     </>
             )}
         </>
