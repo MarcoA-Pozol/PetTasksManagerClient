@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/auth/authForm.css';
+import loginStainImg from '../../assets/login_stain_img.png';
 
 type Props = {
     children?: React.ReactNode; // Can accept another html elements or react components
@@ -36,9 +37,7 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
             </div>
 
             <div className='form-right-container'>
-                <div>
-                    <h3><strong style={{color:'rgb(225, 30,0)'}}>Productivity</strong>, enhancement and growing in only one place</h3>
-                </div>
+                <img src={loginStainImg} alt='Login stain img'></img>
             </div>
 
         </div>
