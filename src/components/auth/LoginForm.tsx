@@ -10,16 +10,29 @@ type Props = {
 const LoginForm: React.FC<Props> = ({children}:Props) => {
     const navigate = useNavigate();
 
-    const handleFormSubmision = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleFormSubmision = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const formData = new FormData(event.currentTarget);
         const username = formData.get("username") as string;
-        // const password = formData.get("password") as string;
+        const password = formData.get("password") as string;
 
-        localStorage.setItem('currentAuthUser', username);
+        
+        const response = await fetch('https://localhost:5000/api/auth/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username, password}),
+        });
 
-        // Redirect to AppView
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Valio verga", errorData);
+            throw errorData;
+        }
+
+        // Store sessionToken and redirect to AppView
+        const data = await response.json();
+        localStorage.setItem('sessionToken', data.token);
         navigate('/');
     };
 
@@ -29,8 +42,8 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
             <div className='form-left-container'>
                 <form className="auth-form" onSubmit={handleFormSubmision}>
                     <h2 className="auth-title">Welcome Back!</h2>
-                    <input type="text" placeholder="Username" required className="auth-input" />
-                    <input type="password" placeholder="Password" required className="auth-input" />
+                    <input name="username" type="text" placeholder="Username" required className="auth-input" />
+                    <input name="password" type="password" placeholder="Password" required className="auth-input" />
                     <button type="submit" className="auth-button">Login</button>
                     {children}
                 </form>
