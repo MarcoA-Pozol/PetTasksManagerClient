@@ -14,19 +14,18 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
         event.preventDefault();
 
         const formData = new FormData(event.currentTarget);
-        const username = formData.get("username") as string;
+        const input = formData.get("input") as string;
         const password = formData.get("password") as string;
 
         
-        const response = await fetch('https://localhost:5000/api/auth/login', {
+        const response = await fetch('http://localhost:5000/auth/login', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({username, password}),
+            body: JSON.stringify({input, password}),
         });
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("Valio verga", errorData);
             throw errorData;
         }
 
@@ -42,7 +41,7 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
             <div className='form-left-container'>
                 <form className="auth-form" onSubmit={handleFormSubmision}>
                     <h2 className="auth-title">Welcome Back!</h2>
-                    <input name="username" type="text" placeholder="Username" required className="auth-input" />
+                    <input name="input" type="text" placeholder="Username / Email" required className="auth-input" />
                     <input name="password" type="password" placeholder="Password" required className="auth-input" />
                     <button type="submit" className="auth-button">Login</button>
                     {children}
