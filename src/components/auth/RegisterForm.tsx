@@ -30,6 +30,7 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
             if (response.status === 201) {
                 console.log("User created successfully!")
             }
+            navigate("/");
         } else {
             alert('Password fields must coincide.')
         }
@@ -39,12 +40,12 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
     return(
         <div className='base-container'>
             <div className='form-left-container'>
-                <form className="auth-form">
+                <form className="auth-form" onSubmit={handleFormSubmision}>
                     <h2 className="auth-title">Create Account</h2>
-                    <input type="text" placeholder="Username" required className="auth-input" />
-                    <input type="email" placeholder="Email" required className="auth-input" />
-                    <input type="password" placeholder="Password" required className="auth-input" />
-                    <input type="password" placeholder="Confirm Password" required className="auth-input" />
+                    <input name="username" type="text" placeholder="Username" required className="auth-input" />
+                    <input name="email" type="email" placeholder="Email" required className="auth-input" />
+                    <input name="password" type="password" placeholder="Password" required className="auth-input" />
+                    <input name="confirmPassword" type="password" placeholder="Confirm Password" required className="auth-input" />
                     <button type="submit" className="auth-button">Register</button>
                     {children}
                 </form>
