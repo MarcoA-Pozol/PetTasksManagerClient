@@ -1,32 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import TaskCard from "./TaskCard";
 
 const AppView = () => {
     // Dark | Light theme
     const [theme, setTheme] = useState("light");
-    // Current auth user
-    const currentAuthUser = localStorage.getItem('currentAuthUser') || 'anonym';
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        localStorage.removeItem('currentAuthUser');
-        navigate('/auth');
+    useEffect(() => {
+        const checkAuth = async () => {
+            const response = await fetch("http://localhost:5000/auth/verify", {
+                method: "GET",
+                credentials: "include" // Ensure cookies are sent
+            });
+
+            setIsAuthenticated(response.ok);
+        };
+
+        checkAuth();
+    }, []);
+
+    const handleLogout = async () => {
+        await fetch("http://localhost:5000/auth/logout", { method: "POST", credentials: "include" });
+        setIsAuthenticated(false);
+        navigate("/auth");
     };
 
     const toggleTheme = () => {
         setTheme(theme === "light" ? "dark" : "light");
     };
 
-    // Redirect if the user is not authenticated
-
- 
-
-    if (currentAuthUser === 'anonym') {
-        return <Navigate to='/auth'/>;
+    if (!isAuthenticated) {
+        return <Navigate to="/auth" />;
     }
- 
-
 
     return (
         <>
