@@ -24,12 +24,16 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
             body: JSON.stringify({input, password}),
         });
 
-        if (response.status === 200) {
+        const data = await response.json();
+        const token = data.token;
+
+        if ( token ) {
+            alert("Authenticated");
             localStorage.setItem("authStatus", "authorized");
             navigate("/");
         } else {
             localStorage.setItem("authStatus", "unauthorized");
-            alert("Something went wrong while authenticating this user.");
+            alert("Not authenticated");
         }
     };
 
