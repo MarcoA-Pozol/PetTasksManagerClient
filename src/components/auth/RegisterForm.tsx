@@ -33,7 +33,7 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
                 navigate("/");
             } else {
                 localStorage.setItem("authStatus", "unauthorized");
-                alert("Something went wrong while trying to create a new user.");
+                alert("Registration failed.");
             }
         } else {
             alert('Password fields must coincide.')
