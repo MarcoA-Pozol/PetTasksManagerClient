@@ -24,15 +24,13 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
             body: JSON.stringify({input, password}),
         });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw errorData;
+        if (response.status === 200) {
+            localStorage.setItem("authStatus", "authorized");
+            navigate("/");
+        } else {
+            localStorage.setItem("authStatus", "unauthorized");
+            alert("Something went wrong while authenticating this user.");
         }
-
-        // Store sessionToken and redirect to AppView
-        const data = await response.json();
-        localStorage.setItem('sessionToken', data.token);
-        navigate('/');
     };
 
     return(
