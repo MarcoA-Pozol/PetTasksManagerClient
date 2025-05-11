@@ -27,13 +27,15 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
         const data = await response.json();
         const token = data.token;
 
+        console.log(data);
+
         if ( token ) {
-            alert("Authenticated");
+            alert(`Authenticated with token ${token}`);
             localStorage.setItem("authStatus", "authorized");
             navigate("/");
         } else {
             localStorage.setItem("authStatus", "unauthorized");
-            alert("Not authenticated");
+            alert(`Not authenticated, body ${data}`);
         }
     };
 

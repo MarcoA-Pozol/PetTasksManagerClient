@@ -1,20 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import TaskCard from "./TaskCard";
 
 const AppView = () => {
-    // Dark | Light theme
+    const navigate = useNavigate();
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // null = loading
     const [theme, setTheme] = useState("light");
 
-    let authStatus;
-    if (localStorage.getItem("authStatus") === "authorized") {
-        authStatus = true;
-    } else {
-        authStatus = false;
-    }
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/auth/check', {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+                if (response.ok) {
+                    localStorage.setItem("authStatus", "authorized");
+                    setIsAuthenticated(true);
+                } else {
+                    localStorage.setItem("authStatus", "unauthorized");
+                    setIsAuthenticated(false);
+                }
+            } catch (err) {
+                console.error("Error de autenticación:", err);
+                setIsAuthenticated(false);
+            }
+        };
 
-    const [isAuthenticated, setIsAuthenticated] = useState(authStatus);
-    const navigate = useNavigate();
+        checkAuth();
+    }, []);
 
     const handleLogout = async () => {
         await fetch("http://localhost:5000/auth/logout", { method: "POST", credentials: "include" });
