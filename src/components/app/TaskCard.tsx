@@ -1,4 +1,4 @@
-import '../../styles/taskCard.css';
+import '../../styles/app/taskCard.css';
 
 type TaskCardProps = {
     title: string;

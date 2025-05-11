@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
+import "../../styles/app/appView.css";
 import TaskCard from "./TaskCard";
+import licenciadoGallardo from "../../assets/licenciado_gallardo.jpg";
 
 const AppView = () => {
     const navigate = useNavigate();
@@ -51,9 +53,18 @@ const AppView = () => {
                 <button onClick={toggleTheme} className="theme-toggle-btn">Theme</button>
                 <button onClick={handleLogout} style={{backgroundColor:'red', borderRadius:'5px', color:'white'}}>Logout</button>
                 
-                <TaskCard title="Remove Tailwind" description="Tailwind is not neccesary, it adds complexity." status="done" themeMode={theme}/>
-                <TaskCard title="Start login UI" description="Design login formulary style" status="in-progress" themeMode={theme}/>
-                <TaskCard title="Start register UI" description="Design register formulary style" status="pending" themeMode={theme}/>
+                <div className="content-container">
+                    <div className="left-content">
+                        <TaskCard title="Remove Tailwind" description="Tailwind is not neccesary, it adds complexity." status="done" themeMode={theme}/>
+                        <TaskCard title="Start login UI" description="Design login formulary style" status="in-progress" themeMode={theme}/>
+                        <TaskCard title="Start register UI" description="Design register formulary style" status="pending" themeMode={theme}/>
+                    </div>
+
+                    <div className="right-content">
+                        <h2>Licenciado gallardo</h2>
+                        <img src={licenciadoGallardo} alt="licenciado gallardo image"></img>
+                    </div>
+                </div>
             </body>
         </>
     );
