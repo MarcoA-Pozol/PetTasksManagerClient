@@ -17,10 +17,19 @@
 
 /* LEFT content */
 .left-content {
+    position: fixed;
+    top: 5vh;
     width: 10%;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.left-content p {
+    cursor: pointer;
+}
+.left-content p:hover {
+    transform: scale(1.2);
 }
 .toggle-theme-button {
     margin-block: 10px;
@@ -39,15 +48,24 @@
 
 /* MIDDLE content */
 .middle-content {
-    width: 50%;
+    position: fixed;
+    top: 5vh;
+    width: 45%;
+    height: 90vh;
+    margin-left: 15%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: scroll;
 }
 
 /* RIGHT content */
 .right-content {
+    position: fixed;
+    top: 5vh;
     width: 30%;
+    height: 90vh;
+    margin-left: 65%;
     text-align: center;
 }
 .right-content img {
