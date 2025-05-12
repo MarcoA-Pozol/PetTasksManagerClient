@@ -10,7 +10,7 @@ interface LeftMenuProps {
     theme: string;
     setTheme: React.Dispatch<React.SetStateAction<string>>;
     isAuthenticated: boolean;
-    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean |  null>>;
 }
 
 const LeftMenu = ({theme, setTheme, setIsAuthenticated}: LeftMenuProps) => {
