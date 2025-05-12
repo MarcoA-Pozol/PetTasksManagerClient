@@ -28,12 +28,9 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
             });
 
             if (response.status === 201) {
-                console.log("User created successfully!")
-                localStorage.setItem("authStatus", "authorized");
                 navigate("/");
             } else {
-                localStorage.setItem("authStatus", "unauthorized");
-                alert("Registration failed.");
+                alert("Username or email are already in use.");
             }
         } else {
             alert('Password fields must coincide.')

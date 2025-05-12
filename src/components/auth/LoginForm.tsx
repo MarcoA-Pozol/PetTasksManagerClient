@@ -22,20 +22,13 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({input, password}),
+            credentials: 'include' // For JWT authorization
         });
 
-        const data = await response.json();
-        const token = data.token;
-
-        console.log(data);
-
-        if ( token ) {
-            alert(`Authenticated with token ${token}`);
-            localStorage.setItem("authStatus", "authorized");
+        if (response.status === 200) {
             navigate("/");
         } else {
-            localStorage.setItem("authStatus", "unauthorized");
-            alert(`Not authenticated, body ${data}`);
+            alert("Invalid credentials.");
         }
     };
 
