@@ -9,6 +9,7 @@ const AppView = () => {
     const [theme, setTheme] = useState("light");
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const location = useLocation();
+    const [authUser, setAuthUser] = useState<any>(null);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -19,6 +20,8 @@ const AppView = () => {
                 });
                 if (response.ok) {
                     setIsAuthenticated(true);
+                    const data = await response.json()
+                    setAuthUser(data.user)
                 } else {
                     setIsAuthenticated(false);
                 }
@@ -44,7 +47,7 @@ const AppView = () => {
         <>
             <body className={`app-container ${theme}`}>
                 <div className="content-container">
-                    <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>
+                    <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} authUser={authUser}/>
                     <TasksContainer theme={theme}/>
                     <PetContainer/>
                 </div>
