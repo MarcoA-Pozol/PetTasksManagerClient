@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import "../../styles/app/appView.css";
-import LeftMenu from "./LeftMenu";
-import TasksContainer from "./TasksContainer";
-import PetContainer from "./PetContainer";
 import { Navigate, useLocation } from "react-router-dom";
+import HomePage from "./HomePage";
+import CreateTaskPage from "./CreateTaskPage";
 
 const AppView = () => {
     const [theme, setTheme] = useState("light");
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const location = useLocation();
     const [authUser, setAuthUser] = useState<any>(null);
+    const [displayedPage, setDisplayedPage] = useState("home");
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -47,9 +47,8 @@ const AppView = () => {
         <>
             <body className={`app-container ${theme}`}>
                 <div className="content-container">
-                    <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} authUser={authUser}/>
-                    <TasksContainer theme={theme} authUser={authUser}/>
-                    <PetContainer/>
+                    {displayedPage === "home" && <HomePage theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} authUser={authUser} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>}
+                    {displayedPage === "create" && <CreateTaskPage theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} authUser={authUser} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>}
                 </div>
             </body>
         </>
