@@ -1,14 +1,19 @@
 import skin1 from "../../assets/skin1nb.png";
 
-const PetContainer = () => {
+interface PetContainerProps {
+    authUser: any;
+}
+
+const PetContainer = ({authUser}: PetContainerProps) => {
     const completedTasks = 12;
     const toDoTasks = 4;
     const inProgressTasks = 7;
     const totalTasks = completedTasks + toDoTasks + inProgressTasks;
+    console.log("------------------ ", authUser);
 
     return (
         <div className="right-content rounded-border">
-            <h3 style={{fontFamily:"monospace", fontSize:"1.2rem"}}>JoseRanures</h3>
+            <h3 style={{fontFamily:"monospace", fontSize:"1.2rem"}}>{authUser ? authUser.username : "Loading..."}</h3>
             <img src={skin1} alt="licenciado gallardo image"></img>
             <div className="tasks-stats rounded-border spaced-around">
                 <span id="completedTasks">Completed: {completedTasks}</span>

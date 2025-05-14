@@ -17,7 +17,7 @@ const HomePage = ({theme, setTheme, isAuthenticated, authUser, setIsAuthenticate
         <>
             <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>
             <TasksContainer theme={theme} authUser={authUser}/>
-            <PetContainer/>
+            <PetContainer authUser={authUser}/>
         </>
     );
 }

@@ -21,6 +21,7 @@ const AppView = () => {
                 if (response.ok) {
                     setIsAuthenticated(true);
                     const data = await response.json()
+                    console.log("OKKKKKKKKKKKK ", data);
                     setAuthUser(data.user)
                 } else {
                     setIsAuthenticated(false);
