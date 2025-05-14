@@ -14,7 +14,7 @@ return (
             <p className="task-description">{description}</p>
 
             <div className="task-actions">
-                <button className="start-btn">Begin Task</button>
+                <button className="start-btn">Start Task</button>
                 <button className="complete-btn">Mark as completed</button>
             </div>
         </div>

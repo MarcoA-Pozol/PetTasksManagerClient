@@ -48,7 +48,7 @@ const AppView = () => {
             <body className={`app-container ${theme}`}>
                 <div className="content-container">
                     <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} authUser={authUser}/>
-                    <TasksContainer theme={theme}/>
+                    <TasksContainer theme={theme} authUser={authUser}/>
                     <PetContainer/>
                 </div>
             </body>
