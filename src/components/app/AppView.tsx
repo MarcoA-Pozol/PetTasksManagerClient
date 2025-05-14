@@ -21,14 +21,13 @@ const AppView = () => {
                 if (response.ok) {
                     setIsAuthenticated(true);
                     const data = await response.json()
-                    console.log("OKKKKKKKKKKKK ", data);
                     setAuthUser(data.user)
                 } else {
                     setIsAuthenticated(false);
                 }
             } catch (err) {
                 console.error("Error de autenticación:", err);
-                setIsAuthenticated(true);
+                setIsAuthenticated(false);
             }
         };
 
@@ -37,7 +36,7 @@ const AppView = () => {
 
     // Don't render anything until auth status is known
     if (isAuthenticated === null) return null;
-
+    
     // Redirect if user is not authenticated and trying to access app view
     if (!isAuthenticated && location.pathname !== "/auth") {
         return <Navigate to="/auth" />;
