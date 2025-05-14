@@ -1,4 +1,4 @@
-import licenciadoGallardo from "../../assets/licenciado_gallardo.jpg";
+import skin1 from "../../assets/skin1nb.png";
 
 const PetContainer = () => {
     const completedTasks = 12;
@@ -8,8 +8,8 @@ const PetContainer = () => {
 
     return (
         <div className="right-content rounded-border">
-            <h3 style={{fontFamily:"monospace", fontSize:"1.2rem"}}>OVERALL STATS</h3>
-            <img src={licenciadoGallardo} alt="licenciado gallardo image"></img>
+            <h3 style={{fontFamily:"monospace", fontSize:"1.2rem"}}>JoseRanures</h3>
+            <img src={skin1} alt="licenciado gallardo image"></img>
             <div className="tasks-stats rounded-border spaced-around">
                 <span id="completedTasks">Completed: {completedTasks}</span>
                 <span id="toDoTasks">To do: {toDoTasks}</span>

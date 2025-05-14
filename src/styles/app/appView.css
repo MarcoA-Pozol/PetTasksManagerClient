@@ -18,7 +18,7 @@
 /* LEFT content */
 .left-content {
     position: fixed;
-    top: 5vh;
+    top: 8vh;
     width: 10%;
     height: 90vh;
     display: flex;
@@ -62,7 +62,7 @@
 /* RIGHT content */
 .right-content {
     position: fixed;
-    top: 5vh;
+    top: 8vh;
     width: 30%;
     height: 90vh;
     margin-left: 65%;

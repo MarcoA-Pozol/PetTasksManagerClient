@@ -37,7 +37,7 @@ const TasksContainer = ({theme, authUser}:TasksContainerProps) => {
     }, [authUser]);
 
     return (
-        <div className="middle-content rounded-border">
+        <div className="middle-content">
             {tasksList.length === 0 ? (
                 <p>No tasks available</p>
             ) : (

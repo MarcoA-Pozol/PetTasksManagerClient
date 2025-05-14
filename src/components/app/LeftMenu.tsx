@@ -30,8 +30,6 @@ const LeftMenu = ({theme, setTheme, setIsAuthenticated, authUser}: LeftMenuProps
 
     return (
         <div className="left-content rounded-border">
-            <p>{authUser ? authUser.username : "Loading user..."}</p>
-            <p>{authUser ? authUser.email : "Loading email..."}</p>
             <p><HomeIcon/></p>
             <p><CreateIcon/></p>
             <p><AnalyticsIcon/></p>
