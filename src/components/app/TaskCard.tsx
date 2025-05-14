@@ -12,11 +12,7 @@ return (
         <div className={`task-card ${status} ${themeMode}`}>
             <h3 className="task-title">{title}</h3>
             <p className="task-description">{description}</p>
-
-            <div className="task-actions">
-                <button className="start-btn">Start Task</button>
-                <button className="complete-btn">Mark as completed</button>
-            </div>
+            <button className="complete-btn">✔</button>
         </div>
     );
 };

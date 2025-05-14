@@ -44,7 +44,7 @@ const TasksContainer = ({theme, authUser}:TasksContainerProps) => {
                 tasksList.map((task) => (
                     <TaskCard
                         title={task.name}
-                        description="Juan"
+                        description="This is the description for this task."
                         status="done"
                         themeMode={theme}
                     />
