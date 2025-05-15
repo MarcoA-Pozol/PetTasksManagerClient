@@ -3,6 +3,7 @@ import "../../styles/app/appView.css";
 import { Navigate, useLocation } from "react-router-dom";
 import HomePage from "./HomePage";
 import CreateTaskPage from "./CreateTaskPage";
+import LeftMenu from "./LeftMenu";
 
 const AppView = () => {
     const [theme, setTheme] = useState("light");
@@ -46,9 +47,10 @@ const AppView = () => {
     return (
         <>
             <body className={`app-container ${theme}`}>
+            <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>
                 <div className="content-container">
                     {displayedPage === "home" && <HomePage theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} authUser={authUser} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>}
-                    {displayedPage === "create" && <CreateTaskPage theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} authUser={authUser} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>}
+                    {displayedPage === "create" && <CreateTaskPage/>}
                 </div>
             </body>
         </>

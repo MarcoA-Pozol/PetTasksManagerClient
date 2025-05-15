@@ -17,7 +17,7 @@ const PetContainer = ({authUser}: PetContainerProps) => {
     return (
         <div className="right-content rounded-border">
             <h3 style={{fontFamily:"monospace", fontSize:"1.2rem"}}>{authUser ? authUser.username : "Loading..."}</h3>
-            <img src={skin1} alt="licenciado gallardo image"></img>
+            <img src={skin1} alt="pet image"></img>
             <div className="tasks-stats rounded-border spaced-around">
                 <span id="completedTasks">{t("Completed")}: {completedTasks}</span>
                 <span id="toDoTasks">{t("To do")}: {toDoTasks}</span>

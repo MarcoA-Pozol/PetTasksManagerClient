@@ -1,4 +1,3 @@
-import LeftMenu from "./LeftMenu";
 import TasksContainer from "./TasksContainer";
 import PetContainer from "./PetContainer";
 
@@ -11,11 +10,10 @@ interface HomePageProps {
     authUser:any;
 }
 
-const HomePage = ({theme, setTheme, isAuthenticated, authUser, setIsAuthenticated, setDisplayedPage}:HomePageProps) => {
+const HomePage = ({theme, authUser}:HomePageProps) => {
 
     return (
         <>
-            <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>
             <TasksContainer theme={theme} authUser={authUser}/>
             <PetContainer authUser={authUser}/>
         </>

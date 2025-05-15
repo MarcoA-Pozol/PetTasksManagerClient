@@ -35,14 +35,14 @@
     margin-block: 10px;
     border: none;
     background-color: transparent;
-    color: hotpink;
+    color: gray;
     cursor: pointer;
 }
 .logout-button {
     margin-block: 10px;
     border: none;
     background-color: transparent;
-    color: red;
+    color: gray;
     cursor: pointer;
 }
 
