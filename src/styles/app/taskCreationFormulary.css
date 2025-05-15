@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 2px 2px 3px gray;
     border-radius: 10px;
     padding-block: 20px;
 }
@@ -14,6 +13,8 @@
     font-family: monospace;
     font-size: 1.4rem;
     border: none;
+    border-radius: 8px;
+    margin-block: 10px;
 }
 .create-task-form label {
     font-size: 1.4rem;
@@ -22,15 +23,21 @@
     border: none;
     margin-top: 10px;
     color: white;
-    background-color: royalblue;
+    background-color: rgb(30, 71, 192);
     border-radius: 5px;
     font-family: monospace;
     font-size: 1.4rem;
     padding: 10px 50px;
     cursor: pointer;
-    transition: .5s;
 }
-.create-task-form button:hover {
-    background-color: rgb(30, 71, 192);
-    transform: translateY(2px);
+
+/* Themes */
+.dark input{
+    border: 1px solid white;
+}
+
+.light input{
+    border: 1px solid #333;
+    background-color: #333;
+    color: white;
 }
