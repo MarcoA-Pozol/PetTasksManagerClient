@@ -1,6 +1,5 @@
 import LeftMenu from "./LeftMenu";
-import TasksContainer from "./TasksContainer";
-import PetContainer from "./PetContainer";
+import TaskCreationFormulary from "./TaskCreationFormulary";
 
 interface CreateTaskPageProps {
     theme: string;
@@ -16,7 +15,7 @@ const CreateTaskPage = ({theme, setTheme, isAuthenticated, authUser, setIsAuthen
     return (
         <>
             <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>
-            <div>Create your tasks here</div>
+            <TaskCreationFormulary/>
         </>
     );
 }
