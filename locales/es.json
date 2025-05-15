@@ -1,5 +1,10 @@
 {
     "Completed": "Completado",
     "In-progress": "En progreso",
-    "To do": "Por hacer"
+    "To do": "Por hacer",
+    "Title": "Título",
+    "Description": "Descripción",
+    "Deadline": "Fecha límite",
+    "Repeat": "Repetir",
+    "Create": "Crear"
 }

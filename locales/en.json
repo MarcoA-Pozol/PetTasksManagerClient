@@ -1,5 +1,10 @@
 {
     "Completed": "Completed",
     "In-progress": "In-progress",
-    "To do": "To do"
+    "To do": "To do",
+    "Title": "Title",
+    "Description": "Description",
+    "Deadline": "Deadline",
+    "Repeat": "Repeat",
+    "Create": "Create"
 }
