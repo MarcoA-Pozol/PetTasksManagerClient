@@ -12,7 +12,6 @@ const PetContainer = ({authUser}: PetContainerProps) => {
     const toDoTasks = 4;
     const inProgressTasks = 7;
     const totalTasks = completedTasks + toDoTasks + inProgressTasks;
-    console.log("------------------ ", authUser);
 
     return (
         <div className="right-content rounded-border">
@@ -27,10 +26,10 @@ const PetContainer = ({authUser}: PetContainerProps) => {
                 <span id="completed-tasks-percentage">{Math.floor((completedTasks / totalTasks) * 100)}% / 100% ({totalTasks}) </span>
             </div>
 
-            <button onClick={() => i18n.changeLanguage("en")}>Switch to English</button>
-            <button onClick={() => i18n.changeLanguage("es")}>Switch to Spanish</button>
-            <button onClick={() => i18n.changeLanguage("fr")}>Switch to French</button>
-            <button onClick={() => i18n.changeLanguage("pt")}>Switch to Portuguese</button>
+            <button id="switch-en" onClick={() => i18n.changeLanguage("en")}>Switch to English</button>
+            <button id="switch-es" onClick={() => i18n.changeLanguage("es")}>Switch to Spanish</button>
+            <button id="switch-fr" onClick={() => i18n.changeLanguage("fr")}>Switch to French</button>
+            <button id="switch-pt" onClick={() => i18n.changeLanguage("pt")}>Switch to Portuguese</button>
         </div>
     );
 }
