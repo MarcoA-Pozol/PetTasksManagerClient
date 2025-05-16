@@ -4,9 +4,10 @@ import "../../../i18n";
 
 interface PetContainerProps {
     authUser: any;
+    theme: string;
 }
 
-const PetContainer = ({authUser}: PetContainerProps) => {
+const PetContainer = ({authUser, theme}: PetContainerProps) => {
     const { t } = useTranslation();
     const completedTasks = 12;
     const toDoTasks = 4;
@@ -14,7 +15,7 @@ const PetContainer = ({authUser}: PetContainerProps) => {
     const totalTasks = completedTasks + toDoTasks + inProgressTasks;
 
     return (
-        <div className="right-content rounded-border">
+        <div className={`right-content rounded-border ${theme}`}>
             <h3 style={{fontFamily:"monospace", fontSize:"1.2rem"}}>{authUser ? authUser.username : "Loading..."}</h3>
             <img src={skin1} alt="pet image"></img>
             <div className="tasks-stats rounded-border spaced-around">

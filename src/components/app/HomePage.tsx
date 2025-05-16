@@ -15,7 +15,7 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
     return (
         <>
             <TasksContainer theme={theme} authUser={authUser}/>
-            <PetContainer authUser={authUser}/>
+            <PetContainer authUser={authUser} theme={theme}/>
         </>
     );
 }
