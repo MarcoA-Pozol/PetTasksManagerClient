@@ -7,7 +7,7 @@ interface PetContainerProps {
 }
 
 const PetContainer = ({authUser}: PetContainerProps) => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const completedTasks = 12;
     const toDoTasks = 4;
     const inProgressTasks = 7;
@@ -25,11 +25,6 @@ const PetContainer = ({authUser}: PetContainerProps) => {
             <div className="pet-stats rounded-border spaced-around">
                 <span id="completed-tasks-percentage">{Math.floor((completedTasks / totalTasks) * 100)}% / 100% ({totalTasks}) </span>
             </div>
-
-            <button id="switch-en" onClick={() => i18n.changeLanguage("en")}>Switch to English</button>
-            <button id="switch-es" onClick={() => i18n.changeLanguage("es")}>Switch to Spanish</button>
-            <button id="switch-fr" onClick={() => i18n.changeLanguage("fr")}>Switch to French</button>
-            <button id="switch-pt" onClick={() => i18n.changeLanguage("pt")}>Switch to Portuguese</button>
         </div>
     );
 }
