@@ -46,13 +46,13 @@ const AppView = () => {
 
     return (
         <>
-            <body className={`app-container ${theme}`}>
+            <div className={`app-container ${theme}`}>
             <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>
                 <div className="content-container">
                     {displayedPage === "home" && <HomePage theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} authUser={authUser} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>}
                     {displayedPage === "create" && <CreateTaskPage/>}
                 </div>
-            </body>
+            </div>
         </>
     );
 }
