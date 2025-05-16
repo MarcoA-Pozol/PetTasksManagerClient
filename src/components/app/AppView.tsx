@@ -5,12 +5,22 @@ import HomePage from "./HomePage";
 import CreateTaskPage from "./CreateTaskPage";
 import LeftMenu from "./LeftMenu";
 
+interface Task {
+    name: string;
+    status: "pending" | "in-progress" | "done";
+}
+
 const AppView = () => {
     const [theme, setTheme] = useState("light");
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const location = useLocation();
     const [authUser, setAuthUser] = useState<any>(null);
     const [displayedPage, setDisplayedPage] = useState("home");
+
+    const handleDataFromChild = (data: any) => {
+        const createdTask: Task = data;
+        console.log("Data received from child component on app view parent one -> created task: ", createdTask);
+    }
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -50,7 +60,7 @@ const AppView = () => {
                 <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>
                 <div className="content-container">
                     {displayedPage === "home" && <HomePage theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} authUser={authUser} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>}
-                    {displayedPage === "create" && <CreateTaskPage/>}
+                    {displayedPage === "create" && <CreateTaskPage onData={handleDataFromChild} userId={authUser?._id}/>}
                 </div>
             </div>
         </>
