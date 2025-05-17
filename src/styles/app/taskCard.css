@@ -67,4 +67,23 @@
 .complete-btn:hover {
   background: #341075;
 }
+
+.delete-btn {
+  position: absolute;
+  left: -20%;
+  top: 33%;
+  padding: 12px 16px;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  background: transparent;
+  color: transparent;
+  border: none;
+  font-weight: bold;
+}
+.delete-btn:hover {
+  background: #a80909;
+  color: white;
+}
   
