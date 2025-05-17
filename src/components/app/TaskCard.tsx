@@ -5,9 +5,10 @@ type TaskCardProps = {
     title: string;
     status: 'pending' | 'in-progress' | 'done';
     themeMode: string;
+    onComplete: () => void;
 };
   
-export default function TaskCard({ title, status, themeMode, taskId }: TaskCardProps) {
+export default function TaskCard({ title, status, themeMode, taskId, onComplete }: TaskCardProps) {
     
     const setTaskAsCompleted = async () => {
         /* Set a task as completed in server */
@@ -17,6 +18,7 @@ export default function TaskCard({ title, status, themeMode, taskId }: TaskCardP
             });
             if (response.ok) {
                 console.log("Task set as completed");
+                onComplete();
             } else {
                 console.log("Error during seting task as completed.");
             }

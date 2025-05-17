@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import TaskCard from "./TaskCard";
 
 interface Task {
@@ -10,31 +9,11 @@ interface Task {
 interface TasksContainerProps {
     theme: string;
     authUser: any;
+    tasksList: Task[];
+    removeTaskFromList: (taskId: string) => void;
 }
 
-const TasksContainer = ({theme, authUser}:TasksContainerProps) => {
-    const [tasksList, setTasksList] = useState<Task[]>([]);
-
-    useEffect(() => {
-        if (!authUser || !authUser._id) return;
-        const fetchTasks = async () => {
-            try {
-                const response = await fetch(`http://localhost:5000/tasks/search?userId=${authUser._id}`, {
-                    method: 'GET'
-                });
-                if (response.ok) {
-                    const data = await response.json()
-                    setTasksList(data.tasks);
-                } else {
-                    setTasksList([]);
-                }
-            } catch (err) {
-                console.error("Error during fetching tasks for this user:", err);
-            }
-        };
-
-        fetchTasks();
-    }, [authUser]);
+const TasksContainer = ({theme, tasksList, removeTaskFromList}:TasksContainerProps) => {
 
     return (
         <div className="middle-content">
@@ -47,6 +26,7 @@ const TasksContainer = ({theme, authUser}:TasksContainerProps) => {
                         title={task.name}
                         status="done"
                         themeMode={theme}
+                        onComplete={() => removeTaskFromList(task._id)}
                     />
                 ))
             )}    
