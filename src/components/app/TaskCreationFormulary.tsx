@@ -79,25 +79,26 @@ const TaskCreationFormulary = ({onData, userId}: TaskCreationFormularyProps) => 
                 <h2>{t("Create a Task")}</h2>
                 <input type="text" placeholder={t("Title")} value={title} onChange={(e) => setTitle(e.target.value)}></input>
                 <button type="submit">{t("Create")}</button>
+                
+                {showSuccessMessage && (
+                <div style={{backgroundColor:"#4caf50"}} className="temporary-message">
+                    {t("Task created")}!
+                </div>
+                )}
+
+                {showWarningMessage && (
+                <div style={{backgroundColor:"#bb6a34"}} className="temporary-message">
+                    {t("Fill all fields")}
+                </div>
+                )}
+
+                {showErrorMessage && (
+                <div style={{backgroundColor:"#af4c4c"}} className="temporary-message">
+                    {t("Error while creating task")}
+                </div>
+                )}
             </form>
 
-            {showSuccessMessage && (
-            <div style={{backgroundColor:"#4caf50"}} className="temporary-message">
-                Task created!
-            </div>
-            )}
-
-            {showWarningMessage && (
-            <div style={{backgroundColor:"#bb6a34"}} className="temporary-message">
-                Fill all fields
-            </div>
-            )}
-
-            {showErrorMessage && (
-            <div style={{backgroundColor:"#af4c4c"}} className="temporary-message">
-                Error while creating task
-            </div>
-            )}
         </>
     );
 }

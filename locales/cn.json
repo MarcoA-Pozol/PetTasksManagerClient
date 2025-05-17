@@ -4,5 +4,8 @@
     "To do": "要做的事",
     "Create a Task": "创建任务",
     "Title": "标题",
-    "Create": "创造"
+    "Create": "创造",
+    "Task created": "任务已创建",
+    "Fill all fields": "填写所有字段",
+    "Error while creating task": "创建任务时出错"
 }

@@ -4,5 +4,8 @@
     "To do": "やること",
     "Create a Task": "タスクを作成する",
     "Title": "タイトル",
-    "Create": "作成する"
+    "Create": "作成する",
+    "Task created": "タスクが作成されました",
+    "Fill all fields": "すべてのフィールドを入力してください",
+    "Error while creating task": "タスク作成中にエラーが発生しました"
 }

@@ -4,5 +4,8 @@
     "To do": "To do",
     "Create a Task": "Create a Task",
     "Title": "Title",
-    "Create": "Create"
+    "Create": "Create",
+    "Task created": "Task created",
+    "Fill all fields": "Fill all fields",
+    "Error while creating task": "Error while creating a task"
 }

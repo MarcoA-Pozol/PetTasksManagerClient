@@ -4,5 +4,8 @@
     "To do": "Por hacer",
     "Create a Task": "Crear Tarea",
     "Title": "Título",
-    "Create": "Crear"
+    "Create": "Crear",
+    "Task created": "Tarea creada",
+    "Fill all fields": "Rellena todos los campos",
+    "Error while creating task": "Error al crear la tarea"
 }
