@@ -50,37 +50,31 @@
 }
 
 /* Buttons */
-.complete-btn {
+.rounded-btn {
   position: absolute;
-  left: 90%;
   top: 33%;
   padding: 12px 16px;
   border-radius: 50%;
   font-size: 1.8rem;
   cursor: pointer;
   transition: background 0.3s ease-in-out;
-  background: #4f00ce;
   color: white;
   border: none;
   font-weight: bold;
+}
+
+.complete-btn {
+  left: 90%;
+  background: #4f00ce;
 }
 .complete-btn:hover {
   background: #341075;
 }
 
 .delete-btn {
-  position: absolute;
   left: -20%;
-  top: 33%;
-  padding: 12px 16px;
-  border-radius: 50%;
-  font-size: 1.8rem;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
   background: transparent;
   color: transparent;
-  border: none;
-  font-weight: bold;
 }
 .delete-btn:hover {
   background: #a80909;
