@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import TaskCard from "./TaskCard";
 
 interface Task {
+    _id: string;
     name: string;
     status: "pending" | "in-progress" | "done";
 }
@@ -42,6 +43,7 @@ const TasksContainer = ({theme, authUser}:TasksContainerProps) => {
             ) : (
                 tasksList.map((task) => (
                     <TaskCard
+                        taskId={task._id}
                         title={task.name}
                         status="done"
                         themeMode={theme}
