@@ -27,6 +27,7 @@ const TasksContainer = ({theme, tasksList, removeTaskFromList}:TasksContainerPro
                         status="done"
                         themeMode={theme}
                         onComplete={() => removeTaskFromList(task._id)}
+                        onDelete={() => removeTaskFromList(task._id)}
                     />
                 ))
             )}    

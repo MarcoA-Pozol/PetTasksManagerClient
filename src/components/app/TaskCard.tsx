@@ -6,9 +6,10 @@ type TaskCardProps = {
     status: 'pending' | 'in-progress' | 'done';
     themeMode: string;
     onComplete: () => void;
+    onDelete: () => void;
 };
   
-export default function TaskCard({ title, status, themeMode, taskId, onComplete }: TaskCardProps) {
+export default function TaskCard({ title, status, themeMode, taskId, onComplete, onDelete}: TaskCardProps) {
     
     const setTaskAsCompleted = async () => {
         /* Set a task as completed in server */
@@ -30,7 +31,15 @@ export default function TaskCard({ title, status, themeMode, taskId, onComplete 
     const deleteTask = async () => {
         /* Delete a task in server */
         try {
-            console.log("Task deleted.")
+            const response = await fetch(`http://localhost:5000/tasks?taskId=${taskId}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                console.log("Task deleted.")
+                onDelete();
+            } else {
+                console.log("Error during deleting task.");
+            }
         } catch (err) {
             console.error("Internal server error:", err);
         }
