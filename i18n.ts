@@ -4,6 +4,9 @@ import enTranslation from "./locales/en.json";
 import esTranslation from "./locales/es.json";
 import frTranslation from "./locales/fr.json";
 import ptTranslation from "./locales/pt.json";
+import cnTranslation from "./locales/cn.json";
+import jpTranslation from "./locales/jp.json";
+
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -11,6 +14,8 @@ i18n.use(initReactI18next).init({
     es: { translation: esTranslation },
     fr: { translation: frTranslation },
     pt: { translation: ptTranslation },
+    cn: { translation: cnTranslation },
+    jp: { translation: jpTranslation },
   },
   lng: "en", // Default language
   fallbackLng: "en",

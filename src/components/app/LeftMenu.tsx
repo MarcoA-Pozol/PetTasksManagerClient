@@ -60,6 +60,8 @@ const LeftMenu = ({theme, setTheme, setIsAuthenticated, setDisplayedPage}: LeftM
                     <option value="es">es</option>
                     <option value="fr">fr</option>
                     <option value="pt">pt</option>
+                    <option value="cn">cn</option>
+                    <option value="jp">jp</option>
                 </select>
             </label>
             <button className={`logout-button ${theme}`} onClick={handleLogout}><LogoutIcon/></button>
