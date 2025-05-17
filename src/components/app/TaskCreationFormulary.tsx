@@ -18,27 +18,59 @@ const TaskCreationFormulary = ({onData, userId}: TaskCreationFormularyProps) => 
     
     const { t } = useTranslation();
     const [title, setTitle] = useState("");
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [showWarningMessage, setShowWarningMessage] = useState(false);
+
 
     //Create new task on form submision
     const handleFormSubmision = async (event: React.FormEvent<HTMLFormElement>) => {
         
         event.preventDefault();
 
-        //Create task
-        const newTask: Task  = {name: title, status: "pending", userId};
+        try {
+            if (title!=="") {
+                //Create task
+                const newTask: Task  = {name: title, status: "pending", userId};
+    
+                //Update user tasks in server
+                const response = await fetch('http://localhost:5000/tasks/', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(newTask),
+                    credentials: 'include'
+                });
+    
+                console.log("Task created on server: ", await response.json());
+    
+                //Return data to parent
+                onData(newTask);
+    
+                // Clean form fields after submission
+                setTitle("");
+    
+                // Show success message
+                setShowSuccessMessage(true);
+    
+                setTimeout(() => {
+                    setShowSuccessMessage(false);
+                }, 2000);
+            } else {
+                // Show warning message
+                setShowWarningMessage(true);
+                    
+                setTimeout(() => {
+                    setShowWarningMessage(false);
+                }, 2000);
+            }
+        } catch (error) {
+            // Show error message
+            setShowErrorMessage(true);
 
-        //Update user tasks in server
-        const response = await fetch('http://localhost:5000/tasks/', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(newTask),
-            credentials: 'include'
-        });
-
-        console.log("Task created on server: ", await response.json());
-
-        //Return data to parent
-        onData(newTask);
+            setTimeout(() => {
+                setShowErrorMessage(false);
+            }, 2000);
+        }
     };
 
     return (
@@ -48,6 +80,24 @@ const TaskCreationFormulary = ({onData, userId}: TaskCreationFormularyProps) => 
                 <input type="text" placeholder={t("Title")} value={title} onChange={(e) => setTitle(e.target.value)}></input>
                 <button type="submit">{t("Create")}</button>
             </form>
+
+            {showSuccessMessage && (
+            <div style={{backgroundColor:"#4caf50"}} className="temporary-message">
+                Task created!
+            </div>
+            )}
+
+            {showWarningMessage && (
+            <div style={{backgroundColor:"#bb6a34"}} className="temporary-message">
+                Fill all fields
+            </div>
+            )}
+
+            {showErrorMessage && (
+            <div style={{backgroundColor:"#af4c4c"}} className="temporary-message">
+                Error while creating task
+            </div>
+            )}
         </>
     );
 }
