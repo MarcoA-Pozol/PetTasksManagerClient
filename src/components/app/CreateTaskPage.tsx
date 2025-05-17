@@ -7,7 +7,7 @@ interface Task {
 
 interface CreateTaskPageProps {
     onData: (task: Task) => void;
-    userId: number;
+    userId: string;
 }
 
 const CreateTaskPage = ({onData, userId}: CreateTaskPageProps) => {

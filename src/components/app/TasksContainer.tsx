@@ -16,7 +16,6 @@ const TasksContainer = ({theme, authUser}:TasksContainerProps) => {
 
     useEffect(() => {
         if (!authUser || !authUser._id) return;
-
         const fetchTasks = async () => {
             try {
                 const response = await fetch(`http://localhost:5000/tasks/search?userId=${authUser._id}`, {
@@ -44,7 +43,6 @@ const TasksContainer = ({theme, authUser}:TasksContainerProps) => {
                 tasksList.map((task) => (
                     <TaskCard
                         title={task.name}
-                        description="This is the description for this task."
                         status="done"
                         themeMode={theme}
                     />
