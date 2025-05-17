@@ -6,12 +6,12 @@ import { useState } from "react";
 interface Task {
     name: string;
     status: "pending" | "in-progress" | "done";
-    userId: number;
+    userId: string;
 }
 
 interface TaskCreationFormularyProps{
     onData: (task: Task) => void;
-    userId: number;
+    userId: string;
 }
 
 const TaskCreationFormulary = ({onData, userId}: TaskCreationFormularyProps) => {
