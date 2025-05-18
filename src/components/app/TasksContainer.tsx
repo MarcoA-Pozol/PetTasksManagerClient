@@ -12,9 +12,10 @@ interface TasksContainerProps {
     tasksList: Task[];
     removeTaskFromList: (taskId: string) => void;
     diminishUncompletedTasksCount: () => void;
+    increaseCompletedTasksCount: () => void;
 }
 
-const TasksContainer = ({theme, tasksList, removeTaskFromList, diminishUncompletedTasksCount}:TasksContainerProps) => {
+const TasksContainer = ({theme, tasksList, removeTaskFromList, diminishUncompletedTasksCount, increaseCompletedTasksCount}:TasksContainerProps) => {
 
     return (
         <div className="middle-content">
@@ -27,8 +28,8 @@ const TasksContainer = ({theme, tasksList, removeTaskFromList, diminishUncomplet
                         title={task.name}
                         status="done"
                         themeMode={theme}
-                        onComplete={() => removeTaskFromList(task._id)}
-                        onDelete={() => removeTaskFromList(task._id)}
+                        onComplete={() => {removeTaskFromList(task._id); diminishUncompletedTasksCount(); increaseCompletedTasksCount();}}
+                        onDelete={() => {removeTaskFromList(task._id); diminishUncompletedTasksCount();}}
                         //react needs a key for each element when in a list for easier/better rendering (in this way it know what element has to removed, updated, re-rendered, etc).
                         key={task._id} 
                     />

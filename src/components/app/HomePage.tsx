@@ -1,7 +1,6 @@
 import TasksContainer from "./TasksContainer";
 import PetContainer from "./PetContainer";
 import { useState, useEffect } from "react";
-import { count } from "console";
 
 interface Task {
     _id: string;
@@ -126,12 +125,20 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
         /* 
             Set count of uncompleted tasks to -1 when user complete or delete a task.
         */
-       setUncompletedTasksCount(uncompletedTasksCount -1)
+       setUncompletedTasksCount(uncompletedTasksCount -1);
+    };
+
+    // Function: Increase completedTasksCount by one
+    const increaseCompletedTasksCount = () => {
+        /*
+            Set count of completed tasks to +1 when user complete a task.
+        */ 
+       setCompletedTasksCount(completedTasksCount + 1);
     };
 
     return (
         <>
-            <TasksContainer theme={theme} authUser={authUser} tasksList={tasksList} removeTaskFromList={removeTaskFromList} diminishUncompletedTasksCount={diminishUncompletedTasksCount}/>
+            <TasksContainer theme={theme} authUser={authUser} tasksList={tasksList} removeTaskFromList={removeTaskFromList} diminishUncompletedTasksCount={diminishUncompletedTasksCount} increaseCompletedTasksCount={increaseCompletedTasksCount}/>
             <PetContainer authUser={authUser} theme={theme} uncompletedTasksCount={uncompletedTasksCount} completedTasksCount={completedTasksCount}/>
         </>
     );
