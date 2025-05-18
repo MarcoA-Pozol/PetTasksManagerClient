@@ -28,6 +28,7 @@ const TasksContainer = ({theme, tasksList, removeTaskFromList}:TasksContainerPro
                         themeMode={theme}
                         onComplete={() => removeTaskFromList(task._id)}
                         onDelete={() => removeTaskFromList(task._id)}
+                        key={task._id}
                     />
                 ))
             )}    
