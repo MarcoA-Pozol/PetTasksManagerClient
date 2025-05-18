@@ -6,23 +6,23 @@ interface PetContainerProps {
     authUser: any;
     theme: string;
     uncompletedTasksCount: number;
+    completedTasksCount: number;
 }
 
-const PetContainer = ({authUser, theme, uncompletedTasksCount}: PetContainerProps) => {
+const PetContainer = ({authUser, theme, uncompletedTasksCount, completedTasksCount}: PetContainerProps) => {
     const { t } = useTranslation();
-    const completedTasks = 12;
-    const totalTasks = completedTasks + uncompletedTasksCount;
+    const totalTasks = completedTasksCount + uncompletedTasksCount;
 
     return (
         <div className={`right-content rounded-border ${theme}`}>
             <h3 style={{fontFamily:"monospace", fontSize:"1.2rem"}}>{authUser ? authUser.username : "Loading..."}</h3>
             <img src={skin1} alt="pet image"></img>
             <div className="tasks-stats rounded-border spaced-around">
-                <span id="completedTasks">{t("Completed")}: {completedTasks}</span>
+                <span id="completedTasks">{t("Completed")}: {completedTasksCount}</span>
                 <span id="toDoTasks">{t("To do")}: {uncompletedTasksCount}</span>
             </div>
             <div className="pet-stats rounded-border spaced-around">
-                <span id="completed-tasks-percentage">{Math.floor((completedTasks / totalTasks) * 100)}% / 100% ({totalTasks}) </span>
+                <span id="completed-tasks-percentage">{Math.floor((completedTasksCount / totalTasks) * 100)}% / 100% ({totalTasks}) </span>
             </div>
         </div>
     );

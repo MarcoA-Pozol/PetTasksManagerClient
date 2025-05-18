@@ -1,6 +1,7 @@
 import TasksContainer from "./TasksContainer";
 import PetContainer from "./PetContainer";
 import { useState, useEffect } from "react";
+import { count } from "console";
 
 interface Task {
     _id: string;
@@ -20,6 +21,7 @@ interface HomePageProps {
 const HomePage = ({theme, authUser}:HomePageProps) => {
     const [tasksList, setTasksList] = useState<Task[]>([]);
     const [uncompletedTasksCount, setUncompletedTasksCount] = useState<number>(0);
+    const [completedTasksCount, setCompletedTasksCount] = useState<number>(0);
 
     // Function: Fetch user's uncompleted tasks
     const fetchTasks = async () => {
@@ -63,7 +65,8 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
                 const data = await response.json();
                 const counter = data.counter;
 
-                console.log("User completed tasks counter fetched: ", counter);
+                console.log("Completed tasks count: ", counter);
+                setCompletedTasksCount(counter);
             }
             else {
                 console.error("No tasks! User not found or no content, this should be 404/204!");
@@ -92,7 +95,7 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
                 const data = await response.json();
                 const counter = data.counter;
 
-                console.log("User completed tasks counter fetched: ", counter);
+                console.log("Uncompleted tasks count: ", counter);
                 setUncompletedTasksCount(counter);
             }
             else {
@@ -100,7 +103,7 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
             }
 
         } catch(err) {
-            console.error("Error while fetching user completed tasks counter", err);
+            console.error("Error while fetching user uncompleted tasks count", err);
         }
     }
 
@@ -129,7 +132,7 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
     return (
         <>
             <TasksContainer theme={theme} authUser={authUser} tasksList={tasksList} removeTaskFromList={removeTaskFromList} diminishUncompletedTasksCount={diminishUncompletedTasksCount}/>
-            <PetContainer authUser={authUser} theme={theme} uncompletedTasksCount={uncompletedTasksCount}/>
+            <PetContainer authUser={authUser} theme={theme} uncompletedTasksCount={uncompletedTasksCount} completedTasksCount={completedTasksCount}/>
         </>
     );
 }
