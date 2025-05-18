@@ -18,7 +18,8 @@ interface HomePageProps {
 }
 
 const HomePage = ({theme, authUser}:HomePageProps) => {
-    const [tasksList, setTasksList] = useState<Task[]>([]);
+    const [uncompletedTasksList, setUncompletedTasksList] = useState<Task[]>([]);
+    const [completedTasksList, setCompletedTasksList] = useState<Task[]>([]);
     const [uncompletedTasksCount, setUncompletedTasksCount] = useState<number>(0);
     const [completedTasksCount, setCompletedTasksCount] = useState<number>(0);
 
@@ -34,10 +35,12 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
             const response = await fetch(`http://localhost:5000/tasks/search?userId=${authUser._id}`);
             if (response.ok) {
                 const data = await response.json();
-                setTasksList(data.tasks);
+                setCompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === true));
+                setUncompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === false));
                 console.log(data.tasks);
             } else {
-                setTasksList([]);
+                setCompletedTasksList([]);
+                setUncompletedTasksList([]);
             }
         } catch (err) {
             console.error("Error during fetching tasks for this user:", err);
@@ -117,7 +120,8 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
             Get taskId to be used in a condition where tasksList will be updated with every task when
             their id's don´t coincide with the modified task's state (set as completed / deleted) 
         */
-        setTasksList(prev => prev.filter(task => task._id !== taskId));
+        setUncompletedTasksList(prev => prev.filter(task => task._id !== taskId));
+        setCompletedTasksList(prev => prev.filter(task => task._id === taskId));
     };
 
     // Function: Diminish uncompletedTasksCount by one
@@ -138,7 +142,7 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
 
     return (
         <>
-            <TasksContainer theme={theme} authUser={authUser} tasksList={tasksList} removeTaskFromList={removeTaskFromList} diminishUncompletedTasksCount={diminishUncompletedTasksCount} increaseCompletedTasksCount={increaseCompletedTasksCount}/>
+            <TasksContainer theme={theme} authUser={authUser} uncompletedTasksList={uncompletedTasksList} completedTasksList={completedTasksList} removeTaskFromList={removeTaskFromList} diminishUncompletedTasksCount={diminishUncompletedTasksCount} increaseCompletedTasksCount={increaseCompletedTasksCount}/>
             <PetContainer authUser={authUser} theme={theme} uncompletedTasksCount={uncompletedTasksCount} completedTasksCount={completedTasksCount}/>
         </>
     );
