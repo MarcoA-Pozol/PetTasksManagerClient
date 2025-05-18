@@ -28,7 +28,7 @@ const TasksContainer = ({theme, tasksList, removeTaskFromList}:TasksContainerPro
                         themeMode={theme}
                         onComplete={() => removeTaskFromList(task._id)}
                         onDelete={() => removeTaskFromList(task._id)}
-                        key={task._id}
+                        key={task._id} //react needs a key for each element when in a list for easier/better rendering (in this way it know what element has to removed, updated, re-rendered, etc).
                     />
                 ))
             )}    
