@@ -11,9 +11,10 @@ interface TasksContainerProps {
     authUser: any;
     tasksList: Task[];
     removeTaskFromList: (taskId: string) => void;
+    diminishUncompletedTasksCount: () => void;
 }
 
-const TasksContainer = ({theme, tasksList, removeTaskFromList}:TasksContainerProps) => {
+const TasksContainer = ({theme, tasksList, removeTaskFromList, diminishUncompletedTasksCount}:TasksContainerProps) => {
 
     return (
         <div className="middle-content">

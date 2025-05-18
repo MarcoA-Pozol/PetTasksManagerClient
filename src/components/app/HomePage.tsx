@@ -19,6 +19,7 @@ interface HomePageProps {
 
 const HomePage = ({theme, authUser}:HomePageProps) => {
     const [tasksList, setTasksList] = useState<Task[]>([]);
+    const [uncompletedTasksCount, setUncompletedTasksCount] = useState<number>(0);
 
     // Function: Fetch user's uncompleted tasks
     const fetchTasks = async () => {
@@ -48,7 +49,7 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
 
 
 
-    //Fetch user completed tasks counter
+    // Function: Fetch user completed tasks counter
     const fetchUserCompletedTasksCounter = async () => {
 
         if (!authUser || !authUser._id) return;
@@ -77,6 +78,35 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
         fetchUserCompletedTasksCounter();
     }, [authUser]);
 
+    // Function: Fetch user uncompleted tasks counter
+    const fetchUserUncompletedTasksCounter = async () => {
+
+        if (!authUser || !authUser._id) return;
+
+        try{
+
+            const response = await fetch(`http://localhost:5000/tasks/uncompleted/count?userId=${authUser._id}`);
+
+            if(response.ok){
+
+                const data = await response.json();
+                const counter = data.counter;
+
+                console.log("User completed tasks counter fetched: ", counter);
+                setUncompletedTasksCount(counter);
+            }
+            else {
+                console.error("No tasks! User not found or no content, this should be 404/204!");
+            }
+
+        } catch(err) {
+            console.error("Error while fetching user completed tasks counter", err);
+        }
+    }
+
+    useEffect(() => {
+        fetchUserUncompletedTasksCounter();
+    }, [authUser]);
 
 
     // Function: Remove tasks from list of tasks
@@ -88,10 +118,18 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
         setTasksList(prev => prev.filter(task => task._id !== taskId));
     };
 
+    // Function: Diminish uncompletedTasksCount by one
+    const diminishUncompletedTasksCount = () => {
+        /* 
+            Set count of uncompleted tasks to -1 when user complete or delete a task.
+        */
+       setUncompletedTasksCount(uncompletedTasksCount -1)
+    };
+
     return (
         <>
-            <TasksContainer theme={theme} authUser={authUser} tasksList={tasksList} removeTaskFromList={removeTaskFromList}/>
-            <PetContainer authUser={authUser} theme={theme}/>
+            <TasksContainer theme={theme} authUser={authUser} tasksList={tasksList} removeTaskFromList={removeTaskFromList} diminishUncompletedTasksCount={diminishUncompletedTasksCount}/>
+            <PetContainer authUser={authUser} theme={theme} uncompletedTasksCount={uncompletedTasksCount}/>
         </>
     );
 }
