@@ -46,6 +46,39 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
         fetchTasks();
     }, [authUser]);
 
+
+
+    //Fetch user completed tasks counter
+    const fetchUserCompletedTasksCounter = async () => {
+
+        if (!authUser || !authUser._id) return;
+
+        try{
+
+            const response = await fetch(`http://localhost:5000/tasks/completed/count?userId=${authUser._id}`);
+
+            if(response.ok){
+
+                const data = await response.json();
+                const counter = data.counter;
+
+                console.log("User completed tasks counter fetched: ", counter);
+            }
+            else {
+                console.error("No tasks! User not found or no content, this should be 404/204!");
+            }
+
+        } catch(err) {
+            console.error("Error while fetching user completed tasks counter", err);
+        }
+    }
+
+    useEffect(() => {
+        fetchUserCompletedTasksCounter();
+    }, [authUser]);
+
+
+
     // Function: Remove tasks from list of tasks
     const removeTaskFromList = (taskId: string) => {
         /* 
