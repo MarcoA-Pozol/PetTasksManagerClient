@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 interface Task {
     _id: string;
     name: string;
-    status: "pending" | "in-progress" | "done";
+    status: "to-do" | "done";
 }
 
 interface HomePageProps {

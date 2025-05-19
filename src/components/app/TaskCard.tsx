@@ -3,7 +3,7 @@ import '../../styles/app/taskCard.css';
 type TaskCardProps = {
     taskId: string;
     title: string;
-    status: 'pending' | 'in-progress' | 'done';
+    status: 'to-do' | 'done';
     themeMode: string;
     onComplete: () => void;
     onDelete: () => void;
@@ -45,11 +45,19 @@ export default function TaskCard({ title, status, themeMode, taskId, onComplete,
         }
     }
 
+    // Hide "complete task" button for completed tasks
+    let completeTaskButtonClass;
+    if (status === "done") {
+        completeTaskButtonClass =  "hidde";
+    } else if (status === "to-do") {
+        completeTaskButtonClass =  "rounded-btn complete-btn";
+    } 
+
     return (
         <div className={`task-card ${status} ${themeMode}`}>
             <button onClick={deleteTask} className="rounded-btn delete-btn">✘</button>
             <h3 className="task-title">{title}</h3>
-            <button onClick={setTaskAsCompleted} className="rounded-btn complete-btn">✔</button>
+            <button onClick={setTaskAsCompleted} className={`${completeTaskButtonClass}`}>✔</button>
         </div>
     );
 };

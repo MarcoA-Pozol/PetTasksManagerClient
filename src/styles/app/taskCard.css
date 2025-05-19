@@ -23,14 +23,15 @@
 }
 
 /* Task status */
-.pending {
-  border-left: 6px solid #e09a3f;
-}
-.in-progress {
+.to-do {
   border-left: 6px solid #662d91;
 }
 .done {
-  border-left: 6px solid #288c42;
+  border-left: 6px solid #188b37;
+}
+
+.hidde {
+  display: none;
 }
 
 /* Text */

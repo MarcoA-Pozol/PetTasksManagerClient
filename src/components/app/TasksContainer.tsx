@@ -3,7 +3,7 @@ import TaskCard from "./TaskCard";
 interface Task {
     _id: string;
     name: string;
-    status: "pending" | "in-progress" | "done";
+    status: "to-do" | "done";
 }
 
 interface TasksContainerProps {
@@ -20,6 +20,7 @@ const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, remove
 
     return (
         <div className="middle-content">
+            <span>-- To do --</span>
             {uncompletedTasksList.length === 0 ? (
                 <p>No tasks available</p>
             ) : (
@@ -27,7 +28,7 @@ const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, remove
                     <TaskCard
                         taskId={task._id}
                         title={task.name}
-                        status="pending"
+                        status="to-do"
                         themeMode={theme}
                         onComplete={() => {removeTaskFromList(task._id); diminishUncompletedTasksCount(); increaseCompletedTasksCount();}}
                         onDelete={() => {removeTaskFromList(task._id); diminishUncompletedTasksCount();}}
@@ -37,6 +38,7 @@ const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, remove
                 ))
             )}   
 
+            <span>-- Completed --</span>
             {completedTasksList.length === 0 ? (
                 <p>No tasks available</p>
             ) : (
