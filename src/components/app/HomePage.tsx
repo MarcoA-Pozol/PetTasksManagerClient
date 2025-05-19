@@ -23,10 +23,10 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
     const [uncompletedTasksCount, setUncompletedTasksCount] = useState<number>(0);
     const [completedTasksCount, setCompletedTasksCount] = useState<number>(0);
 
-    // Function: Fetch user's uncompleted tasks
+    // Function: Fetch user's tasks
     const fetchTasks = async () => {
         /* 
-            Get every user's uncompleted tasks and save them in a list of tasks.
+            Get every user's tasks and save them in a list of tasks.
             Tasks are obtained from the json object accessing to json.tasks property.
             Task object include keys like _id, name and isCompleted. 
         */
@@ -37,10 +37,14 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
                 const data = await response.json();
                 setCompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === true));
                 setUncompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === false));
-                console.log(data.tasks);
+                setCompletedTasksCount(data.completedCount);
+                setUncompletedTasksCount(data.uncompletedCount);
+                console.log(data);
             } else {
                 setCompletedTasksList([]);
                 setUncompletedTasksList([]);
+                setCompletedTasksCount(0);
+                setUncompletedTasksCount(0);
             }
         } catch (err) {
             console.error("Error during fetching tasks for this user:", err);
@@ -50,69 +54,6 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
     useEffect(() => {
         fetchTasks();
     }, [authUser]);
-
-
-
-    // Function: Fetch user completed tasks counter
-    const fetchUserCompletedTasksCounter = async () => {
-
-        if (!authUser || !authUser._id) return;
-
-        try{
-
-            const response = await fetch(`http://localhost:5000/tasks/completed/count?userId=${authUser._id}`);
-
-            if(response.ok){
-
-                const data = await response.json();
-                const counter = data.counter;
-
-                console.log("Completed tasks count: ", counter);
-                setCompletedTasksCount(counter);
-            }
-            else {
-                console.error("No tasks! User not found or no content, this should be 404/204!");
-            }
-
-        } catch(err) {
-            console.error("Error while fetching user completed tasks counter", err);
-        }
-    }
-
-    useEffect(() => {
-        fetchUserCompletedTasksCounter();
-    }, [authUser]);
-
-    // Function: Fetch user uncompleted tasks counter
-    const fetchUserUncompletedTasksCounter = async () => {
-
-        if (!authUser || !authUser._id) return;
-
-        try{
-
-            const response = await fetch(`http://localhost:5000/tasks/uncompleted/count?userId=${authUser._id}`);
-
-            if(response.ok){
-
-                const data = await response.json();
-                const counter = data.counter;
-
-                console.log("Uncompleted tasks count: ", counter);
-                setUncompletedTasksCount(counter);
-            }
-            else {
-                console.error("No tasks! User not found or no content, this should be 404/204!");
-            }
-
-        } catch(err) {
-            console.error("Error while fetching user uncompleted tasks count", err);
-        }
-    }
-
-    useEffect(() => {
-        fetchUserUncompletedTasksCounter();
-    }, [authUser]);
-
 
     // Function: Remove tasks from list of tasks
     const removeTaskFromList = (taskId: string) => {
