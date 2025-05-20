@@ -75,6 +75,42 @@
     display: none;  /* Chrome, Safari, and Opera */
 }
 
+.uncompleted-tasks-container {
+    margin-top: 10px;
+    height: 50vh;
+    overflow-y: scroll;
+    width: 100%;
+}
+
+.completed-tasks-container {
+    margin-top: 10px;
+    height: 50vh;
+    overflow-y: scroll;
+    width: 100%;
+}
+
+/* Tasks Separators */
+#separator-to-do {
+    position: absolute;
+    color: rgb(104, 37, 180);
+    font-weight: bold;
+    z-index: 11;
+    width: 60%;
+    left: 20%;
+    border-radius: 10px;
+    text-align: center;
+}
+#separator-done {
+    position: absolute;
+    color: rgb(11, 151, 11);z-index: 11;
+    font-weight: bold;
+    width: 60%;
+    left: 20%;
+    justify-self: center;
+    border-radius: 10px;
+    text-align: center;
+}
+
 /* RIGHT content */
 .right-content {
     position: fixed;
