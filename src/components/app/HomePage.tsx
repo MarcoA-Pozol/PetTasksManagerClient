@@ -57,12 +57,18 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
 
     // Function: Remove tasks from list of tasks
     const removeTaskFromList = (taskId: string) => {
-        /* 
+        
+        //Get completed task
+       const completedTask = uncompletedTasksList.find(task => task._id === taskId) as Task;
+       
+       /* 
             Get taskId to be used in a condition where tasksList will be updated with every task when
             their id's don´t coincide with the modified task's state (set as completed / deleted) 
         */
-        setUncompletedTasksList(prev => prev.filter(task => task._id !== taskId));
-        setCompletedTasksList(prev => prev.filter(task => task._id === taskId));
+       setUncompletedTasksList(prev => prev.filter(task => task._id !== taskId));
+       
+       //Add completed task to completed list
+        setCompletedTasksList(completedTasksList.concat(completedTask));
     };
 
     // Function: Diminish uncompletedTasksCount by one
