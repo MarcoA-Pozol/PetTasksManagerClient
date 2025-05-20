@@ -1,12 +1,7 @@
 import TasksContainer from "./TasksContainer";
 import PetContainer from "./PetContainer";
 import { useState, useEffect } from "react";
-
-interface Task {
-    _id: string;
-    name: string;
-    status: "to-do" | "done";
-}
+import { TaskInterface } from "../../schemas/Task";
 
 interface HomePageProps {
     theme: string;
@@ -18,8 +13,8 @@ interface HomePageProps {
 }
 
 const HomePage = ({theme, authUser}:HomePageProps) => {
-    const [uncompletedTasksList, setUncompletedTasksList] = useState<Task[]>([]);
-    const [completedTasksList, setCompletedTasksList] = useState<Task[]>([]);
+    const [uncompletedTasksList, setUncompletedTasksList] = useState<TaskInterface[]>([]);
+    const [completedTasksList, setCompletedTasksList] = useState<TaskInterface[]>([]);
     const [uncompletedTasksCount, setUncompletedTasksCount] = useState<number>(0);
     const [completedTasksCount, setCompletedTasksCount] = useState<number>(0);
 
@@ -67,7 +62,7 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
     }
 
     // Function: Remove task from list handling all scenarios (un/completed, deletion/complete)
-    const removeTaskFromListOnCompleted = (completedTask: Task) => {
+    const removeTaskFromListOnCompleted = (completedTask: TaskInterface) => {
 
         if(!completedTask) return;
         

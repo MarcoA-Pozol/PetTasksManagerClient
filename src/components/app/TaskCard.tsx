@@ -1,13 +1,5 @@
 import '../../styles/app/taskCard.css';
-
-type TaskCardProps = {
-    taskId: string;
-    title: string;
-    status: 'to-do' | 'done';
-    themeMode: string;
-    onComplete: () => void;
-    onDelete: () => void;
-};
+import { TaskCardProps } from '../../schemas/Task';
   
 export default function TaskCard({ title, status, themeMode, taskId, onComplete, onDelete}: TaskCardProps) {
     

@@ -1,17 +1,12 @@
 import TaskCard from "./TaskCard";
-
-interface Task {
-    _id: string;
-    name: string;
-    status: "to-do" | "done";
-}
+import { TaskInterface } from "../../schemas/Task";
 
 interface TasksContainerProps {
     theme: string;
     authUser: any;
-    completedTasksList: Task[];
-    uncompletedTasksList: Task[];
-    removeTaskFromListOnCompleted: (completedTask: Task) => void;
+    completedTasksList: TaskInterface[];
+    uncompletedTasksList: TaskInterface[];
+    removeTaskFromListOnCompleted: (completedTask: TaskInterface) => void;
     removeTaskFromListOnDeletion: (taskId: string, status: string) => void;
     diminishUncompletedTasksCount: () => void;
     diminishCompletedTasksCount: () => void;
