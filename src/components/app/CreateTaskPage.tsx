@@ -1,18 +1,9 @@
 import TaskCreationFormulary from "./TaskCreationFormulary";
-
-interface Task {
-    name: string;
-    status: "pending" | "in-progress" | "done";
-}
-
-interface CreateTaskPageProps {
-    onData: (task: Task) => void;
-    userId: string;
-}
+import { TaskCreationInterface, CreateTaskPageProps } from "../../schemas/Task";
 
 const CreateTaskPage = ({onData, userId}: CreateTaskPageProps) => {
 
-    const handleDataFromChild = (newTask: Task) => {
+    const handleDataFromChild = (newTask: TaskCreationInterface) => {
         //Return created task to parent
         onData(newTask);
     }

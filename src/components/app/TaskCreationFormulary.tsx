@@ -1,18 +1,7 @@
 import "../../styles/app/taskCreationFormulary.css";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-
-
-interface Task {
-    name: string;
-    status: "pending" | "in-progress" | "done";
-    userId: string;
-}
-
-interface TaskCreationFormularyProps{
-    onData: (task: Task) => void;
-    userId: string;
-}
+import { TaskInterfaceTwo, TaskCreationFormularyProps } from "../../schemas/Task";
 
 const TaskCreationFormulary = ({onData, userId}: TaskCreationFormularyProps) => {
     
@@ -31,7 +20,7 @@ const TaskCreationFormulary = ({onData, userId}: TaskCreationFormularyProps) => 
         try {
             if (title!=="") {
                 //Create task
-                const newTask: Task  = {name: title, status: "pending", userId};
+                const newTask: TaskInterfaceTwo  = {name: title, status: "pending", userId};
     
                 //Update user tasks in server
                 const response = await fetch('http://localhost:5000/tasks/', {

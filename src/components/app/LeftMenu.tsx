@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { LeftMenuProps } from "../../schemas/LeftMenu";
 // Icons
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -9,14 +10,6 @@ import LanguageIcon from '@mui/icons-material/Language';
 // Language
 import "../../../i18n";
 import { useTranslation } from "react-i18next";
-
-interface LeftMenuProps {
-    theme: string;
-    setTheme: React.Dispatch<React.SetStateAction<string>>;
-    isAuthenticated: boolean;
-    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean |  null>>;
-    setDisplayedPage: React.Dispatch<React.SetStateAction<string>>;
-}
 
 const LeftMenu = ({theme, setTheme, setIsAuthenticated, setDisplayedPage}: LeftMenuProps) => {
     const navigate = useNavigate();

@@ -2,15 +2,7 @@ import TasksContainer from "./TasksContainer";
 import PetContainer from "./PetContainer";
 import { useState, useEffect } from "react";
 import { TaskInterface } from "../../schemas/Task";
-
-interface HomePageProps {
-    theme: string;
-    setTheme: React.Dispatch<React.SetStateAction<string>>;
-    isAuthenticated: boolean;
-    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean |  null>>;
-    setDisplayedPage: React.Dispatch<React.SetStateAction<string>>;
-    authUser:any;
-}
+import { HomePageProps } from "../../schemas/HomePage";
 
 const HomePage = ({theme, authUser}:HomePageProps) => {
     const [uncompletedTasksList, setUncompletedTasksList] = useState<TaskInterface[]>([]);

@@ -4,11 +4,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import HomePage from "./HomePage";
 import CreateTaskPage from "./CreateTaskPage";
 import LeftMenu from "./LeftMenu";
-
-interface Task {
-    name: string;
-    status: "pending" | "in-progress" | "done";
-}
+import { TaskCreationInterface } from "../../schemas/Task";
 
 const AppView = () => {
     const [theme, setTheme] = useState("light");
@@ -18,7 +14,7 @@ const AppView = () => {
     const [displayedPage, setDisplayedPage] = useState("home");
 
     const handleDataFromChild = (data: any) => {
-        const createdTask: Task = data;
+        const createdTask: TaskCreationInterface = data;
         console.log("Data received from child component on app view parent one -> created task: ", createdTask);
     }
 

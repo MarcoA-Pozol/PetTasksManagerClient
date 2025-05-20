@@ -1,13 +1,7 @@
 import skin1 from "../../assets/skin1nb.png";
 import { useTranslation } from "react-i18next";
 import "../../../i18n";
-
-interface PetContainerProps {
-    authUser: any;
-    theme: string;
-    uncompletedTasksCount: number;
-    completedTasksCount: number;
-}
+import { PetContainerProps } from "../../schemas/PetContainer";
 
 const PetContainer = ({authUser, theme, uncompletedTasksCount, completedTasksCount}: PetContainerProps) => {
     const { t } = useTranslation();

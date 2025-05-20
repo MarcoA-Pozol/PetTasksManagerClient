@@ -1,17 +1,5 @@
 import TaskCard from "./TaskCard";
-import { TaskInterface } from "../../schemas/Task";
-
-interface TasksContainerProps {
-    theme: string;
-    authUser: any;
-    completedTasksList: TaskInterface[];
-    uncompletedTasksList: TaskInterface[];
-    removeTaskFromListOnCompleted: (completedTask: TaskInterface) => void;
-    removeTaskFromListOnDeletion: (taskId: string, status: string) => void;
-    diminishUncompletedTasksCount: () => void;
-    diminishCompletedTasksCount: () => void;
-    increaseCompletedTasksCount: () => void;
-}
+import { TasksContainerProps } from "../../schemas/Task";
 
 const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, removeTaskFromListOnCompleted, removeTaskFromListOnDeletion, diminishUncompletedTasksCount, diminishCompletedTasksCount, increaseCompletedTasksCount}:TasksContainerProps) => {
     return (
