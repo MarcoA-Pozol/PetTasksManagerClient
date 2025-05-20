@@ -22,7 +22,7 @@ const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, remove
         <div className="middle-content">
             <span>-- To do --</span>
             {uncompletedTasksList.length === 0 ? (
-                <p>No tasks available</p>
+                <p>Free of tasks!</p> //If no uncompleted tasks...
             ) : (
                 uncompletedTasksList.map((task) => (
                     <TaskCard
@@ -40,7 +40,7 @@ const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, remove
 
             <span>-- Completed --</span>
             {completedTasksList.length === 0 ? (
-                <p>No tasks available</p>
+                <p>Nothing here</p> //If no completed tasks...
             ) : (
                 completedTasksList.map((task) => (
                     <TaskCard
