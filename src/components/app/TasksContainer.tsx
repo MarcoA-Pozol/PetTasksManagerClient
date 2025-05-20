@@ -11,13 +11,14 @@ interface TasksContainerProps {
     authUser: any;
     completedTasksList: Task[];
     uncompletedTasksList: Task[];
-    removeTaskFromList: (taskId: string) => void;
+    removeTaskFromListOnCompleted: (completedTask: Task) => void;
+    removeTaskFromListOnDeletion: (taskId: string, status: string) => void;
     diminishUncompletedTasksCount: () => void;
+    diminishCompletedTasksCount: () => void;
     increaseCompletedTasksCount: () => void;
 }
 
-const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, removeTaskFromList, diminishUncompletedTasksCount, increaseCompletedTasksCount}:TasksContainerProps) => {
-
+const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, removeTaskFromListOnCompleted, removeTaskFromListOnDeletion, diminishUncompletedTasksCount, diminishCompletedTasksCount, increaseCompletedTasksCount}:TasksContainerProps) => {
     return (
         <div className="middle-content">
             <span>-- To do --</span>
@@ -30,10 +31,9 @@ const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, remove
                         title={task.name}
                         status="to-do"
                         themeMode={theme}
-                        onComplete={() => {removeTaskFromList(task._id); diminishUncompletedTasksCount(); increaseCompletedTasksCount();}}
-                        onDelete={() => {removeTaskFromList(task._id); diminishUncompletedTasksCount();}}
-                        //react needs a key for each element when in a list for easier/better rendering (in this way it know what element has to removed, updated, re-rendered, etc).
-                        key={task._id} 
+                        onComplete={() => {removeTaskFromListOnCompleted(task); diminishUncompletedTasksCount(); increaseCompletedTasksCount();}}
+                        onDelete={() => {removeTaskFromListOnDeletion(task._id, "to-do"); diminishUncompletedTasksCount();}}
+                        key={task._id} //element key for easier rendering (reacts knows what element remove, re-rendered).
                     />
                 ))
             )}   
@@ -48,10 +48,9 @@ const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, remove
                         title={task.name}
                         status="done"
                         themeMode={theme}
-                        onComplete={() => {removeTaskFromList(task._id); diminishUncompletedTasksCount(); increaseCompletedTasksCount();}}
-                        onDelete={() => {removeTaskFromList(task._id); diminishUncompletedTasksCount();}}
-                        //react needs a key for each element when in a list for easier/better rendering (in this way it know what element has to removed, updated, re-rendered, etc).
-                        key={task._id} 
+                        onComplete={() => {}} //Completed tasks can't be 'completed'!
+                        onDelete={() => {removeTaskFromListOnDeletion(task._id, "done"); diminishCompletedTasksCount();}}
+                        key={task._id}
                     />
                 ))
             )}     

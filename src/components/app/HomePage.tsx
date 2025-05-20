@@ -55,29 +55,48 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
         fetchTasks();
     }, [authUser]);
 
-    // Function: Remove tasks from list of tasks
-    const removeTaskFromList = (taskId: string) => {
+
+    const removeTaskFromListOnDeletion = (taskId: string, status: string) => {
+
+        //If it was completed task
+        if(status === "done") {
+            setCompletedTasksList(prev => prev.filter(task => task._id !== taskId));
+            return;
+        }
+        setUncompletedTasksList(prev => prev.filter(task => task._id !== taskId));
+    }
+
+    // Function: Remove task from list handling all scenarios (un/completed, deletion/complete)
+    const removeTaskFromListOnCompleted = (completedTask: Task) => {
+
+        if(!completedTask) return;
         
-        //Get completed task
-       const completedTask = uncompletedTasksList.find(task => task._id === taskId) as Task;
-       
-       /* 
+         /* 
             Get taskId to be used in a condition where tasksList will be updated with every task when
             their id's don´t coincide with the modified task's state (set as completed / deleted) 
         */
-       setUncompletedTasksList(prev => prev.filter(task => task._id !== taskId));
-       
-       //Add completed task to completed list
-        setCompletedTasksList(completedTasksList.concat(completedTask));
-    };
 
-    // Function: Diminish uncompletedTasksCount by one
+        //Remove from uncompleted list
+        setUncompletedTasksList(prev => prev.filter(task => task._id !== completedTask._id));
+        setCompletedTasksList(prev => prev.concat(completedTask)); //and pass to completed ones  
+    }
+
+
+    // Function: Diminish uncompleted Tasks Count by one
     const diminishUncompletedTasksCount = () => {
         /* 
             Set count of uncompleted tasks to -1 when user complete or delete a task.
         */
-       setUncompletedTasksCount(uncompletedTasksCount -1);
+       setUncompletedTasksCount(prev => prev-1);
     };
+
+    // Function: Diminish completed Tasks Count by one
+    const diminishCompletedTasksCount = () => {
+        /* 
+            Reduce completed tasks count on completed task deletion.
+        */
+       setCompletedTasksCount(prev => prev-1);
+    }
 
     // Function: Increase completedTasksCount by one
     const increaseCompletedTasksCount = () => {
@@ -89,7 +108,7 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
 
     return (
         <>
-            <TasksContainer theme={theme} authUser={authUser} uncompletedTasksList={uncompletedTasksList} completedTasksList={completedTasksList} removeTaskFromList={removeTaskFromList} diminishUncompletedTasksCount={diminishUncompletedTasksCount} increaseCompletedTasksCount={increaseCompletedTasksCount}/>
+            <TasksContainer theme={theme} authUser={authUser} uncompletedTasksList={uncompletedTasksList} completedTasksList={completedTasksList} removeTaskFromListOnDeletion={removeTaskFromListOnDeletion} removeTaskFromListOnCompleted={removeTaskFromListOnCompleted} diminishUncompletedTasksCount={diminishUncompletedTasksCount} diminishCompletedTasksCount={diminishCompletedTasksCount} increaseCompletedTasksCount={increaseCompletedTasksCount}/>
             <PetContainer authUser={authUser} theme={theme} uncompletedTasksCount={uncompletedTasksCount} completedTasksCount={completedTasksCount}/>
         </>
     );
