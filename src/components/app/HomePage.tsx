@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { TaskInterface } from "../../schemas/Task";
 import { HomePageProps } from "../../schemas/HomePage";
 
-const HomePage = ({theme, authUser}:HomePageProps) => {
+const HomePage = ({theme, authUser, selectedPetImage}:HomePageProps) => {
     const [uncompletedTasksList, setUncompletedTasksList] = useState<TaskInterface[]>([]);
     const [completedTasksList, setCompletedTasksList] = useState<TaskInterface[]>([]);
     const [uncompletedTasksCount, setUncompletedTasksCount] = useState<number>(0);
@@ -96,7 +96,7 @@ const HomePage = ({theme, authUser}:HomePageProps) => {
     return (
         <>
             <TasksContainer theme={theme} authUser={authUser} uncompletedTasksList={uncompletedTasksList} completedTasksList={completedTasksList} removeTaskFromListOnDeletion={removeTaskFromListOnDeletion} removeTaskFromListOnCompleted={removeTaskFromListOnCompleted} diminishUncompletedTasksCount={diminishUncompletedTasksCount} diminishCompletedTasksCount={diminishCompletedTasksCount} increaseCompletedTasksCount={increaseCompletedTasksCount}/>
-            <PetContainer authUser={authUser} theme={theme} uncompletedTasksCount={uncompletedTasksCount} completedTasksCount={completedTasksCount}/>
+            <PetContainer authUser={authUser} theme={theme} uncompletedTasksCount={uncompletedTasksCount} completedTasksCount={completedTasksCount} selectedPetImage={selectedPetImage}/>
         </>
     );
 }

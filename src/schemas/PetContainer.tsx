@@ -3,4 +3,5 @@ export interface PetContainerProps {
     theme: string;
     uncompletedTasksCount: number;
     completedTasksCount: number;
+    selectedPetImage: string;
 }

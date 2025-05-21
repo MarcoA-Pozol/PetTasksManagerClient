@@ -5,4 +5,5 @@ export interface HomePageProps {
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean |  null>>;
     setDisplayedPage: React.Dispatch<React.SetStateAction<string>>;
     authUser:any;
+    selectedPetImage: string;
 }
