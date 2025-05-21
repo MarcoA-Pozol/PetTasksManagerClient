@@ -26,7 +26,7 @@ const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, remove
     return (
         <div className="middle-content">
             <div className={`uncompleted-tasks-container ${uncompletedTskCtnStyle}`}>
-                <span id="separator-to-do" onClick={toggleTaskContainers}>To do</span>
+                <span className="tasks-separator" onClick={toggleTaskContainers} style={{backgroundColor:"rgb(104, 37, 180)"}}>To do</span>
                 {uncompletedTasksList.length === 0 ? (
                     <p style={{textAlign:"center", marginTop:"30px"}}>Free of tasks!</p> //If no uncompleted tasks...
                 ) : (
@@ -45,7 +45,7 @@ const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, remove
             </div>
 
             <div className={`completed-tasks-container ${completedTskCtnStyle}`}>
-                <span id="separator-done" onClick={toggleTaskContainers}>Done</span>
+                <span className="tasks-separator" onClick={toggleTaskContainers}  style={{backgroundColor:"rgb(11, 151, 11)"}}>Done</span>
                 {completedTasksList.length === 0 ? (
                     <p style={{textAlign:"center", marginTop:"30px"}}>Nothing here</p> //If no completed tasks...
                 ) : (
