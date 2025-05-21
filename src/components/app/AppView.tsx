@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../styles/app/appView.css";
 import { Navigate, useLocation } from "react-router-dom";
 import HomePage from "./HomePage";
@@ -20,7 +20,7 @@ const AppView = () => {
 
     // Pick one random pet image
     const randomImageIndex = Math.floor(Math.random() * petImages.length);
-    const selectedPetImage = petImages[randomImageIndex]; 
+    const selectedPetImage = useRef(petImages[randomImageIndex]); 
 
     const handleDataFromChild = (data: any) => {
         const createdTask: TaskCreationInterface = data;
@@ -64,7 +64,7 @@ const AppView = () => {
             <div className={`app-container ${theme}`}>
                 <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>
                 <div className="content-container">
-                    {displayedPage === "home" && <HomePage theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} authUser={authUser} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage} selectedPetImage={selectedPetImage}/>}
+                    {displayedPage === "home" && <HomePage theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} authUser={authUser} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage} selectedPetImage={selectedPetImage.current}/>}
                     {displayedPage === "create" && <CreateTaskPage onData={handleDataFromChild} userId={authUser?._id}/>}
                 </div>
             </div>
