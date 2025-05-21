@@ -1,6 +1,6 @@
 import TasksContainer from "./TasksContainer";
 import PetContainer from "./PetContainer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { TaskInterface } from "../../schemas/Task";
 import { HomePageProps } from "../../schemas/HomePage";
 
@@ -9,38 +9,42 @@ const HomePage = ({theme, authUser, selectedPetImage}:HomePageProps) => {
     const [completedTasksList, setCompletedTasksList] = useState<TaskInterface[]>([]);
     const [uncompletedTasksCount, setUncompletedTasksCount] = useState<number>(0);
     const [completedTasksCount, setCompletedTasksCount] = useState<number>(0);
+    const hasFetchedTasks = useRef(false); // Control fetching cards to only occur one time on component rendering
 
     // Function: Fetch user's tasks
-    const fetchTasks = async () => {
+    useEffect(() => {
         /* 
             Get every user's tasks and save them in a list of tasks.
             Tasks are obtained from the json object accessing to json.tasks property.
             Task object include keys like _id, name and isCompleted. 
         */
-        if (!authUser || !authUser._id) return;
-        try {
-            const response = await fetch(`http://localhost:5000/tasks/search?userId=${authUser._id}`);
-            if (response.ok) {
-                const data = await response.json();
-                setCompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === true));
-                setUncompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === false));
-                setCompletedTasksCount(data.completedCount);
-                setUncompletedTasksCount(data.uncompletedCount);
-                console.log(data);
-            } else {
-                setCompletedTasksList([]);
-                setUncompletedTasksList([]);
-                setCompletedTasksCount(0);
-                setUncompletedTasksCount(0);
-            }
-        } catch (err) {
-            console.error("Error during fetching tasks for this user:", err);
-        }
-    };
+       if (!authUser || !authUser._id || hasFetchedTasks.current) return;
 
-    useEffect(() => {
-        fetchTasks();
-    }, [authUser]);
+       hasFetchedTasks.current = true;
+       
+       const fetchCards = async () => {
+           try {
+               const response = await fetch(`http://localhost:5000/tasks/search?userId=${authUser._id}`);
+               if (response.ok) {
+                   const data = await response.json();
+                   setCompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === true));
+                   setUncompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === false));
+                   setCompletedTasksCount(data.completedCount);
+                   setUncompletedTasksCount(data.uncompletedCount);
+                   console.log("Tasks list:", data);
+               } else {
+                   setCompletedTasksList([]);
+                   setUncompletedTasksList([]);
+                   setCompletedTasksCount(0);
+                   setUncompletedTasksCount(0);
+               }
+           } catch (err) {
+               console.error("Error during fetching tasks for this user:", err);
+           };
+        }
+
+        fetchCards();
+    }, [authUser?._id]); // Wait for authUser._id before fetching cards to avoid double call
 
 
     const removeTaskFromListOnDeletion = (taskId: string, status: string) => {

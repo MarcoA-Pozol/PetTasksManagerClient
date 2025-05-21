@@ -27,6 +27,7 @@ const AppView = () => {
         console.log("Data received from child component on app view parent one -> created task: ", createdTask);
     }
 
+    // Authentication check
     useEffect(() => {
         const checkAuth = async () => {
             try {
@@ -42,7 +43,7 @@ const AppView = () => {
                     setIsAuthenticated(false);
                 }
             } catch (err) {
-                console.error("Error de autenticación:", err);
+                console.error("Authentication error:", err);
                 setIsAuthenticated(false);
             }
         };

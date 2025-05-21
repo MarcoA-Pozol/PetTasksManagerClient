@@ -20,7 +20,7 @@ const TaskCreationFormulary = ({onData, userId}: TaskCreationFormularyProps) => 
         try {
             if (title!=="") {
                 //Create task
-                const newTask: TaskInterfaceTwo  = {name: title, status: "pending", userId};
+                const newTask: TaskInterfaceTwo  = {name: title, status: "to-do", userId};
     
                 //Update user tasks in server
                 const response = await fetch('http://localhost:5000/tasks/', {
