@@ -6,6 +6,8 @@ const PetContainer = ({authUser, theme, uncompletedTasksCount, completedTasksCou
     const { t } = useTranslation();
     const totalTasks = completedTasksCount + uncompletedTasksCount;
 
+    const completedPercentage = totalTasks > 0 ? Math.floor((completedTasksCount / totalTasks) * 100) : 100; 
+
     return (
         <div className={`right-content rounded-border ${theme}`}>
             <h3 style={{fontFamily:"monospace", fontSize:"1.2rem"}}>{authUser ? authUser.username : "Loading..."}</h3>
@@ -15,7 +17,7 @@ const PetContainer = ({authUser, theme, uncompletedTasksCount, completedTasksCou
                 <span id="toDoTasks">{t("To do")}: {uncompletedTasksCount}</span>
             </div>
             <div className="pet-stats rounded-border spaced-around">
-                <span id="completed-tasks-percentage">{Math.floor((completedTasksCount / totalTasks) * 100)}% / 100% ({totalTasks}) </span>
+                <span id="completed-tasks-percentage">{completedPercentage}% / 100% ({totalTasks})</span>
             </div>
         </div>
     );
