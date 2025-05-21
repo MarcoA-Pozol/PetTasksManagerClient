@@ -92,23 +92,34 @@
 /* Tasks Separators */
 #separator-to-do {
     position: absolute;
-    color: rgb(104, 37, 180);
+    background-color: rgb(104, 37, 180);
     font-weight: bold;
     z-index: 11;
     width: 60%;
     left: 20%;
     border-radius: 10px;
     text-align: center;
+    cursor: pointer;
+    color: white;
 }
 #separator-done {
     position: absolute;
-    color: rgb(11, 151, 11);z-index: 11;
+    background-color: rgb(11, 151, 11);z-index: 11;
     font-weight: bold;
     width: 60%;
     left: 20%;
     justify-self: center;
     border-radius: 10px;
     text-align: center;
+    cursor: pointer;
+    color: white;
+}
+
+.etd-tsk-ctn {
+    height: 85vh;
+}
+.cps-tsk-ctn {
+    height: 4vh;
 }
 
 /* RIGHT content */
