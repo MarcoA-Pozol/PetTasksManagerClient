@@ -11,7 +11,7 @@ const PetContainer = ({authUser, theme, uncompletedTasksCount, completedTasksCou
     return (
         <div className={`right-content rounded-border ${theme}`}>
             <h3 style={{fontFamily:"monospace", fontSize:"1.2rem"}}>{authUser ? authUser.username : "Loading..."}</h3>
-            <img src={selectedPetImage} alt="pet image"></img>
+            <img src={selectedPetImage} alt="pet image" style={{width:"100%", height:"250px"}}></img>
             <div className="tasks-stats rounded-border spaced-around">
                 <span id="completedTasks">{t("Completed")}: {completedTasksCount}</span>
                 <span id="toDoTasks">{t("To do")}: {uncompletedTasksCount}</span>
