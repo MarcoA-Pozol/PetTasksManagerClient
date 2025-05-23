@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useState, useRef, useEffect } from "react";
 import { TaskInterfaceTwo, TaskCreationFormularyProps } from "../../schemas/Task";
 
-const TaskCreationFormulary = ({onData, userId}: TaskCreationFormularyProps) => {
+const TaskCreationFormulary = ({onData, userId, increaseUncompletedTasksCount}: TaskCreationFormularyProps) => {
     
     const { t } = useTranslation();
     
@@ -45,6 +45,9 @@ const TaskCreationFormulary = ({onData, userId}: TaskCreationFormularyProps) => 
     
                 //Return data to parent
                 onData(newTask);
+
+                // Increase uncompleted tasks count
+                increaseUncompletedTasksCount();
     
                 // Clean form fields after submission
                 setTitle("");

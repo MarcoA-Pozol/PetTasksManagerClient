@@ -21,6 +21,7 @@ export interface TaskCreationInterface {
 export interface CreateTaskPageProps {
     onData: (task: TaskCreationInterface) => void;
     userId: string;
+    increaseUncompletedTasksCount: () => void;
 }
 
 export interface TasksContainerProps {
@@ -44,4 +45,5 @@ export interface TaskInterfaceTwo {
 export interface TaskCreationFormularyProps{
     onData: (task: TaskInterfaceTwo) => void;
     userId: string;
+    increaseUncompletedTasksCount: () => void;
 }

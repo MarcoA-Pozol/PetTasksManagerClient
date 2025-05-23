@@ -62,14 +62,6 @@ const AppView = () => {
         checkAuth();
     }, []);
 
-    // Don't render anything until auth status is known
-    if (isAuthenticated === null) return null;
-    
-    // Redirect if user is not authenticated and trying to access app view
-    if (!isAuthenticated && location.pathname !== "/auth") {
-        return <Navigate to="/auth" />;
-    }
-
     // Function: Fetch user's tasks
     useEffect(() => {
         /* 
@@ -130,42 +122,88 @@ const AppView = () => {
         setCompletedTasksList(prev => prev.concat(completedTask)); //and pass to completed ones  
     }
 
-
+    
     // Function: Diminish uncompleted Tasks Count by one
     const diminishUncompletedTasksCount = () => {
         /* 
-            Set count of uncompleted tasks to -1 when user complete or delete a task.
+        Set count of uncompleted tasks to -1 when user complete or delete a task.
         */
        setUncompletedTasksCount(prev => prev-1);
     };
-
+    
     // Function: Diminish completed Tasks Count by one
     const diminishCompletedTasksCount = () => {
         /* 
-            Reduce completed tasks count on completed task deletion.
+        Reduce completed tasks count on completed task deletion.
         */
        setCompletedTasksCount(prev => prev-1);
     }
-
+    
     // Function: Increase completedTasksCount by one
     const increaseCompletedTasksCount = () => {
         /*
-            Set count of completed tasks to +1 when user complete a task.
+        Set count of completed tasks to +1 when user complete a task.
         */ 
        setCompletedTasksCount(completedTasksCount + 1);
     };
+    
+    // Function: Increase to do tasks count by one
+    const increaseUncompletedTasksCount = () => {
+        /*
+            Set count of uncompleted tasks to +1 when user create a task.
+        */
+       setUncompletedTasksCount(uncompletedTasksCount + 1);
+    }
 
     return (
         <>
-            <div className={`app-container ${theme}`}>
-                <LeftMenu theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage}/>
-                <div className="content-container">
-                    {displayedPage === "home" && <HomePage theme={theme} setTheme={setTheme} isAuthenticated={isAuthenticated} authUser={authUser} setIsAuthenticated={setIsAuthenticated} setDisplayedPage={setDisplayedPage} selectedPetImage={selectedPetImage.current} completedTasksList={completedTasksList} uncompletedTasksList={uncompletedTasksList}  completedTasksCount={completedTasksCount} uncompletedTasksCount={uncompletedTasksCount} removeTaskFromListOnCompleted={removeTaskFromListOnCompleted} removeTaskFromListOnDeletion={removeTaskFromListOnDeletion} diminishUncompletedTasksCount={diminishUncompletedTasksCount} diminishCompletedTasksCount={diminishCompletedTasksCount} increaseCompletedTasksCount={increaseCompletedTasksCount}/>}
-                    {displayedPage === "create" && <CreateTaskPage onData={handleDataFromChild} userId={authUser?._id}/>}
+            {isAuthenticated === null ? (
+                <div>Loading...</div> // or a spinner
+            ) : !isAuthenticated && location.pathname !== "/auth" ? (
+                <Navigate to="/auth" />
+            ) : (
+                <div className={`app-container ${theme}`}>
+                    <LeftMenu 
+                        theme={theme} 
+                        setTheme={setTheme} 
+                        isAuthenticated={isAuthenticated} 
+                        setIsAuthenticated={setIsAuthenticated} 
+                        setDisplayedPage={setDisplayedPage} 
+                    />
+                    <div className="content-container">
+                        {displayedPage === "home" && (
+                            <HomePage 
+                                theme={theme}
+                                setTheme={setTheme}
+                                isAuthenticated={isAuthenticated}
+                                authUser={authUser}
+                                setIsAuthenticated={setIsAuthenticated}
+                                setDisplayedPage={setDisplayedPage}
+                                selectedPetImage={selectedPetImage.current}
+                                completedTasksList={completedTasksList}
+                                uncompletedTasksList={uncompletedTasksList}
+                                completedTasksCount={completedTasksCount}
+                                uncompletedTasksCount={uncompletedTasksCount}
+                                removeTaskFromListOnCompleted={removeTaskFromListOnCompleted}
+                                removeTaskFromListOnDeletion={removeTaskFromListOnDeletion}
+                                diminishUncompletedTasksCount={diminishUncompletedTasksCount}
+                                diminishCompletedTasksCount={diminishCompletedTasksCount}
+                                increaseCompletedTasksCount={increaseCompletedTasksCount}
+                            />
+                        )}
+                        {displayedPage === "create" && (
+                            <CreateTaskPage 
+                                onData={handleDataFromChild} 
+                                userId={authUser?._id}
+                                increaseUncompletedTasksCount={increaseUncompletedTasksCount}
+                            />
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
+    
 }
 
 export default AppView;
