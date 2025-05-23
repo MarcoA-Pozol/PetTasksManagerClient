@@ -195,6 +195,8 @@ const AppView = () => {
                             <CreateTaskPage 
                                 onData={handleDataFromChild} 
                                 userId={authUser?._id}
+                                uncompletedTasksList={uncompletedTasksList}
+                                setUncompletedTasksList={setUncompletedTasksList}
                                 increaseUncompletedTasksCount={increaseUncompletedTasksCount}
                             />
                         )}

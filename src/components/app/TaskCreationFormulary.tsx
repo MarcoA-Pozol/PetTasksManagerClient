@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useState, useRef, useEffect } from "react";
 import { TaskInterfaceTwo, TaskCreationFormularyProps } from "../../schemas/Task";
 
-const TaskCreationFormulary = ({onData, userId, increaseUncompletedTasksCount}: TaskCreationFormularyProps) => {
+const TaskCreationFormulary = ({onData, userId, increaseUncompletedTasksCount, setUncompletedTasksList}: TaskCreationFormularyProps) => {
     
     const { t } = useTranslation();
     
