@@ -47,7 +47,9 @@ export default function TaskCard({ title, status, themeMode, taskId, onComplete,
 
     return (
         <div className={`task-card ${status} ${themeMode}`}>
-            <button onClick={deleteTask} className="rounded-btn delete-btn">✘</button>
+            <div className='delete-btn-container'>
+                <button onClick={deleteTask} className="rounded-btn delete-btn">✘</button>
+            </div>
             <h3 className="task-title">{title}</h3>
             <button onClick={setTaskAsCompleted} className={`${completeTaskButtonClass}`}>✔</button>
         </div>
