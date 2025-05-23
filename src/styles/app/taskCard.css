@@ -74,16 +74,31 @@
   background: #341075;
 }
 
+
 .delete-btn {
-  left: -20%;
+  position: static;
   background: transparent;
   color: transparent;
 }
-.delete-btn:hover {
+
+.delete-btn-container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 110px;
+  right: 87%;
+  top: 3%;
+}
+
+.delete-btn-container:hover > .delete-btn {
   background: #a80909;
   color: white;
 }
-  
+
+
+
 
 /* Temporary Messages */
 .temporary-message {

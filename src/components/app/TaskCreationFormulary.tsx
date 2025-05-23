@@ -1,15 +1,26 @@
 import "../../styles/app/taskCreationFormulary.css";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { TaskInterfaceTwo, TaskCreationFormularyProps } from "../../schemas/Task";
 
 const TaskCreationFormulary = ({onData, userId}: TaskCreationFormularyProps) => {
     
     const { t } = useTranslation();
+    
     const [title, setTitle] = useState("");
+    const titleElementRef = useRef<HTMLInputElement>(null);
+
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [showWarningMessage, setShowWarningMessage] = useState(false);
+
+
+    
+    useEffect(() => {
+        //Place cursor in text area just after load page
+        if(titleElementRef.current) titleElementRef.current.focus(); 
+    }, []);
+
 
 
     //Create new task on form submision
@@ -60,13 +71,17 @@ const TaskCreationFormulary = ({onData, userId}: TaskCreationFormularyProps) => 
                 setShowErrorMessage(false);
             }, 2000);
         }
+
+        //Re-place cursor in text area after submiting
+        if (titleElementRef.current) titleElementRef.current.focus(); 
     };
+    
 
     return (
         <>
             <form className={`create-task-form`} onSubmit={handleFormSubmision}>
                 <h2>{t("Create a Task")}</h2>
-                <input type="text" placeholder={t("Title")} value={title} onChange={(e) => setTitle(e.target.value)}></input>
+                <input type="text" placeholder={t("Title")} ref={titleElementRef} value={title} onChange={(e) => setTitle(e.target.value)}></input>
                 <button type="submit">{t("Create")}</button>
                 
                 {showSuccessMessage && (

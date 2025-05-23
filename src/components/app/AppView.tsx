@@ -7,12 +7,15 @@ import LeftMenu from "./LeftMenu";
 import { TaskCreationInterface } from "../../schemas/Task";
 import { TaskInterface } from "../../schemas/Task";
 // Pet images
-import skin1 from "../../assets/skin1nb.png";
-import skin2 from "../../assets/login_bg_img.png";
-import skin3 from "../../assets/login_stain_img.png";
+
+//load all from dir (as json objects) 
+const petImages = import.meta.glob('../../assets/pet/*.png', {eager: true}) as Record<string, {default: string}>;
+
+//where 'default' is type string json attribute containing image path (print petImages in console if hard to understand)
+const petImagesPaths = Object.values(petImages).map(image => image.default); 
+
 
 const AppView = () => {
-    const petImages = [skin1, skin2, skin3]; 
     const [theme, setTheme] = useState("light");
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const location = useLocation();
@@ -27,8 +30,8 @@ const AppView = () => {
     
 
     // Pick one random pet image
-    const randomImageIndex = Math.floor(Math.random() * petImages.length);
-    const selectedPetImage = useRef(petImages[randomImageIndex]); 
+    const randomImageIndex = Math.floor(Math.random() * petImagesPaths.length);
+    const selectedPetImage = useRef(petImagesPaths[randomImageIndex]);
 
     const handleDataFromChild = (data: any) => {
         const createdTask: TaskCreationInterface = data;
