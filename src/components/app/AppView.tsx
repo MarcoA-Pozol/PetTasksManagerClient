@@ -9,11 +9,16 @@ import { TaskInterface } from "../../schemas/Task";
 // Pet images
 
 //load all from dir (as json objects) 
-const petImages = import.meta.glob('../../assets/pet/*.png', {eager: true}) as Record<string, {default: string}>;
+const badPetImages = import.meta.glob('../../assets/pet/bad/*.png', {eager: true}) as Record<string, {default: string}>;
+const notBadPetImages = import.meta.glob('../../assets/pet/not_bad/*.png', {eager: true}) as Record<string, {default: string}>;
+const goodPetImages = import.meta.glob('../../assets/pet/good/*.png', {eager: true}) as Record<string, {default: string}>;
+const perfectPetImages = import.meta.glob('../../assets/pet/perfect/*.png', {eager: true}) as Record<string, {default: string}>;
 
 //where 'default' is type string json attribute containing image path (print petImages in console if hard to understand)
-const petImagesPaths = Object.values(petImages).map(image => image.default); 
-
+const badPetImagesPaths = Object.values(badPetImages).map(image => image.default); 
+const notBadPetImagesPaths = Object.values(notBadPetImages).map(image => image.default);
+const goodPetImagesPaths = Object.values(goodPetImages).map(image => image.default);
+const perfectPetImagesPaths = Object.values(perfectPetImages).map(image => image.default);
 
 const AppView = () => {
     const [theme, setTheme] = useState("light");
@@ -21,6 +26,7 @@ const AppView = () => {
     const location = useLocation();
     const [authUser, setAuthUser] = useState<any>(null);
     const [displayedPage, setDisplayedPage] = useState("home");
+    const [completedTasksPercentage, setCompletedTasksPercentage] = useState<number>(45);
     // Tasks
     const [uncompletedTasksList, setUncompletedTasksList] = useState<TaskInterface[]>([]);
     const [completedTasksList, setCompletedTasksList] = useState<TaskInterface[]>([]);
@@ -30,8 +36,21 @@ const AppView = () => {
     
 
     // Pick one random pet image
-    const randomImageIndex = Math.floor(Math.random() * petImagesPaths.length);
-    const selectedPetImage = useRef(petImagesPaths[randomImageIndex]);
+    const randomImageIndex = Math.floor(Math.random() * 2);
+    const selectedPetImage = useRef<string>("");
+
+    if (completedTasksPercentage < 40) {
+        selectedPetImage.current = badPetImagesPaths[randomImageIndex];
+    }
+    else if (completedTasksPercentage < 70 && completedTasksPercentage >= 40) {
+        selectedPetImage.current = notBadPetImagesPaths[randomImageIndex];
+    }
+    else if (completedTasksPercentage < 90 && completedTasksPercentage >= 70) {
+        selectedPetImage.current = goodPetImagesPaths[randomImageIndex];
+    }
+    else if (completedTasksPercentage >= 90) {
+        selectedPetImage.current = perfectPetImagesPaths[randomImageIndex];
+    }
 
     const handleDataFromChild = (data: any) => {
         const createdTask: TaskCreationInterface = data;
