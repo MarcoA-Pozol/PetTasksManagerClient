@@ -13,6 +13,7 @@ const TaskCreationFormulary = ({onData, userId, increaseUncompletedTasksCount, a
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [showWarningMessage, setShowWarningMessage] = useState(false);
+    const [showTaskAlradyExistsMessage, setShowTaskAlraedyExistsMessage] = useState(false);
 
 
     
@@ -41,6 +42,16 @@ const TaskCreationFormulary = ({onData, userId, increaseUncompletedTasksCount, a
                     credentials: 'include'
                 });
                 
+                if (!response.ok) {
+                    console.error("Failed to create task");
+                    setTitle("");
+                    setShowTaskAlraedyExistsMessage(true);
+                    setTimeout(() => {
+                        setShowTaskAlraedyExistsMessage(false);
+                    }, 2000);
+                    return;
+                }
+
                 const data = await response.json();
 
                 console.log("Task created on server: ", data);
@@ -111,6 +122,12 @@ const TaskCreationFormulary = ({onData, userId, increaseUncompletedTasksCount, a
                 {showErrorMessage && (
                 <div style={{backgroundColor:"#af4c4c"}} className="temporary-message">
                     {t("Error while creating task")}
+                </div>
+                )}
+
+                {showTaskAlradyExistsMessage && (
+                <div style={{backgroundColor:"rgb(202, 81, 1)"}} className="temporary-message">
+                    {t("Task already exists")}
                 </div>
                 )}
             </form>
