@@ -22,8 +22,8 @@ export interface CreateTaskPageProps {
     onData: (task: TaskCreationInterface) => void;
     userId: string;
     uncompletedTasksList: TaskInterface[];
-    setUncompletedTasksList: React.Dispatch<React.SetStateAction<TaskInterface[]>>;
     increaseUncompletedTasksCount: () => void;
+    addTaskToUncompletedTasksList: (task: TaskInterface) => void;
 }
 
 export interface TasksContainerProps {
@@ -48,6 +48,6 @@ export interface TaskCreationFormularyProps{
     onData: (task: TaskInterfaceTwo) => void;
     userId: string;
     uncompletedTasksList: TaskInterface[];
-    setUncompletedTasksList: React.Dispatch<React.SetStateAction<TaskInterface[]>>;
     increaseUncompletedTasksCount: () => void;
+    addTaskToUncompletedTasksList: (task: TaskInterface) => void;
 }

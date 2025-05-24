@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useState, useRef, useEffect } from "react";
 import { TaskInterfaceTwo, TaskCreationFormularyProps } from "../../schemas/Task";
 
-const TaskCreationFormulary = ({onData, userId, increaseUncompletedTasksCount, setUncompletedTasksList}: TaskCreationFormularyProps) => {
+const TaskCreationFormulary = ({onData, userId, increaseUncompletedTasksCount, addTaskToUncompletedTasksList}: TaskCreationFormularyProps) => {
     
     const { t } = useTranslation();
     
@@ -40,9 +40,18 @@ const TaskCreationFormulary = ({onData, userId, increaseUncompletedTasksCount, s
                     body: JSON.stringify(newTask),
                     credentials: 'include'
                 });
+                
+                const data = await response.json();
+
+                console.log("Task created on server: ", data);
     
-                console.log("Task created on server: ", await response.json());
-    
+                const task = data.request_body;
+
+                console.log("Task added to uncompleted tasks list: ", task);
+
+                // Add task to uncompleted tasks list
+                addTaskToUncompletedTasksList(task);
+
                 //Return data to parent
                 onData(newTask);
 

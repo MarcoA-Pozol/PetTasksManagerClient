@@ -97,6 +97,16 @@ const AppView = () => {
         fetchCards();
     }, [authUser?._id]); // Wait for authUser._id before fetching cards to avoid double call
 
+    const addTaskToUncompletedTasksList = (task: TaskInterface) => {
+        /* 
+            Add task to uncompleted tasks list when user creates a new task.
+            Task is obtained from the json object accessing to json.tasks property.
+            Task object include keys like _id, name and isCompleted. 
+        */
+       setUncompletedTasksList(prev => prev.concat({ _id: task._id, name: task.name, status: "to-do" }));
+       // setUncompletedTasksCount(prev => prev + 1);
+    }
+
     const removeTaskFromListOnDeletion = (taskId: string, status: string) => {
 
         //If it was completed task
@@ -196,8 +206,8 @@ const AppView = () => {
                                 onData={handleDataFromChild} 
                                 userId={authUser?._id}
                                 uncompletedTasksList={uncompletedTasksList}
-                                setUncompletedTasksList={setUncompletedTasksList}
                                 increaseUncompletedTasksCount={increaseUncompletedTasksCount}
+                                addTaskToUncompletedTasksList={addTaskToUncompletedTasksList}
                             />
                         )}
                     </div>
