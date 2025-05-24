@@ -2,12 +2,12 @@ import { useTranslation } from "react-i18next";
 import "../../../i18n";
 import { PetContainerProps } from "../../schemas/PetContainer";
 
-const PetContainer = ({authUser, theme, uncompletedTasksCount, completedTasksCount, selectedPetImage, setCompletedTasksPercentage}: PetContainerProps) => {
+const PetContainer = ({authUser, theme, uncompletedTasksCount, completedTasksCount, selectedPetImage, completedTasksPercentage}: PetContainerProps) => {
     const { t } = useTranslation();
     const totalTasks = completedTasksCount + uncompletedTasksCount;
 
     const completedPercentage = totalTasks > 0 ? Math.floor((completedTasksCount / totalTasks) * 100) : 100; 
-    setCompletedTasksPercentage(completedPercentage);
+    completedTasksPercentage.current = completedPercentage;
 
     return (
         <div className={`right-content rounded-border ${theme}`}>

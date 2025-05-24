@@ -26,7 +26,7 @@ const AppView = () => {
     const location = useLocation();
     const [authUser, setAuthUser] = useState<any>(null);
     const [displayedPage, setDisplayedPage] = useState("home");
-    const [completedTasksPercentage, setCompletedTasksPercentage] = useState<number>(45);
+    const completedTasksPercentage = useRef<number>(0);
     // Tasks
     const [uncompletedTasksList, setUncompletedTasksList] = useState<TaskInterface[]>([]);
     const [completedTasksList, setCompletedTasksList] = useState<TaskInterface[]>([]);
@@ -39,16 +39,16 @@ const AppView = () => {
     const randomImageIndex = Math.floor(Math.random() * 2);
     const selectedPetImage = useRef<string>("");
 
-    if (completedTasksPercentage < 40) {
+    if (completedTasksPercentage.current < 40) {
         selectedPetImage.current = badPetImagesPaths[randomImageIndex];
     }
-    else if (completedTasksPercentage < 70 && completedTasksPercentage >= 40) {
+    else if (completedTasksPercentage.current < 70 && completedTasksPercentage.current >= 40) {
         selectedPetImage.current = notBadPetImagesPaths[randomImageIndex];
     }
-    else if (completedTasksPercentage < 90 && completedTasksPercentage >= 70) {
+    else if (completedTasksPercentage.current < 90 && completedTasksPercentage.current >= 70) {
         selectedPetImage.current = goodPetImagesPaths[randomImageIndex];
     }
-    else if (completedTasksPercentage >= 90) {
+    else if (completedTasksPercentage.current >= 90) {
         selectedPetImage.current = perfectPetImagesPaths[randomImageIndex];
     }
 
@@ -218,7 +218,7 @@ const AppView = () => {
                                 diminishUncompletedTasksCount={diminishUncompletedTasksCount}
                                 diminishCompletedTasksCount={diminishCompletedTasksCount}
                                 increaseCompletedTasksCount={increaseCompletedTasksCount}
-                                setCompletedTasksPercentage={setCompletedTasksPercentage}
+                                completedTasksPercentage={completedTasksPercentage}
                             />
                         )}
                         {displayedPage === "create" && (

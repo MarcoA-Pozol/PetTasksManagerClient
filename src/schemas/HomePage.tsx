@@ -17,5 +17,5 @@ export interface HomePageProps {
     diminishUncompletedTasksCount: () => void;
     diminishCompletedTasksCount: () => void;
     increaseCompletedTasksCount: () => void;
-    setCompletedTasksPercentage: React.Dispatch<React.SetStateAction<number>>;
+    completedTasksPercentage: React.MutableRefObject<number>;
 }
