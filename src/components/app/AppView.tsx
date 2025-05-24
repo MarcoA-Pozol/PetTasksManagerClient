@@ -27,6 +27,7 @@ const AppView = () => {
     const [authUser, setAuthUser] = useState<any>(null);
     const [displayedPage, setDisplayedPage] = useState("home");
     const completedTasksPercentage = useRef<number>(0);
+    const selectedPetImage = useRef<string>("");
     // Tasks
     const [uncompletedTasksList, setUncompletedTasksList] = useState<TaskInterface[]>([]);
     const [completedTasksList, setCompletedTasksList] = useState<TaskInterface[]>([]);
@@ -36,21 +37,25 @@ const AppView = () => {
     
 
     // Pick one random pet image
-    const randomImageIndex = Math.floor(Math.random() * 2);
-    const selectedPetImage = useRef<string>("");
+    useEffect(() => {
+        /*
+            Effect to update pet image only when completion percentage changes
+        */
+        const randomImageIndex = Math.floor(Math.random() * 2);
 
-    if (completedTasksPercentage.current < 40) {
-        selectedPetImage.current = badPetImagesPaths[randomImageIndex];
-    }
-    else if (completedTasksPercentage.current < 70 && completedTasksPercentage.current >= 40) {
-        selectedPetImage.current = notBadPetImagesPaths[randomImageIndex];
-    }
-    else if (completedTasksPercentage.current < 90 && completedTasksPercentage.current >= 70) {
-        selectedPetImage.current = goodPetImagesPaths[randomImageIndex];
-    }
-    else if (completedTasksPercentage.current >= 90) {
-        selectedPetImage.current = perfectPetImagesPaths[randomImageIndex];
-    }
+        if (completedTasksPercentage.current < 40) {
+            selectedPetImage.current = badPetImagesPaths[randomImageIndex];
+        }
+        else if (completedTasksPercentage.current < 70 && completedTasksPercentage.current >= 40) {
+            selectedPetImage.current = notBadPetImagesPaths[randomImageIndex];
+        }
+        else if (completedTasksPercentage.current < 90 && completedTasksPercentage.current >= 70) {
+            selectedPetImage.current = goodPetImagesPaths[randomImageIndex];
+        }
+        else if (completedTasksPercentage.current >= 90) {
+            selectedPetImage.current = perfectPetImagesPaths[randomImageIndex];
+        }
+    }, [completedTasksCount, uncompletedTasksCount]);
 
     const handleDataFromChild = (data: any) => {
         const createdTask: TaskCreationInterface = data;
