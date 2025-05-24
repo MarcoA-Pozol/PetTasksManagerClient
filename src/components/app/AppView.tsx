@@ -218,6 +218,7 @@ const AppView = () => {
                                 diminishUncompletedTasksCount={diminishUncompletedTasksCount}
                                 diminishCompletedTasksCount={diminishCompletedTasksCount}
                                 increaseCompletedTasksCount={increaseCompletedTasksCount}
+                                setCompletedTasksPercentage={setCompletedTasksPercentage}
                             />
                         )}
                         {displayedPage === "create" && (

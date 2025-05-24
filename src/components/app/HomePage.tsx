@@ -2,12 +2,12 @@ import TasksContainer from "./TasksContainer";
 import PetContainer from "./PetContainer";
 import { HomePageProps } from "../../schemas/HomePage";
 
-const HomePage = ({theme, authUser, selectedPetImage, removeTaskFromListOnCompleted, removeTaskFromListOnDeletion, diminishUncompletedTasksCount, diminishCompletedTasksCount, increaseCompletedTasksCount, completedTasksList, uncompletedTasksList, completedTasksCount, uncompletedTasksCount}:HomePageProps) => {
+const HomePage = ({theme, authUser, selectedPetImage, removeTaskFromListOnCompleted, removeTaskFromListOnDeletion, diminishUncompletedTasksCount, diminishCompletedTasksCount, increaseCompletedTasksCount, completedTasksList, uncompletedTasksList, completedTasksCount, uncompletedTasksCount, setCompletedTasksPercentage}:HomePageProps) => {
 
     return (
         <>
             <TasksContainer theme={theme} authUser={authUser} uncompletedTasksList={uncompletedTasksList} completedTasksList={completedTasksList} removeTaskFromListOnDeletion={removeTaskFromListOnDeletion} removeTaskFromListOnCompleted={removeTaskFromListOnCompleted} diminishUncompletedTasksCount={diminishUncompletedTasksCount} diminishCompletedTasksCount={diminishCompletedTasksCount} increaseCompletedTasksCount={increaseCompletedTasksCount}/>
-            <PetContainer authUser={authUser} theme={theme} uncompletedTasksCount={uncompletedTasksCount} completedTasksCount={completedTasksCount} selectedPetImage={selectedPetImage}/>
+            <PetContainer authUser={authUser} theme={theme} uncompletedTasksCount={uncompletedTasksCount} completedTasksCount={completedTasksCount} selectedPetImage={selectedPetImage} setCompletedTasksPercentage={setCompletedTasksPercentage}/>
         </>
     );
 }
