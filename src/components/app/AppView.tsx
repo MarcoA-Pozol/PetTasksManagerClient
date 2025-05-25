@@ -22,6 +22,11 @@ const perfectPetImagesPaths = Object.values(perfectPetImages).map(image => image
 
 const AppView = () => {
     const [theme, setTheme] = useState("light");
+    useEffect(() => {
+        const root = document.documentElement; // or document.body if you prefer
+        root.classList.remove("light", "dark");
+        root.classList.add(theme);
+      }, [theme]);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const location = useLocation();
     const [authUser, setAuthUser] = useState<any>(null);
