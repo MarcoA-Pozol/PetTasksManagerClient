@@ -6,7 +6,7 @@ const PetContainer = ({authUser, theme, uncompletedTasksCount, completedTasksCou
     const { t } = useTranslation();
     const totalTasks = completedTasksCount + uncompletedTasksCount;
 
-    const completedPercentage = totalTasks > 0 ? Math.floor((completedTasksCount / totalTasks) * 100) : 100; 
+    const completedPercentage = totalTasks > 0 ? Math.floor((completedTasksCount / totalTasks) * 100) : 0; 
     completedTasksPercentage.current = completedPercentage;
 
     return (

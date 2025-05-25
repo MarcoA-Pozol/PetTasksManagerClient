@@ -7,7 +7,7 @@ const HomePage = ({theme, authUser, selectedPetImage, removeTaskFromListOnComple
     return (
         <>
             <TasksContainer theme={theme} authUser={authUser} uncompletedTasksList={uncompletedTasksList} completedTasksList={completedTasksList} removeTaskFromListOnDeletion={removeTaskFromListOnDeletion} removeTaskFromListOnCompleted={removeTaskFromListOnCompleted} diminishUncompletedTasksCount={diminishUncompletedTasksCount} diminishCompletedTasksCount={diminishCompletedTasksCount} increaseCompletedTasksCount={increaseCompletedTasksCount}/>
-            <PetContainer authUser={authUser} theme={theme} uncompletedTasksCount={uncompletedTasksCount} completedTasksCount={completedTasksCount} selectedPetImage={selectedPetImage} completedTasksPercentage={completedTasksPercentage}/>
+            <PetContainer authUser={authUser} theme={theme} completedTasksPercentage={completedTasksPercentage} uncompletedTasksCount={uncompletedTasksCount} completedTasksCount={completedTasksCount} selectedPetImage={selectedPetImage}/>
         </>
     );
 }
