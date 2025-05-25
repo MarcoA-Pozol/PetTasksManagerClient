@@ -64,7 +64,7 @@ const AppView = () => {
 
     // Get user's session theme
     useEffect(() => {
-        const storedTheme = sessionStorage.getItem("theme");
+        const storedTheme = localStorage.getItem("theme");
         if (storedTheme) {
             setTheme(storedTheme);
         }

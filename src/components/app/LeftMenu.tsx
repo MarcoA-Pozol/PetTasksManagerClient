@@ -17,7 +17,7 @@ const LeftMenu = ({theme, setTheme, setIsAuthenticated, setDisplayedPage}: LeftM
 
     const toggleTheme = () => {
         setTheme(theme === "light" ? "dark" : "light");
-        sessionStorage.setItem("theme", theme === "light" ? "dark" : "light");
+        localStorage.setItem("theme", theme === "light" ? "dark" : "light");
     };
 
     const handleLogout = async () => {
