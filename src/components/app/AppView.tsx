@@ -62,6 +62,14 @@ const AppView = () => {
         console.log("Data received from child component on app view parent one -> created task: ", createdTask);
     }
 
+    // Get user's session theme
+    useEffect(() => {
+        const storedTheme = sessionStorage.getItem("theme");
+        if (storedTheme) {
+            setTheme(storedTheme);
+        }
+    }, []);
+
     // Authentication check
     useEffect(() => {
         const checkAuth = async () => {
