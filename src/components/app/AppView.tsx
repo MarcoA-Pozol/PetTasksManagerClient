@@ -27,7 +27,7 @@ const AppView = () => {
     const [authUser, setAuthUser] = useState<any>(null);
     const [displayedPage, setDisplayedPage] = useState("home");
     const completedTasksPercentage = useRef<number>(0);
-    const selectedPetImage = useRef<string>("");
+    const [selectedPetImage, setSelectedPetImage] = useState<string>("");
     // Tasks
     const [uncompletedTasksList, setUncompletedTasksList] = useState<TaskInterface[]>([]);
     const [completedTasksList, setCompletedTasksList] = useState<TaskInterface[]>([]);
@@ -44,16 +44,16 @@ const AppView = () => {
         const randomImageIndex = Math.floor(Math.random() * 2);
 
         if (completedTasksPercentage.current < 40) {
-            selectedPetImage.current = badPetImagesPaths[randomImageIndex];
+            setSelectedPetImage(badPetImagesPaths[randomImageIndex]);
         }
         else if (completedTasksPercentage.current < 70 && completedTasksPercentage.current >= 40) {
-            selectedPetImage.current = notBadPetImagesPaths[randomImageIndex];
+            setSelectedPetImage(notBadPetImagesPaths[randomImageIndex]);
         }
         else if (completedTasksPercentage.current < 90 && completedTasksPercentage.current >= 70) {
-            selectedPetImage.current = goodPetImagesPaths[randomImageIndex];
+            setSelectedPetImage(goodPetImagesPaths[randomImageIndex]);
         }
         else if (completedTasksPercentage.current >= 90) {
-            selectedPetImage.current = perfectPetImagesPaths[randomImageIndex];
+            setSelectedPetImage(perfectPetImagesPaths[randomImageIndex]);
         }
     }, [completedTasksCount, uncompletedTasksCount]);
 
@@ -213,7 +213,7 @@ const AppView = () => {
                                 authUser={authUser}
                                 setIsAuthenticated={setIsAuthenticated}
                                 setDisplayedPage={setDisplayedPage}
-                                selectedPetImage={selectedPetImage.current}
+                                selectedPetImage={selectedPetImage}
                                 completedTasksList={completedTasksList}
                                 uncompletedTasksList={uncompletedTasksList}
                                 completedTasksCount={completedTasksCount}
