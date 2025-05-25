@@ -1,10 +1,14 @@
 {
     "Completed": "Concluído",
     "To do": "Pendência",
+    "Done": "Feito",
     "Create a Task": "Crie uma Tarefa",
     "Title": "Título",
     "Create": "Criar",
     "Task created": "Tarefa criada",
     "Fill all fields": "Preencha todos os campos",
-    "Error while creating task": "Erro ao criar a tarefa"
+    "Error while creating task": "Erro ao criar a tarefa",
+    "Free of tasks": "Livre de tarefas",
+    "Nothing here": "Nada aqui",
+    "Task already exists": "A tarefa já existe"
 }

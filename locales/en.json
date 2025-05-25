@@ -1,10 +1,14 @@
 {
     "Completed": "Completed",
     "To do": "To do",
+    "Done": "Done",
     "Create a Task": "Create a Task",
     "Title": "Title",
     "Create": "Create",
     "Task created": "Task created",
     "Fill all fields": "Fill all fields",
-    "Error while creating task": "Error while creating a task"
+    "Error while creating task": "Error while creating a task",
+    "Free of tasks": "Free of tasks",
+    "Nothing here": "Nothing here",
+    "Task already exists": "Task already exists"
 }

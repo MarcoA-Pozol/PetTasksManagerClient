@@ -1,10 +1,14 @@
 {
     "Completed": "完了しました",
     "To do": "やること",
+    "Done": "終わり",
     "Create a Task": "タスクを作成する",
     "Title": "タイトル",
     "Create": "作成する",
     "Task created": "タスクが作成されました",
     "Fill all fields": "すべてのフィールドを入力してください",
-    "Error while creating task": "タスク作成中にエラーが発生しました"
+    "Error while creating task": "タスク作成中にエラーが発生しました",
+    "Free of tasks": "タスクから解放される",
+    "Nothing here": "ここには何もありません",
+    "Task already exists": "タスクはすでに存在します"
 }

@@ -1,10 +1,14 @@
 {
     "Completed": "完全的",
     "To do": "要做的事",
+    "Done": "完毕",
     "Create a Task": "创建任务",
     "Title": "标题",
     "Create": "创造",
     "Task created": "任务已创建",
     "Fill all fields": "填写所有字段",
-    "Error while creating task": "创建任务时出错"
+    "Error while creating task": "创建任务时出错",
+    "Free of tasks": "无任务",
+    "Nothing here": "这里什么都没有",
+    "Task already exists": "任务已存在"
 }
