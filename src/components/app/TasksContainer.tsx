@@ -1,8 +1,10 @@
 import TaskCard from "./TaskCard";
 import { TasksContainerProps } from "../../schemas/Task";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, removeTaskFromListOnCompleted, removeTaskFromListOnDeletion, diminishUncompletedTasksCount, diminishCompletedTasksCount, increaseCompletedTasksCount}:TasksContainerProps) => {
+    const { t } = useTranslation();
     const [currentExtendedContainer, setCurrentExtendedContainer] = useState("to-do");
     const [uncompletedTskCtnStyle, setUncompletedTskCtnStyle] = useState("etd-tsk-ctn");
     const [completedTskCtnStyle, setCompletedTskCtnStyle] = useState("cps-tsk-ctn");
@@ -25,9 +27,9 @@ const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, remove
     return (
         <div className="middle-content">
             <div className={`uncompleted-tasks-container ${uncompletedTskCtnStyle}`}>
-                <span className="tasks-separator" onClick={() => toggleTaskContainers("to-do")} style={{backgroundColor:"rgb(104, 37, 180)"}}>To do</span>
+                <span className="tasks-separator" onClick={() => toggleTaskContainers("to-do")} style={{backgroundColor:"rgb(104, 37, 180)"}}>{t("To do")}</span>
                 {uncompletedTasksList.length === 0 ? (
-                    <p style={{textAlign:"center", marginTop:"30px"}}>Free of tasks!</p> //If no uncompleted tasks...
+                    <p style={{textAlign:"center", marginTop:"30px"}}>{t("Free of tasks")}!</p> //If no uncompleted tasks...
                 ) : (
                     uncompletedTasksList.map((task) => (
                         <TaskCard
@@ -44,9 +46,9 @@ const TasksContainer = ({theme, completedTasksList, uncompletedTasksList, remove
             </div>
 
             <div className={`completed-tasks-container ${completedTskCtnStyle}`}>
-                <span className="tasks-separator" onClick={() => toggleTaskContainers("done")}  style={{backgroundColor:"rgb(11, 151, 11)"}}>Done</span>
+                <span className="tasks-separator" onClick={() => toggleTaskContainers("done")}  style={{backgroundColor:"rgb(11, 151, 11)"}}>{t("Done")}</span>
                 {completedTasksList.length === 0 ? (
-                    <p style={{textAlign:"center", marginTop:"30px"}}>Nothing here</p> //If no completed tasks...
+                    <p style={{textAlign:"center", marginTop:"30px"}}>{t("Nothing here")}</p> //If no completed tasks...
                 ) : (
                     completedTasksList.map((task) => (
                         <TaskCard
