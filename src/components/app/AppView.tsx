@@ -46,7 +46,7 @@ const AppView = () => {
         /*
             Effect to update pet image only when completion percentage changes
         */
-        const randomImageIndex = Math.floor(Math.random() * 2);
+        const randomImageIndex = Math.floor(Math.random() * 3);
 
         if (completedTasksPercentage.current < 40) {
             setSelectedPetImage(badPetImagesPaths[randomImageIndex]);
