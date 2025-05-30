@@ -21,6 +21,13 @@ const goodPetImagesPaths = Object.values(goodPetImages).map(image => image.defau
 const perfectPetImagesPaths = Object.values(perfectPetImages).map(image => image.default);
 
 const AppView = () => {
+    const location = useLocation();
+    
+
+    //Access Token
+    const accessToken = location.state?.accessToken;
+    
+
     const [theme, setTheme] = useState("light");
     useEffect(() => {
         const root = document.documentElement; // or document.body if you prefer
@@ -28,11 +35,11 @@ const AppView = () => {
         root.classList.add(theme);
       }, [theme]);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-    const location = useLocation();
     const [authUser, setAuthUser] = useState<any>(null);
     const [displayedPage, setDisplayedPage] = useState("home");
     const completedTasksPercentage = useRef<number>(0);
     const [selectedPetImage, setSelectedPetImage] = useState<string>("");
+
     // Tasks
     const [uncompletedTasksList, setUncompletedTasksList] = useState<TaskInterface[]>([]);
     const [completedTasksList, setCompletedTasksList] = useState<TaskInterface[]>([]);
@@ -79,22 +86,27 @@ const AppView = () => {
     useEffect(() => {
 
         const refresh = async () => {
-            
-            const response = await fetch('http://localhost:5000/auth/refresh', {
-                method: 'POST',
-                credentials: 'include'
-            });
+            try {
 
-            if(response.ok) console.log(response.json());
-        }
-
-        refresh();
+                const response = await fetch('http://localhost:5000/auth/refresh', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+    
+                if(response.ok) {
+                    console.log(await response.json());
+                }
+                
+            } catch (err) {
+                console.error("Error while hitting refresh auth endpoint: ", err);
+            }
+        };
 
         const checkAuth = async () => {
             try {
                 const response = await fetch('http://localhost:5000/auth/check', {
                     method: 'GET',
-                    credentials: 'include',
+                    headers: {authorization: accessToken},
                 });
                 if (response.ok) {
                     setIsAuthenticated(true);
@@ -109,7 +121,8 @@ const AppView = () => {
             }
         };
 
-        //checkAuth();
+        //refresh();
+        checkAuth();
     }, []);
 
     // Function: Fetch user's tasks
