@@ -77,6 +77,19 @@ const AppView = () => {
 
     // Authentication check
     useEffect(() => {
+
+        const refresh = async () => {
+            
+            const response = await fetch('http://localhost:5000/auth/refresh', {
+                method: 'POST',
+                credentials: 'include'
+            });
+
+            if(response.ok) console.log(response.json());
+        }
+
+        refresh();
+
         const checkAuth = async () => {
             try {
                 const response = await fetch('http://localhost:5000/auth/check', {
@@ -96,7 +109,7 @@ const AppView = () => {
             }
         };
 
-        checkAuth();
+        //checkAuth();
     }, []);
 
     // Function: Fetch user's tasks
