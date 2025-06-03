@@ -3,6 +3,7 @@ import "../../styles/app/appView.css";
 import { Navigate, useLocation } from "react-router-dom";
 import HomePage from "./HomePage";
 import CreateTaskPage from "./CreateTaskPage";
+import EmailVerificationForm from "../auth/EmailVerificationForm";
 import LeftMenu from "./LeftMenu";
 import { TaskCreationInterface } from "../../schemas/Task";
 import { TaskInterface } from "../../schemas/Task";
@@ -23,10 +24,11 @@ const perfectPetImagesPaths = Object.values(perfectPetImages).map(image => image
 const AppView = () => {
     const [theme, setTheme] = useState("light");
     useEffect(() => {
-        const root = document.documentElement; // or document.body if you prefer
+        const root = document.documentElement; 
         root.classList.remove("light", "dark");
         root.classList.add(theme);
       }, [theme]);
+    const [isEmailVerified, setIsEmailVerified] = useState<boolean | null>(false); 
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const location = useLocation();
     const [authUser, setAuthUser] = useState<any>(null);
@@ -202,8 +204,14 @@ const AppView = () => {
        setUncompletedTasksCount(uncompletedTasksCount + 1);
     }
 
-    return (
+    if (!isEmailVerified) return (
         <>
+            <EmailVerificationForm/>
+        </>
+    );
+
+    return (
+        <> 
             {isAuthenticated === null ? (
                 <div>Loading...</div> // or a spinner
             ) : !isAuthenticated && location.pathname !== "/auth" ? (
