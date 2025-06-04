@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
+import { EmailVerificationFormProps } from "../../schemas/EmailVerificationForm";
 
-const EmailVerificationForm = () => {
+const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) => {
     const [verificationCode, setVerificationCode] = useState<string>("");
     const verificationCodeElementRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
@@ -35,6 +36,7 @@ const EmailVerificationForm = () => {
         }
 
         console.log("Email verified successfully");
+        setIsEmailVerified(true);
         <Navigate to="/" />
     }
 

@@ -206,7 +206,7 @@ const AppView = () => {
 
     if (isAuthenticated && !isEmailVerified) return (
         <>
-            <EmailVerificationForm/>
+            <EmailVerificationForm setIsEmailVerified={setIsEmailVerified}/>
         </>
     );
 
