@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
 import { EmailVerificationFormProps } from "../../schemas/EmailVerificationForm";
+import { sendEmailVerificationCode } from "../../utils/sendEmailVerificationCode";
 
 const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) => {
     const [verificationCode, setVerificationCode] = useState<string>("");
@@ -54,6 +55,7 @@ const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) 
                 </label>
                 <button type="submit">{t("Submit")}</button>
             </form>
+            <p>Didn't receive the code? <b onClick={sendEmailVerificationCode} style={{cursor:"pointer"}}>Resend code</b></p>
         </>
     );
 }
