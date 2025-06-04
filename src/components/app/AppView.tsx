@@ -204,7 +204,7 @@ const AppView = () => {
        setUncompletedTasksCount(uncompletedTasksCount + 1);
     }
 
-    if (!isEmailVerified) return (
+    if (isAuthenticated && !isEmailVerified) return (
         <>
             <EmailVerificationForm/>
         </>
