@@ -9,8 +9,8 @@ const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) 
     const verificationCodeElementRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
 
+    //Place cursor in text area just after load page
     useEffect(() => {
-            //Place cursor in text area just after load page
             if(verificationCodeElementRef.current) verificationCodeElementRef.current.focus(); 
     }, []);
 
