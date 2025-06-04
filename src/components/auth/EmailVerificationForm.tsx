@@ -19,10 +19,13 @@ const EmailVerificationForm = () => {
     const handleFormSubmission = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const response = await fetch("http://localhost:5000/verifyEmail/", {
+        const response = await fetch("http://localhost:5000/auth/verifyEmail", {
             method: "POST",
-            body: JSON.stringify(verificationCode),
-            credentials: 'include'
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({code:verificationCode}),
+            credentials: "include"
         });
 
         if (!response.ok) {
@@ -32,7 +35,7 @@ const EmailVerificationForm = () => {
         }
 
         console.log("Email verified successfully");
-        <Navigate to="/auth" />
+        <Navigate to="/" />
     }
 
     //Re-place cursor in text area after submiting
