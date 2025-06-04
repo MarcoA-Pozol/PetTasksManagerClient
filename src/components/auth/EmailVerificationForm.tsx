@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
 import { EmailVerificationFormProps } from "../../schemas/EmailVerificationForm";
-import { sendEmailVerificationCode } from "../../utils/sendEmailVerificationCode";
+import { sendEmailVerificationCode } from "../../utils/EmailVerification";
 
 const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) => {
     const [verificationCode, setVerificationCode] = useState<string>("");
@@ -32,6 +32,7 @@ const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) 
 
         if (!response.ok) {
             console.error("Failed to verify email with this code", verificationCode);
+            alert("Invalid or expired code");
             setVerificationCode("");
             return;
         }
@@ -39,6 +40,7 @@ const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) 
         console.log("Email verified successfully");
         setIsEmailVerified(true);
         <Navigate to="/" />
+        
     }
 
     //Re-place cursor in text area after submiting

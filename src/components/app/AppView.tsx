@@ -7,6 +7,8 @@ import EmailVerificationForm from "../auth/EmailVerificationForm";
 import LeftMenu from "./LeftMenu";
 import { TaskCreationInterface } from "../../schemas/Task";
 import { TaskInterface } from "../../schemas/Task";
+// Utils
+import { checkIsEmailVerified } from "../../utils/EmailVerification";
 // Pet images
 
 //load all from dir (as json objects) 
@@ -27,7 +29,7 @@ const AppView = () => {
         const root = document.documentElement; 
         root.classList.remove("light", "dark");
         root.classList.add(theme);
-      }, [theme]);
+    }, [theme]);
     const [isEmailVerified, setIsEmailVerified] = useState<boolean | null>(false); 
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const location = useLocation();
@@ -42,6 +44,11 @@ const AppView = () => {
     const [completedTasksCount, setCompletedTasksCount] = useState<number>(0);
     const hasFetchedTasks = useRef(false); // Control fetching cards to only occur one time on component rendering
     
+    // Check if is user's email verified
+    useEffect(() => {
+        if (!authUser || !authUser._id || hasFetchedTasks.current) return;
+        checkIsEmailVerified({setIsEmailVerified});
+    }, [authUser?._id])
 
     // Pick one random pet image
     useEffect(() => {
