@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState, useEffect, useRef } from "react";
 import "../../styles/app/appView.css";
 import { Navigate, useLocation } from "react-router-dom";
@@ -6,6 +7,44 @@ import CreateTaskPage from "./CreateTaskPage";
 import LeftMenu from "./LeftMenu";
 import { TaskCreationInterface } from "../../schemas/Task";
 import { TaskInterface } from "../../schemas/Task";
+
+
+
+
+
+
+//Declare axios API
+const api = axios.create({baseURL: 'http://localhost:5000/auth'});
+    
+    //interceptors
+api.interceptors.response.use(function(response){
+    return response;
+}, async error => {
+
+    const prevRequest = error.response.config; //req url that triggered error
+    const responseData = error.response.data; //current response data
+
+    //if error was in check auth and due to expired access token
+    if(prevRequest.url === '/check' && responseData.error === 'TOKEN_EXPIRED' && error.status === 401) {
+        
+        //try refresh!
+        return api.post('/refresh', {}, {withCredentials: true}).then(function(){
+            //and re send prev request (check auth)
+            return api(prevRequest);
+        })
+        .catch(function(err){
+            return Promise.reject(err);  //if refresh fails
+        });
+    }
+
+    //error from different request, just continue 
+    return Promise.reject(error);
+});
+
+
+
+
+
 // Pet images
 
 //load all from dir (as json objects) 
@@ -20,12 +59,9 @@ const notBadPetImagesPaths = Object.values(notBadPetImages).map(image => image.d
 const goodPetImagesPaths = Object.values(goodPetImages).map(image => image.default);
 const perfectPetImagesPaths = Object.values(perfectPetImages).map(image => image.default);
 
+
 const AppView = () => {
     const location = useLocation();
-    
-
-    //Access Token
-    const accessToken = location.state?.accessToken;
     
 
     const [theme, setTheme] = useState("light");
@@ -82,48 +118,28 @@ const AppView = () => {
         }
     }, []);
 
+
+
     // Authentication check
     useEffect(() => {
 
-        const refresh = async () => {
-            try {
-
-                const response = await fetch('http://localhost:5000/auth/refresh', {
-                    method: 'POST',
-                    credentials: 'include'
-                });
-    
-                if(response.ok) {
-                    console.log(await response.json());
-                }
-                
-            } catch (err) {
-                console.error("Error while hitting refresh auth endpoint: ", err);
-            }
-        };
-
         const checkAuth = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/auth/check', {
-                    method: 'GET',
-                    headers: {authorization: accessToken},
-                });
-                if (response.ok) {
-                    setIsAuthenticated(true);
-                    const data = await response.json()
-                    setAuthUser(data.user)
-                } else {
-                    setIsAuthenticated(false);
-                }
-            } catch (err) {
-                console.error("Authentication error:", err);
-                setIsAuthenticated(false);
-            }
+             
+            api.get('/check', {withCredentials: true}).then(function(response){
+                setIsAuthenticated(true);
+                setAuthUser(response.data.user);
+                console.log("here!");
+                
+            }).catch(function(){
+                console.log("here?");
+                setIsAuthenticated(false);            
+            });
         };
 
-        //refresh();
         checkAuth();
     }, []);
+
+
 
     // Function: Fetch user's tasks
     useEffect(() => {

@@ -5,11 +5,10 @@ import loginStainImg from '../../assets/login_stain_img.png';
 
 type Props = {
     children?: React.ReactNode; // Can accept another html elements or react components
-    handleAccessToken: (accessToken: string) => void;
 }
 
 
-const LoginForm: React.FC<Props> = ({children, handleAccessToken}:Props) => {
+const LoginForm: React.FC<Props> = ({children}:Props) => {
     
     const navigate = useNavigate();
 
@@ -26,18 +25,13 @@ const LoginForm: React.FC<Props> = ({children, handleAccessToken}:Props) => {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({input, password}),
-            credentials: 'include' // For JWT authorization
+            credentials: 'include',
         });
 
         if (response.ok) {
-
-            //get and store access token in use state context
-            const data = await response.json();
-            const accessToken = data.token;
-            handleAccessToken(accessToken);
-
-            navigate("/", {state: {accessToken}});
-
+            console.log("fffffffffff");
+            navigate("/");
+            
         } else {
             alert("Invalid credentials.");
         }
