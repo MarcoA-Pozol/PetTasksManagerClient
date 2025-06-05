@@ -33,7 +33,8 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
             navigate("/");
             
         } else {
-            alert(`Login Error: ${response.status} | ${response.json}`);
+            const data:any = await response.json();
+            alert(`SignIn Error: ${response.status} | ${data.message}`);
         }
     };
 
