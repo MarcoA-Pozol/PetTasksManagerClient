@@ -7,8 +7,11 @@ type Props = {
     children?: React.ReactNode; // Can accept another html elements or react components
 }
 
+
 const LoginForm: React.FC<Props> = ({children}:Props) => {
+    
     const navigate = useNavigate();
+
 
     const handleFormSubmision = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -22,11 +25,13 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({input, password}),
-            credentials: 'include' // For JWT authorization
+            credentials: 'include',
         });
 
-        if (response.status === 200) {
+        if (response.ok) {
+            console.log("fffffffffff");
             navigate("/");
+            
         } else {
             alert("Invalid credentials.");
         }
