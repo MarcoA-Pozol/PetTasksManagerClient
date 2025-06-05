@@ -30,7 +30,8 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
             if (response.status === 201) {
                 navigate("/");
             } else {
-                alert("Username or email are already in use.");
+                const data:any = await response.json();
+                alert(`SignUp Error: ${response.status} | ${data.message}`);
             }
         } else {
             alert('Password fields must coincide.')

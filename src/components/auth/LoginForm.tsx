@@ -29,11 +29,11 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
         });
 
         if (response.ok) {
-            console.log("fffffffffff");
+            console.log(response.json);
             navigate("/");
             
         } else {
-            alert("Invalid credentials.");
+            alert(`Login Error: ${response.status} | ${response.json}`);
         }
     };
 
