@@ -10,6 +10,7 @@ import { TaskCreationInterface } from "../../schemas/Task";
 import { TaskInterface } from "../../schemas/Task";
 // Utils
 import { checkIsEmailVerified } from "../../utils/EmailVerification";
+import { pickOneRandomPetImage } from '../../utils/PetImage';
 
 
 
@@ -93,25 +94,12 @@ const AppView = () => {
         checkIsEmailVerified({setIsEmailVerified});
     }, [authUser?._id])
 
-    // Pick one random pet image
-    useEffect(() => {
-        /*
-            Effect to update pet image only when completion percentage changes
-        */
-        const randomImageIndex = Math.floor(Math.random() * 3);
-
-        if (completedTasksPercentage.current < 40) {
-            setSelectedPetImage(badPetImagesPaths[randomImageIndex]);
-        }
-        else if (completedTasksPercentage.current < 70 && completedTasksPercentage.current >= 40) {
-            setSelectedPetImage(notBadPetImagesPaths[randomImageIndex]);
-        }
-        else if (completedTasksPercentage.current < 90 && completedTasksPercentage.current >= 70) {
-            setSelectedPetImage(goodPetImagesPaths[randomImageIndex]);
-        }
-        else if (completedTasksPercentage.current >= 90) {
-            setSelectedPetImage(perfectPetImagesPaths[randomImageIndex]);
-        }
+   // Pick one random pet image
+   useEffect(() => {
+    /*
+        Update pet image only when completion percentage changes or in page load
+    */
+        pickOneRandomPetImage({completedTasksPercentage, setSelectedPetImage, badPetImagesPaths, notBadPetImagesPaths, goodPetImagesPaths, perfectPetImagesPaths});
     }, [completedTasksCount, uncompletedTasksCount]);
 
     const handleDataFromChild = (data: any) => {
