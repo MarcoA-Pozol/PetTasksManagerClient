@@ -45,25 +45,6 @@ api.interceptors.response.use(function(response){
     return Promise.reject(error);
 });
 
-
-
-
-
-// Pet images
-
-//load all from dir (as json objects) 
-const badPetImages = import.meta.glob('../../assets/pet/bad/*.png', {eager: true}) as Record<string, {default: string}>;
-const notBadPetImages = import.meta.glob('../../assets/pet/not_bad/*.png', {eager: true}) as Record<string, {default: string}>;
-const goodPetImages = import.meta.glob('../../assets/pet/good/*.png', {eager: true}) as Record<string, {default: string}>;
-const perfectPetImages = import.meta.glob('../../assets/pet/perfect/*.png', {eager: true}) as Record<string, {default: string}>;
-
-//where 'default' is type string json attribute containing image path (print petImages in console if hard to understand)
-const badPetImagesPaths = Object.values(badPetImages).map(image => image.default); 
-const notBadPetImagesPaths = Object.values(notBadPetImages).map(image => image.default);
-const goodPetImagesPaths = Object.values(goodPetImages).map(image => image.default);
-const perfectPetImagesPaths = Object.values(perfectPetImages).map(image => image.default);
-
-
 const AppView = () => {
     const location = useLocation();
     
@@ -96,10 +77,10 @@ const AppView = () => {
 
    // Pick one random pet image
    useEffect(() => {
-    /*
-        Update pet image only when completion percentage changes or in page load
-    */
-        pickOneRandomPetImage({completedTasksPercentage, setSelectedPetImage, badPetImagesPaths, notBadPetImagesPaths, goodPetImagesPaths, perfectPetImagesPaths});
+        /*
+            Update pet image only when completion percentage changes or in page load
+        */
+        pickOneRandomPetImage({completedTasksPercentage, setSelectedPetImage});
     }, [completedTasksCount, uncompletedTasksCount]);
 
     const handleDataFromChild = (data: any) => {
