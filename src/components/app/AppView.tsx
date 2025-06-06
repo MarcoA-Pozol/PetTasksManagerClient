@@ -134,7 +134,7 @@ const AppView = () => {
 
         const checkAuth = async () => {
              
-            api.get('/check', {withCredentials: true}).then(function(response){
+            api.get('/check', {withCredentials: true}).then(function(response:any){
                 setIsAuthenticated(true);
                 setAuthUser(response.data.user);
                 
