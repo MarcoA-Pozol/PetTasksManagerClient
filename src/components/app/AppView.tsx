@@ -12,7 +12,7 @@ import { TaskInterface } from "../../schemas/Task";
 import { checkIsEmailVerified } from "../../utils/EmailVerification";
 import { pickOneRandomPetImage } from '../../utils/PetImage';
 import { checkUserAuthentication } from '../../utils/Authentication';
-
+import { fetchUserTasks } from '../../utils/Tasks';
 
 
 
@@ -104,37 +104,11 @@ const AppView = () => {
 
     // Function: Fetch user's tasks
     useEffect(() => {
-        /* 
-            Get every user's tasks and save them in a list of tasks.
-            Tasks are obtained from the json object accessing to json.tasks property.
-            Task object include keys like _id, name and isCompleted. 
-        */
        if (!authUser || !authUser._id || hasFetchedTasks.current) return;
 
        hasFetchedTasks.current = true;
-       
-       const fetchCards = async () => {
-           try {
-               const response = await fetch(`http://localhost:5000/tasks/search?userId=${authUser._id}`);
-               if (response.ok) {
-                   const data = await response.json();
-                   setCompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === true));
-                   setUncompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === false));
-                   setCompletedTasksCount(data.completedCount);
-                   setUncompletedTasksCount(data.uncompletedCount);
-                   console.log("Tasks list:", data);
-               } else {
-                   setCompletedTasksList([]);
-                   setUncompletedTasksList([]);
-                   setCompletedTasksCount(0);
-                   setUncompletedTasksCount(0);
-               }
-           } catch (err) {
-               console.error("Error during fetching tasks for this user:", err);
-           };
-        }
-
-        fetchCards();
+        
+       fetchUserTasks({authUser, setCompletedTasksList, setUncompletedTasksList, setCompletedTasksCount, setUncompletedTasksCount});
     }, [authUser?._id]); // Wait for authUser._id before fetching cards to avoid double call
 
     const addTaskToUncompletedTasksList = (task: TaskInterface) => {
