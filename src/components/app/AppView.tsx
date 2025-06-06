@@ -11,6 +11,7 @@ import { TaskInterface } from "../../schemas/Task";
 // Utils
 import { checkIsEmailVerified } from "../../utils/EmailVerification";
 import { pickOneRandomPetImage } from '../../utils/PetImage';
+import { checkUserAuthentication } from '../../utils/Authentication';
 
 
 
@@ -45,10 +46,10 @@ api.interceptors.response.use(function(response){
     return Promise.reject(error);
 });
 
+
+
 const AppView = () => {
     const location = useLocation();
-    
-
     const [theme, setTheme] = useState("light");
     useEffect(() => {
         const root = document.documentElement; 
@@ -77,12 +78,10 @@ const AppView = () => {
 
    // Pick one random pet image
    useEffect(() => {
-        /*
-            Update pet image only when completion percentage changes or in page load
-        */
         pickOneRandomPetImage({completedTasksPercentage, setSelectedPetImage});
     }, [completedTasksCount, uncompletedTasksCount]);
 
+    // Handle created task
     const handleDataFromChild = (data: any) => {
         const createdTask: TaskCreationInterface = data;
         console.log("Data received from child component on app view parent one -> created task: ", createdTask);
@@ -96,23 +95,9 @@ const AppView = () => {
         }
     }, []);
 
-
-
     // Authentication check
     useEffect(() => {
-
-        const checkAuth = async () => {
-             
-            api.get('/check', {withCredentials: true}).then(function(response:any){
-                setIsAuthenticated(true);
-                setAuthUser(response.data.user);
-                
-            }).catch(function(){
-                setIsAuthenticated(false);            
-            });
-        };
-
-        checkAuth();
+        checkUserAuthentication({api, setIsAuthenticated, setAuthUser});
     }, []);
 
 
