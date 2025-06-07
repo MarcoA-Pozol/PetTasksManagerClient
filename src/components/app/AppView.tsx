@@ -12,7 +12,7 @@ import { TaskInterface } from "../../schemas/Task";
 import { checkIsEmailVerified } from "../../utils/EmailVerification";
 import { pickOneRandomPetImage } from '../../utils/PetImage';
 import { checkUserAuthentication } from '../../utils/Authentication';
-import { fetchUserTasks } from '../../utils/Tasks';
+import { fetchUserTasks, addTaskToUncompletedTasksList } from '../../utils/Tasks';
 
 
 
@@ -110,16 +110,6 @@ const AppView = () => {
         
        fetchUserTasks({authUser, setCompletedTasksList, setUncompletedTasksList, setCompletedTasksCount, setUncompletedTasksCount});
     }, [authUser?._id]); // Wait for authUser._id before fetching cards to avoid double call
-
-    const addTaskToUncompletedTasksList = (task: TaskInterface) => {
-        /* 
-            Add task to uncompleted tasks list when user creates a new task.
-            Task is obtained from the json object accessing to json.tasks property.
-            Task object include keys like _id, name and isCompleted. 
-        */
-       setUncompletedTasksList(prev => prev.concat({ _id: task._id, name: task.name, status: "to-do" }));
-       // setUncompletedTasksCount(prev => prev + 1);
-    }
 
     const removeTaskFromListOnDeletion = (taskId: string, status: string) => {
 
@@ -228,7 +218,7 @@ const AppView = () => {
                                 userId={authUser?._id}
                                 uncompletedTasksList={uncompletedTasksList}
                                 increaseUncompletedTasksCount={increaseUncompletedTasksCount}
-                                addTaskToUncompletedTasksList={addTaskToUncompletedTasksList}
+                                addTaskToUncompletedTasksList={(task: TaskInterface) => addTaskToUncompletedTasksList(task, setUncompletedTasksList)}
                             />
                         )}
                     </div>
