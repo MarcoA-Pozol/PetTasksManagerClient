@@ -1,7 +1,4 @@
-import axios from 'axios';
-
-//Declare axios API
-const api = axios.create({baseURL: 'http://localhost:5000/auth'});
+import api from '../axios/Api';
 
 interface checkUserAuthenticationProps {
     setIsAuthenticated:React.Dispatch<React.SetStateAction<boolean | null>>;
@@ -9,7 +6,9 @@ interface checkUserAuthenticationProps {
 }
 export const checkUserAuthentication = async ({setIsAuthenticated, setAuthUser}:checkUserAuthenticationProps) => {
     
-    api.get('/check', {withCredentials: true}).then((response:any) => {
+    await api.get('/auth/check', {withCredentials: true})
+    
+    .then((response:any) => {
         
         setIsAuthenticated(true);
         setAuthUser(response.data.user);

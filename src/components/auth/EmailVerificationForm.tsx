@@ -4,6 +4,9 @@ import { Navigate } from "react-router-dom";
 import { EmailVerificationFormProps } from "../../schemas/EmailVerificationForm";
 import { sendEmailVerificationCode } from "../../utils/EmailVerification";
 
+import api from '../../axios/Api';
+
+
 const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) => {
     const [verificationCode, setVerificationCode] = useState<string>("");
     const verificationCodeElementRef = useRef<HTMLInputElement>(null);
@@ -18,29 +21,28 @@ const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) 
         console.log("Insert a verification code")
     }
 
+
+    
     const handleFormSubmission = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        
+        api.post('/auth/verifyEmail', 
+            { code: verificationCode }, 
+            {withCredentials: true})
 
-        const response = await fetch("http://localhost:5000/auth/verifyEmail", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({code:verificationCode}),
-            credentials: "include"
-        });
+        .then(() => {
 
-        if (!response.ok) {
+            console.log("Email verified successfully");
+            setIsEmailVerified(true);
+            <Navigate to="/" />
+        })
+        .catch(() => {
+
             console.error("Failed to verify email with this code", verificationCode);
             alert("Invalid or expired code");
             setVerificationCode("");
             return;
-        }
-
-        console.log("Email verified successfully");
-        setIsEmailVerified(true);
-        <Navigate to="/" />
-        
+        });
     }
 
     //Re-place cursor in text area after submiting
