@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState, useEffect, useRef } from "react";
 import "../../styles/app/appView.css";
 import { Navigate, useLocation } from "react-router-dom";
@@ -13,38 +12,6 @@ import { checkIsEmailVerified } from "../../utils/EmailVerification";
 import { pickOneRandomPetImage } from '../../utils/PetImage';
 import { checkUserAuthentication } from '../../utils/Authentication';
 import { fetchUserTasks, addTaskToUncompletedTasksList } from '../../utils/Tasks';
-
-
-
-
-
-//Declare axios API
-const api = axios.create({baseURL: 'http://localhost:5000/auth'});
-    
-    //interceptors
-api.interceptors.response.use(function(response){
-    return response;
-}, async error => {
-
-    const prevRequest = error.response.config; //req url that triggered error
-    const responseData = error.response.data; //current response data
-
-    //if error was in check auth and due to expired access token
-    if(prevRequest.url === '/check' && responseData.error === 'TOKEN_EXPIRED' && error.status === 401) {
-        
-        //try refresh!
-        return api.post('/refresh', {}, {withCredentials: true}).then(function(){
-            //and re send prev request (check auth)
-            return api(prevRequest);
-        })
-        .catch(function(err){
-            return Promise.reject(err);  //if refresh fails
-        });
-    }
-
-    //error from different request, just continue 
-    return Promise.reject(error);
-});
 
 
 
@@ -97,7 +64,7 @@ const AppView = () => {
 
     // Authentication check
     useEffect(() => {
-        checkUserAuthentication({api, setIsAuthenticated, setAuthUser});
+        checkUserAuthentication({setIsAuthenticated, setAuthUser});
     }, []);
 
 
