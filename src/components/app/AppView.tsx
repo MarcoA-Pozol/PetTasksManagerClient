@@ -65,7 +65,7 @@ const AppView = () => {
 
     // Authentication check
     useEffect(() => {
-        checkUserAuthentication({api, setIsAuthenticated, setAuthUser});
+        checkUserAuthentication({setIsAuthenticated, setAuthUser});
     }, []);
 
 

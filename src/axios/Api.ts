@@ -3,30 +3,57 @@ import axios from 'axios';
 //Declare axios API
 const api = axios.create({baseURL: 'http://localhost:5000'});
 
-//interceptors
-api.interceptors.response.use(function(response){
-    return response;
-}, async error => {
+let isRefreshing = false;
+let failedQueue: any[] = [];
 
-    const prevRequest = error.response.config; //req url that triggered error
-    const responseData = error.response.data; //current response data
-    
-    //if error was in check auth and due to expired access token
-    if(error.status === 401 && responseData.error === 'TOKEN_EXPIRED') {
-        
-        //try refresh!
-        return api.post('/auth/refresh', {}, {withCredentials: true}).then(() => {
-            
-            //and re send prev request (check auth)
-            return api(prevRequest);
-        })
-        .catch(function(err){
-            return Promise.reject(err);  //if refresh fails
-        });
+const processQueue = (error: any) => {
+    failedQueue.forEach(prom => {
+        if (error) {
+            prom.reject(error);
+        } else {
+            prom.resolve(api(prom.config));
+        }
+    });
+
+    failedQueue = [];
+};
+
+api.interceptors.response.use(
+    response => response,
+    async error => {
+        const originalRequest = error.config;
+
+        const responseData = error.response?.data;
+
+        const isTokenExpired = error.response?.status === 401 && responseData?.error === 'TOKEN_EXPIRED';
+
+        if (isTokenExpired && !originalRequest._retry) {
+            if (isRefreshing) {
+                // Queue the request
+                return new Promise((resolve, reject) => {
+                    failedQueue.push({ resolve, reject, config: originalRequest });
+                });
+            }
+
+            originalRequest._retry = true;
+            isRefreshing = true;
+
+            return api.post('/auth/refresh', {}, { withCredentials: true })
+                .then(() => {
+                    isRefreshing = false;
+                    processQueue(null);
+                    return api(originalRequest);
+                })
+                .catch(err => {
+                    isRefreshing = false;
+                    processQueue(err);
+                    return Promise.reject(err);
+                });
+        }
+
+        return Promise.reject(error);
     }
+);
 
-    //error from different request, just continue 
-    return Promise.reject(error);
-});
 
 export default api;
