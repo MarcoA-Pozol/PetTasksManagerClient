@@ -4,11 +4,15 @@ interface checkUserAuthenticationProps {
     api:Axios.AxiosInstance;
 }
 export const checkUserAuthentication = async ({api, setIsAuthenticated, setAuthUser}:checkUserAuthenticationProps) => {
-    api.get('/check', {withCredentials: true}).then(function(response:any){
+    
+    await api.get('/auth/check', {withCredentials: true})
+    
+    .then((response:any) => {
+        
         setIsAuthenticated(true);
         setAuthUser(response.data.user);
-        
-    }).catch(function(){
+    })
+    .catch(() => {
         setIsAuthenticated(false);            
     });
 };
