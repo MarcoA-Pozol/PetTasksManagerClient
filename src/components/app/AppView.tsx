@@ -3,10 +3,9 @@ import "../../styles/app/appView.css";
 import { Navigate, useLocation } from "react-router-dom";
 import HomePage from "./HomePage";
 import CreateTaskPage from "./CreateTaskPage";
-import EmailVerificationForm from "../auth/EmailVerificationForm";
 import LeftMenu from "./LeftMenu";
-import { TaskCreationInterface } from "../../schemas/Task";
 import { TaskInterface } from "../../schemas/Task";
+
 // Utils
 import { pickOneRandomPetImage } from '../../utils/PetImage';
 import { checkUserAuthentication } from '../../utils/Authentication';
@@ -51,13 +50,7 @@ const AppView = () => {
     useEffect(() => {
         pickOneRandomPetImage({completedTasksPercentage, setSelectedPetImage, setPetState});
     }, [completedTasksCount, uncompletedTasksCount]);
-    
-    // Handle created task
-    const handleDataFromChild = (data: any) => {
-        const createdTask: TaskCreationInterface = data;
-        console.log("Data received from child component on app view parent one -> created task: ", createdTask);
-    }
-    
+
     // Get user's session theme
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
@@ -102,7 +95,6 @@ const AppView = () => {
         setCompletedTasksList(prev => prev.concat(completedTask)); //and pass to completed ones  
     }
 
-    
     // Function: Diminish uncompleted Tasks Count by one
     const diminishUncompletedTasksCount = () => {
         /* 
@@ -135,12 +127,6 @@ const AppView = () => {
        setUncompletedTasksCount(uncompletedTasksCount + 1);
     }
 
-    // If authenticated, check email is verified
-    if (!isEmailVerified  && isAuthenticated) return (
-        <>
-            <EmailVerificationForm/>
-        </>
-    );
 
     return (
         <> 
@@ -182,7 +168,6 @@ const AppView = () => {
                         )}
                         {displayedPage === "create" && (
                             <CreateTaskPage 
-                                onData={handleDataFromChild} 
                                 userId={authUser?._id}
                                 uncompletedTasksList={uncompletedTasksList}
                                 increaseUncompletedTasksCount={increaseUncompletedTasksCount}

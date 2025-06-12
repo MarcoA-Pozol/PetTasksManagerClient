@@ -1,16 +1,11 @@
 import TaskCreationFormulary from "./TaskCreationFormulary";
-import { TaskCreationInterface, CreateTaskPageProps } from "../../schemas/Task";
+import { CreateTaskPageProps } from "../../schemas/Task";
 
-const CreateTaskPage = ({onData, userId, increaseUncompletedTasksCount, uncompletedTasksList, addTaskToUncompletedTasksList}: CreateTaskPageProps) => {
-
-    const handleDataFromChild = (newTask: TaskCreationInterface) => {
-        //Return created task to parent
-        onData(newTask);
-    }
+const CreateTaskPage = ({userId, increaseUncompletedTasksCount, uncompletedTasksList, addTaskToUncompletedTasksList}: CreateTaskPageProps) => {
 
     return (
         <>
-            <TaskCreationFormulary onData={handleDataFromChild} userId={userId} uncompletedTasksList={uncompletedTasksList} increaseUncompletedTasksCount={increaseUncompletedTasksCount} addTaskToUncompletedTasksList={addTaskToUncompletedTasksList}/>
+            <TaskCreationFormulary userId={userId} uncompletedTasksList={uncompletedTasksList} increaseUncompletedTasksCount={increaseUncompletedTasksCount} addTaskToUncompletedTasksList={addTaskToUncompletedTasksList}/>
         </>
     );
 }
