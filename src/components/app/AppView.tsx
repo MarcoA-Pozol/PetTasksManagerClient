@@ -8,7 +8,6 @@ import LeftMenu from "./LeftMenu";
 import { TaskCreationInterface } from "../../schemas/Task";
 import { TaskInterface } from "../../schemas/Task";
 // Utils
-import { checkIsEmailVerified } from "../../utils/EmailVerification";
 import { pickOneRandomPetImage } from '../../utils/PetImage';
 import { checkUserAuthentication } from '../../utils/Authentication';
 import { fetchUserTasks, addTaskToUncompletedTasksList } from '../../utils/Tasks';
@@ -16,19 +15,23 @@ import { fetchUserTasks, addTaskToUncompletedTasksList } from '../../utils/Tasks
 
 
 const AppView = () => {
+
     const location = useLocation();
+
     const [theme, setTheme] = useState("light");
     useEffect(() => {
         const root = document.documentElement; 
         root.classList.remove("light", "dark");
         root.classList.add(theme);
     }, [theme]);
-    const [isEmailVerified, setIsEmailVerified] = useState<boolean | null>(false); 
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const [authUser, setAuthUser] = useState<any>(null);
     const [displayedPage, setDisplayedPage] = useState("home");
     const completedTasksPercentage = useRef<number>(0);
     const [selectedPetImage, setSelectedPetImage] = useState<string>("");
+
+    //Email verified
+    const isEmailVerified = location?.state?.isEmailVerified;
 
     // Tasks
     const [uncompletedTasksList, setUncompletedTasksList] = useState<TaskInterface[]>([]);
@@ -37,11 +40,12 @@ const AppView = () => {
     const [completedTasksCount, setCompletedTasksCount] = useState<number>(0);
     const hasFetchedTasks = useRef(false); // Control fetching cards to only occur one time on component rendering
     
-    // Check if is user's email verified
+
+    // Authentication check
     useEffect(() => {
-        if (!authUser || !authUser._id || hasFetchedTasks.current) return;
-        checkIsEmailVerified({setIsEmailVerified});
-    }, [authUser?._id])
+        checkUserAuthentication({setIsAuthenticated, setAuthUser});
+    }, []);
+
 
    // Pick one random pet image
    useEffect(() => {
@@ -62,22 +66,18 @@ const AppView = () => {
         }
     }, []);
 
-    // Authentication check
+    // Fetch tasks
     useEffect(() => {
-        checkUserAuthentication({setIsAuthenticated, setAuthUser});
-    }, []);
-
-
-
-    // Function: Fetch user's tasks
-    useEffect(() => {
-       if (!authUser || !authUser._id || hasFetchedTasks.current) return;
+       if (!authUser || !authUser._id || !isEmailVerified || hasFetchedTasks.current) return;
 
        hasFetchedTasks.current = true;
         
        fetchUserTasks({authUser, setCompletedTasksList, setUncompletedTasksList, setCompletedTasksCount, setUncompletedTasksCount});
     }, [authUser?._id]); // Wait for authUser._id before fetching cards to avoid double call
 
+
+
+    // Function: Remove task from list on deletion
     const removeTaskFromListOnDeletion = (taskId: string, status: string) => {
 
         //If it was completed task
@@ -88,7 +88,7 @@ const AppView = () => {
         setUncompletedTasksList(prev => prev.filter(task => task._id !== taskId));
     }
 
-    // Function: Remove task from list handling all scenarios (un/completed, deletion/complete)
+    // Function: Remove task from list on complete
     const removeTaskFromListOnCompleted = (completedTask: TaskInterface) => {
 
         if(!completedTask) return;
@@ -136,9 +136,10 @@ const AppView = () => {
        setUncompletedTasksCount(uncompletedTasksCount + 1);
     }
 
-    if (isAuthenticated && !isEmailVerified) return (
+    // If authenticated, check email is verified
+    if (!isEmailVerified) return (
         <>
-            <EmailVerificationForm setIsEmailVerified={setIsEmailVerified}/>
+            <EmailVerificationForm/>
         </>
     );
 

@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
-import { EmailVerificationFormProps } from "../../schemas/EmailVerificationForm";
 import { sendEmailVerificationCode } from "../../utils/EmailVerification";
 
 import api from '../../axios/Api';
 
 
-const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) => {
+const EmailVerificationForm = () => {
     const [verificationCode, setVerificationCode] = useState<string>("");
     const verificationCodeElementRef = useRef<HTMLInputElement>(null);
+    const [isEmailVerified, setisEmailVerified] = useState(false);
     const { t } = useTranslation();
 
     //Place cursor in text area just after load page
@@ -31,10 +31,8 @@ const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) 
             {withCredentials: true})
 
         .then(() => {
-
             console.log("Email verified successfully");
-            setIsEmailVerified(true);
-            <Navigate to="/" />
+            setisEmailVerified(true);
         })
         .catch(() => {
 
@@ -43,6 +41,11 @@ const EmailVerificationForm = ({setIsEmailVerified}:EmailVerificationFormProps) 
             setVerificationCode("");
             return;
         });
+    }
+
+    if(isEmailVerified) {
+        //Redirect to home page
+        return <Navigate to="/" state={{isEmailVerified: true}}/>;
     }
 
     //Re-place cursor in text area after submiting
