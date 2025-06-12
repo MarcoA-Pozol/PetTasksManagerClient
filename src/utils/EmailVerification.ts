@@ -11,27 +11,3 @@ export const sendEmailVerificationCode = async () => {
         alert(`Error on send email verification code: ${err.response.data.message}`);          
     });
 }
-
-
-interface checkIsEmailVerifiedProps {
-    setIsEmailVerified:React.Dispatch<React.SetStateAction<boolean | null>>;
-}
-
-export const checkIsEmailVerified = async ({setIsEmailVerified}:checkIsEmailVerifiedProps) => {
-    try {
-
-        api.post('/auth/checkIsEmailVerified', {}, {withCredentials: true})
-        .then(() => {
-
-            setIsEmailVerified(true);
-        })
-        .catch(() => {
-            setIsEmailVerified(false);
-            return;         
-        });
-
-    } catch (err) {
-        setIsEmailVerified(false);
-        console.error("Error on checkIsEmailVerified: ", err);
-    };
-}
