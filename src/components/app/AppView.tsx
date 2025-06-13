@@ -47,18 +47,17 @@ const AppView = () => {
         checkUserAuthentication({setIsAuthenticated, setAuthUser});
     }, []);
 
-
     // Pick one random pet image
     useEffect(() => {
         pickOneRandomPetImage({completedTasksPercentage, setSelectedPetImage, setPetState});
     }, [completedTasksCount, uncompletedTasksCount]);
-
+    
     // Handle created task
     const handleDataFromChild = (data: any) => {
         const createdTask: TaskCreationInterface = data;
         console.log("Data received from child component on app view parent one -> created task: ", createdTask);
     }
-
+    
     // Get user's session theme
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
@@ -66,16 +65,15 @@ const AppView = () => {
             setTheme(storedTheme);
         }
     }, []);
-
+    
     // Fetch tasks
     useEffect(() => {
-       if (!authUser || !authUser._id || !isEmailVerified || hasFetchedTasks.current) return;
-
-       hasFetchedTasks.current = true;
+        if (!authUser || !authUser._id || !isEmailVerified || hasFetchedTasks.current) return;
         
-       fetchUserTasks({authUser, setCompletedTasksList, setUncompletedTasksList, setCompletedTasksCount, setUncompletedTasksCount});
-    }, [authUser?._id]); // Wait for authUser._id before fetching cards to avoid double call
-
+        hasFetchedTasks.current = true;
+        
+        fetchUserTasks({authUser, setCompletedTasksList, setUncompletedTasksList, setCompletedTasksCount, setUncompletedTasksCount});
+    }, [authUser?._id]); // Fetch only when authUser change or is set first time on login
 
 
     // Function: Remove task from list on deletion
@@ -138,7 +136,7 @@ const AppView = () => {
     }
 
     // If authenticated, check email is verified
-    if (!isEmailVerified) return (
+    if (!isEmailVerified  && isAuthenticated) return (
         <>
             <EmailVerificationForm/>
         </>
