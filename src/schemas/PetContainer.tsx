@@ -6,5 +6,6 @@ export interface PetContainerProps {
     uncompletedTasksCount: number;
     completedTasksCount: number;
     selectedPetImage: string;
+    petState: string;
     completedTasksPercentage: React.MutableRefObject<number>;
 }

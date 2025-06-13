@@ -29,6 +29,7 @@ const AppView = () => {
     const [displayedPage, setDisplayedPage] = useState("home");
     const completedTasksPercentage = useRef<number>(0);
     const [selectedPetImage, setSelectedPetImage] = useState<string>("");
+    const [petState, setPetState] = useState<string>("");
 
     //Email verified
     const isEmailVerified = location?.state?.isEmailVerified;
@@ -47,9 +48,9 @@ const AppView = () => {
     }, []);
 
 
-   // Pick one random pet image
-   useEffect(() => {
-        pickOneRandomPetImage({completedTasksPercentage, setSelectedPetImage});
+    // Pick one random pet image
+    useEffect(() => {
+        pickOneRandomPetImage({completedTasksPercentage, setSelectedPetImage, setPetState});
     }, [completedTasksCount, uncompletedTasksCount]);
 
     // Handle created task
@@ -168,6 +169,7 @@ const AppView = () => {
                                 setIsAuthenticated={setIsAuthenticated}
                                 setDisplayedPage={setDisplayedPage}
                                 selectedPetImage={selectedPetImage}
+                                petState={petState}
                                 completedTasksList={completedTasksList}
                                 uncompletedTasksList={uncompletedTasksList}
                                 completedTasksCount={completedTasksCount}

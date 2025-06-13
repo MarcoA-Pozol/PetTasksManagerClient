@@ -8,6 +8,7 @@ export interface HomePageProps {
     setDisplayedPage: React.Dispatch<React.SetStateAction<string>>;
     authUser:any;
     selectedPetImage: string;
+    petState: string;
     completedTasksList: TaskInterface[];
     uncompletedTasksList: TaskInterface[];
     uncompletedTasksCount: number;
