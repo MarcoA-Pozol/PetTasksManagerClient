@@ -1,59 +1,117 @@
 import axios from 'axios';
+import { useEffect } from 'react';
 
 //Declare axios API
-const api = axios.create({baseURL: 'http://localhost:5000'});
+const api = axios.create({baseURL: 'http://localhost:5000', withCredentials: true});
 
-let isRefreshing = false;
-let failedQueue: any[] = [];
+const logout = () => {
+    window.location.href = '/auth';
+}
 
-const processQueue = (error: any) => {
+
+
+export const authInterceptor = () => {
+
+    let isRefreshing = false;
+    let failedQueue: any[] = [];
+
+    const processQueue = (error: any) => {
     failedQueue.forEach(prom => {
         if (error) {
-            prom.reject(error);
+        prom.reject(error);
         } else {
-            prom.resolve(api(prom.config));
+        prom.resolve(api(prom.config));
         }
     });
-
     failedQueue = [];
+    };
+
+
+    useEffect(() => {
+
+        const authInterceptor = api.interceptors.response.use(
+            response => response,
+            async error => {
+
+                const originalRequest = error.config;
+                const responseData = error.response?.data;
+
+                const is401 = error.response?.status === 401;
+                const isTokenExpired = is401 && responseData?.error === 'TOKEN_EXPIRED';
+                const isEmailUnverified = is401 && responseData?.error === 'UNVERIFIED_EMAIL';
+
+                // If not token expired nor email unverified, just logout
+                if (is401 && !isTokenExpired && !isEmailUnverified) {
+                    logout();
+                    return Promise.reject(error);
+                }
+
+                // Handle token refresh
+                if (isTokenExpired) {
+                    if (originalRequest._retry) {
+                        // Prevent infinite loop
+                        return Promise.reject(error);
+                    }
+
+                    if (isRefreshing) {
+                        // Queue this request until refresh is done
+                        return new Promise((resolve, reject) => {
+                        failedQueue.push({ resolve, reject, config: originalRequest });
+                        });
+                    }
+
+                    originalRequest._retry = true;
+                    isRefreshing = true;
+
+                    api.post('/auth/refresh', {})
+                    .then(() => {
+                        isRefreshing = false;
+                        processQueue(null);
+                        return api(originalRequest); // retry original request
+                    })
+                    .catch((err) => {
+                        isRefreshing = false;
+                        processQueue(err);
+                        logout();
+                        return Promise.reject(err);
+                    });
+                }
+
+                return Promise.reject(error);
+            }
+        );
+
+        return () => {
+            api.interceptors.response.eject(authInterceptor);
+        };
+    }, []);
 };
 
-api.interceptors.response.use(
-    response => response,
-    async error => {
-        const originalRequest = error.config;
 
-        const responseData = error.response?.data;
+export const emailInterceptor = () => {
 
-        const isTokenExpired = error.response?.status === 401 && responseData?.error === 'TOKEN_EXPIRED';
+    useEffect(() => {
 
-        if (isTokenExpired && !originalRequest._retry) {
-            if (isRefreshing) {
-                // Queue the request
-                return new Promise((resolve, reject) => {
-                    failedQueue.push({ resolve, reject, config: originalRequest });
-                });
+        //Email not verified response interceptor
+        const emailInterceptor = api.interceptors.response.use(
+            response => response,
+            error => {
+
+                const responseData = error.response?.data;
+                const isEmailUnverified = (error.response?.status === 401 && responseData.error === "UNVERIFIED_EMAIL");
+
+                if(isEmailUnverified) {
+                    window.location.href = '/email-verify';
+                }
             }
+        );
 
-            originalRequest._retry = true;
-            isRefreshing = true;
+        return () => {
+            api.interceptors.response.eject(emailInterceptor);
+        };
+    }, []);
+};
 
-            return api.post('/auth/refresh', {}, { withCredentials: true })
-                .then(() => {
-                    isRefreshing = false;
-                    processQueue(null);
-                    return api(originalRequest);
-                })
-                .catch(err => {
-                    isRefreshing = false;
-                    processQueue(err);
-                    return Promise.reject(err);
-                });
-        }
-
-        return Promise.reject(error);
-    }
-);
 
 
 export default api;

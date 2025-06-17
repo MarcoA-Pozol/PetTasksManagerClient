@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { sendEmailVerificationCode } from "../../utils/EmailVerification";
 
 import api from '../../axios/Api';
+import { authInterceptor } from "../../axios/Api";
 
 
 const EmailVerificationForm = () => {
@@ -11,6 +12,9 @@ const EmailVerificationForm = () => {
     const verificationCodeElementRef = useRef<HTMLInputElement>(null);
     const [isEmailVerified, setisEmailVerified] = useState(false);
     const { t } = useTranslation();
+
+
+    authInterceptor();
 
     //Place cursor in text area just after load page
     useEffect(() => {
@@ -23,24 +27,32 @@ const EmailVerificationForm = () => {
 
 
     
+    let isVerifyingEmail = false;
+
     const handleFormSubmission = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         
-        api.post('/auth/verifyEmail', 
-            { code: verificationCode }, 
-            {withCredentials: true})
+        if (!isVerifyingEmail) {
 
-        .then(() => {
-            console.log("Email verified successfully");
-            setisEmailVerified(true);
-        })
-        .catch(() => {
+            isVerifyingEmail = true;            
+            api.post('/auth/verifyEmail', { code: verificationCode })
+            .then(() => {
 
-            console.error("Failed to verify email with this code", verificationCode);
-            alert("Invalid or expired code");
-            setVerificationCode("");
-            return;
-        });
+                isVerifyingEmail = false;
+
+                console.log("Email verified successfully");
+                setisEmailVerified(true);
+            })
+            .catch(() => {
+
+                isVerifyingEmail = false;
+
+                console.error("Failed to verify email with this code", verificationCode);
+                alert("Invalid or expired code");
+                setVerificationCode("");
+                return;
+            });
+        }
     }
 
     if(isEmailVerified) {

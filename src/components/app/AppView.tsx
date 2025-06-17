@@ -1,21 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import "../../styles/app/appView.css";
-import { Navigate, useLocation } from "react-router-dom";
 import HomePage from "./HomePage";
 import CreateTaskPage from "./CreateTaskPage";
 import LeftMenu from "./LeftMenu";
 import { TaskInterface } from "../../schemas/Task";
+import { authInterceptor, emailInterceptor } from "../../axios/Api";
+import { checkUserAuthentication } from "../../utils/Authentication";
 
 // Utils
 import { pickOneRandomPetImage } from '../../utils/PetImage';
-import { checkUserAuthentication } from '../../utils/Authentication';
 import { fetchUserTasks, addTaskToUncompletedTasksList } from '../../utils/Tasks';
 
 
 
 const AppView = () => {
-
-    const location = useLocation();
 
     const [theme, setTheme] = useState("light");
     useEffect(() => {
@@ -23,15 +21,11 @@ const AppView = () => {
         root.classList.remove("light", "dark");
         root.classList.add(theme);
     }, [theme]);
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const [authUser, setAuthUser] = useState<any>(null);
     const [displayedPage, setDisplayedPage] = useState("home");
     const completedTasksPercentage = useRef<number>(0);
     const [selectedPetImage, setSelectedPetImage] = useState<string>("");
     const [petState, setPetState] = useState<string>("");
-
-    //Email verified
-    const isEmailVerified = location?.state?.isEmailVerified;
 
     // Tasks
     const [uncompletedTasksList, setUncompletedTasksList] = useState<TaskInterface[]>([]);
@@ -41,9 +35,14 @@ const AppView = () => {
     const hasFetchedTasks = useRef(false); // Control fetching cards to only occur one time on component rendering
     
 
+    //Include incerceptors
+    authInterceptor();
+    emailInterceptor();
+
+
     // Authentication check
     useEffect(() => {
-        checkUserAuthentication({setIsAuthenticated, setAuthUser});
+        checkUserAuthentication({setAuthUser});
     }, []);
 
     // Pick one random pet image
@@ -61,7 +60,13 @@ const AppView = () => {
     
     // Fetch tasks
     useEffect(() => {
+<<<<<<< HEAD
         if (!authUser || !authUser._id || !isEmailVerified || hasFetchedTasks.current) return;
+=======
+       if (!authUser || !authUser._id || hasFetchedTasks.current) return;
+
+       hasFetchedTasks.current = true;
+>>>>>>> 5eed749 (Add email verification interceptor)
         
         hasFetchedTasks.current = true;
         
@@ -130,6 +135,7 @@ const AppView = () => {
 
     return (
         <> 
+<<<<<<< HEAD
             {isAuthenticated === null ? (
                 <div>Loading...</div> // or a spinner
             ) : !isAuthenticated && location.pathname !== "/auth" ? (
@@ -175,8 +181,44 @@ const AppView = () => {
                             />
                         )}
                     </div>
+=======
+            <div className={`app-container ${theme}`}>
+                <LeftMenu 
+                    theme={theme} 
+                    setTheme={setTheme} 
+                    setDisplayedPage={setDisplayedPage} 
+                />
+                <div className="content-container">
+                    {displayedPage === "home" && (
+                        <HomePage 
+                            theme={theme}
+                            setTheme={setTheme}
+                            authUser={authUser}
+                            setDisplayedPage={setDisplayedPage}
+                            selectedPetImage={selectedPetImage}
+                            completedTasksList={completedTasksList}
+                            uncompletedTasksList={uncompletedTasksList}
+                            completedTasksCount={completedTasksCount}
+                            uncompletedTasksCount={uncompletedTasksCount}
+                            removeTaskFromListOnCompleted={removeTaskFromListOnCompleted}
+                            removeTaskFromListOnDeletion={removeTaskFromListOnDeletion}
+                            diminishUncompletedTasksCount={diminishUncompletedTasksCount}
+                            diminishCompletedTasksCount={diminishCompletedTasksCount}
+                            increaseCompletedTasksCount={increaseCompletedTasksCount}
+                            completedTasksPercentage={completedTasksPercentage}
+                        />
+                    )}
+                    {displayedPage === "create" && (
+                        <CreateTaskPage 
+                            userId={authUser?._id}
+                            uncompletedTasksList={uncompletedTasksList}
+                            increaseUncompletedTasksCount={increaseUncompletedTasksCount}
+                            addTaskToUncompletedTasksList={(task: TaskInterface) => addTaskToUncompletedTasksList(task, setUncompletedTasksList)}
+                        />
+                    )}
+>>>>>>> 5eed749 (Add email verification interceptor)
                 </div>
-            )}
+            </div>
         </>
     );
     

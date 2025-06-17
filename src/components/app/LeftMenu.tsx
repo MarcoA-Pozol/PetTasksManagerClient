@@ -11,7 +11,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import "../../../i18n";
 import { useTranslation } from "react-i18next";
 
-const LeftMenu = ({theme, setTheme, setIsAuthenticated, setDisplayedPage}: LeftMenuProps) => {
+const LeftMenu = ({theme, setTheme, setDisplayedPage}: LeftMenuProps) => {
     const navigate = useNavigate();
     const { i18n } = useTranslation();
 
@@ -22,7 +22,7 @@ const LeftMenu = ({theme, setTheme, setIsAuthenticated, setDisplayedPage}: LeftM
 
     const handleLogout = async () => {
         await fetch("http://localhost:5000/auth/logout", { method: "POST", credentials: "include" });
-        setIsAuthenticated(false);
+        // setIsAuthenticated(false);
         navigate("/auth");
     };
 

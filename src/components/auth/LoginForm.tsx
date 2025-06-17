@@ -31,9 +31,9 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
         if (response.ok) {
 
             const data = await response.json();
-            const isEmailVerified = data.isEmailVerified;
+            const authUser = data.user;
             
-            navigate("/", {state: {isEmailVerified}});
+            navigate("/", {state: {authUser}});
             
         } else {
             const data:any = await response.json();
