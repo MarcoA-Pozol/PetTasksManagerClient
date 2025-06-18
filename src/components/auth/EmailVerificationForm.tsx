@@ -16,6 +16,14 @@ const EmailVerificationForm = () => {
 
     authInterceptor();
 
+    // Authentication check
+    useEffect(() => {
+        api.get('/auth/check')    
+        .then(() => {})
+        .catch(() => {})
+    }, []);
+
+
     //Place cursor in text area just after load page
     useEffect(() => {
             if(verificationCodeElementRef.current) verificationCodeElementRef.current.focus(); 
@@ -57,7 +65,7 @@ const EmailVerificationForm = () => {
 
     if(isEmailVerified) {
         //Redirect to home page
-        return <Navigate to="/" state={{isEmailVerified: true}}/>;
+        return <Navigate to="/"/>;
     }
 
     //Re-place cursor in text area after submiting

@@ -37,8 +37,8 @@ export const authInterceptor = () => {
                 const responseData = error.response?.data;
 
                 const is401 = error.response?.status === 401;
-                const isTokenExpired = is401 && responseData?.error === 'TOKEN_EXPIRED';
-                const isEmailUnverified = is401 && responseData?.error === 'UNVERIFIED_EMAIL';
+                const isTokenExpired = responseData?.error === 'TOKEN_EXPIRED';
+                const isEmailUnverified = responseData?.error === 'UNVERIFIED_EMAIL';
 
                 // If not token expired nor email unverified, just logout
                 if (is401 && !isTokenExpired && !isEmailUnverified) {
@@ -47,7 +47,7 @@ export const authInterceptor = () => {
                 }
 
                 // Handle token refresh
-                if (isTokenExpired) {
+                if (is401 && isTokenExpired) {
                     if (originalRequest._retry) {
                         // Prevent infinite loop
                         return Promise.reject(error);
@@ -63,7 +63,7 @@ export const authInterceptor = () => {
                     originalRequest._retry = true;
                     isRefreshing = true;
 
-                    api.post('/auth/refresh', {})
+                    return api.post('/auth/refresh', {})
                     .then(() => {
                         isRefreshing = false;
                         processQueue(null);

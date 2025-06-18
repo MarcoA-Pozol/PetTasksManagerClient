@@ -21,7 +21,10 @@ const AppView = () => {
         root.classList.remove("light", "dark");
         root.classList.add(theme);
     }, [theme]);
+    
     const [authUser, setAuthUser] = useState<any>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
     const [displayedPage, setDisplayedPage] = useState("home");
     const completedTasksPercentage = useRef<number>(0);
     const [selectedPetImage, setSelectedPetImage] = useState<string>("");
@@ -42,7 +45,7 @@ const AppView = () => {
 
     // Authentication check
     useEffect(() => {
-        checkUserAuthentication({setAuthUser});
+        checkUserAuthentication({setIsAuthenticated, setAuthUser});
     }, []);
 
     // Pick one random pet image
@@ -60,13 +63,9 @@ const AppView = () => {
     
     // Fetch tasks
     useEffect(() => {
-<<<<<<< HEAD
-        if (!authUser || !authUser._id || !isEmailVerified || hasFetchedTasks.current) return;
-=======
        if (!authUser || !authUser._id || hasFetchedTasks.current) return;
 
-       hasFetchedTasks.current = true;
->>>>>>> 5eed749 (Add email verification interceptor)
+        hasFetchedTasks.current = true;
         
         hasFetchedTasks.current = true;
         
@@ -135,18 +134,15 @@ const AppView = () => {
 
     return (
         <> 
-<<<<<<< HEAD
-            {isAuthenticated === null ? (
+            {!isAuthenticated ? 
+            (
                 <div>Loading...</div> // or a spinner
-            ) : !isAuthenticated && location.pathname !== "/auth" ? (
-                <Navigate to="/auth" />
-            ) : (
+            ) : 
+            (
                 <div className={`app-container ${theme}`}>
                     <LeftMenu 
                         theme={theme} 
                         setTheme={setTheme} 
-                        isAuthenticated={isAuthenticated} 
-                        setIsAuthenticated={setIsAuthenticated} 
                         setDisplayedPage={setDisplayedPage} 
                     />
                     <div className="content-container">
@@ -154,9 +150,7 @@ const AppView = () => {
                             <HomePage 
                                 theme={theme}
                                 setTheme={setTheme}
-                                isAuthenticated={isAuthenticated}
                                 authUser={authUser}
-                                setIsAuthenticated={setIsAuthenticated}
                                 setDisplayedPage={setDisplayedPage}
                                 selectedPetImage={selectedPetImage}
                                 petState={petState}
@@ -181,47 +175,10 @@ const AppView = () => {
                             />
                         )}
                     </div>
-=======
-            <div className={`app-container ${theme}`}>
-                <LeftMenu 
-                    theme={theme} 
-                    setTheme={setTheme} 
-                    setDisplayedPage={setDisplayedPage} 
-                />
-                <div className="content-container">
-                    {displayedPage === "home" && (
-                        <HomePage 
-                            theme={theme}
-                            setTheme={setTheme}
-                            authUser={authUser}
-                            setDisplayedPage={setDisplayedPage}
-                            selectedPetImage={selectedPetImage}
-                            completedTasksList={completedTasksList}
-                            uncompletedTasksList={uncompletedTasksList}
-                            completedTasksCount={completedTasksCount}
-                            uncompletedTasksCount={uncompletedTasksCount}
-                            removeTaskFromListOnCompleted={removeTaskFromListOnCompleted}
-                            removeTaskFromListOnDeletion={removeTaskFromListOnDeletion}
-                            diminishUncompletedTasksCount={diminishUncompletedTasksCount}
-                            diminishCompletedTasksCount={diminishCompletedTasksCount}
-                            increaseCompletedTasksCount={increaseCompletedTasksCount}
-                            completedTasksPercentage={completedTasksPercentage}
-                        />
-                    )}
-                    {displayedPage === "create" && (
-                        <CreateTaskPage 
-                            userId={authUser?._id}
-                            uncompletedTasksList={uncompletedTasksList}
-                            increaseUncompletedTasksCount={increaseUncompletedTasksCount}
-                            addTaskToUncompletedTasksList={(task: TaskInterface) => addTaskToUncompletedTasksList(task, setUncompletedTasksList)}
-                        />
-                    )}
->>>>>>> 5eed749 (Add email verification interceptor)
                 </div>
-            </div>
-        </>
-    );
-    
-}
+            )
+            }
+        </>);
+};
 
 export default AppView;
