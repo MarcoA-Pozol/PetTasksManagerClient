@@ -29,12 +29,7 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
         });
 
         if (response.ok) {
-
-            const data = await response.json();
-            const authUser = data.user;
-            
-            navigate("/", {state: {authUser}});
-            
+            navigate("/");
         } else {
             const data:any = await response.json();
             alert(`SignIn Error: ${response.status} | ${data.message}`);
