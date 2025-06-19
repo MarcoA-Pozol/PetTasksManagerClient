@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/auth/authForm.css';
 import loginStainImg from '../../assets/login_stain_img.png';
+import { SuccessMessage, WarningMessage, ErrorMessage, CustomMessage } from '../temporaryMessages';
 
 type Props = {
     children?: React.ReactNode; // Can accept another html elements or react components
@@ -9,7 +10,7 @@ type Props = {
 
 
 const LoginForm: React.FC<Props> = ({children}:Props) => {
-    
+    const [temporaryMessage, setTemporaryMessage] = useState<{ text: string; type: "success" | "warning" | "error" | "custom" } | null>(null);
     const navigate = useNavigate();
 
 
@@ -29,16 +30,16 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
         });
 
         if (response.ok) {
+            setTemporaryMessage({ text: "Login successful!", type: 'success' });
             navigate("/");
         } else {
             const data:any = await response.json();
-            alert(`SignIn Error: ${response.status} | ${data.message}`);
+            setTemporaryMessage({ text: `SignIn Error: ${response.status} | ${data.message}`, type: 'error' });
         }
     };
 
     return(
         <div className='base-container'>
-
             <div className='form-left-container'>
                 <form className="auth-form" onSubmit={handleFormSubmision}>
                     <h2 className="auth-title">Welcome Back!</h2>
@@ -48,6 +49,18 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
                     {children}
                 </form>
             </div>
+
+            {temporaryMessage?.type === "success" ? (
+                <SuccessMessage message={temporaryMessage.text}/>
+            ) : temporaryMessage?.type === "warning" ? (
+                <WarningMessage message={temporaryMessage.text}/>
+            ) : temporaryMessage?.type === "error" ? (
+                <ErrorMessage message={temporaryMessage.text}/>
+            ) : temporaryMessage?.type === "custom" ? (
+                <CustomMessage message={temporaryMessage.text}/>
+            ) : (
+                <CustomMessage/>
+            )}
 
             <div className='form-right-container'>
                 <img src={loginStainImg} alt='Login stain img'></img>

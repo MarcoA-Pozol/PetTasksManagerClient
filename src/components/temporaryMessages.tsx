@@ -14,7 +14,7 @@ export const SuccessMessage = ({message}:temporaryMessageProps) => {
     const { t } = useTranslation();
 
     return (
-        <div style={{backgroundColor:"#4caf50"}}>
+        <div className="temporary-message" style={{backgroundColor:"#4caf50"}}>
             {t(`${message}`)}
         </div>
     );
@@ -24,7 +24,7 @@ export const WarningMessage = ({message}:temporaryMessageProps) => {
     const { t } = useTranslation();
 
     return (
-        <div style={{backgroundColor:"#bb6a34"}}>
+        <div className="temporary-message" style={{backgroundColor:"#bb6a34"}}>
             {t(`${message}`)}
         </div>
     );
@@ -34,7 +34,7 @@ export const ErrorMessage = ({message}:temporaryMessageProps) => {
     const { t } = useTranslation();
 
     return (
-        <div style={{backgroundColor:"#af4c4c"}}>
+        <div className="temporary-message" style={{backgroundColor:"#af4c4c"}}>
             {t(`${message}`)}
         </div>
     );
@@ -44,7 +44,7 @@ export const CustomMessage = ({message="You can customize this message", backgro
     const { t } = useTranslation();
 
     return (
-        <div style={{backgroundColor:backgroundColor, color:color}}>
+        <div className="temporary-message" style={{backgroundColor:backgroundColor, color:color}}>
             {t(`${message}`)}
         </div>
     );
