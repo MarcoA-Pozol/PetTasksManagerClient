@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/auth/authForm.css';
 import registerStainImage from '../../assets/login_stain_img.png';
+import { SuccessMessage, WarningMessage, ErrorMessage, CustomMessage } from '../temporaryMessages';
 
 type Props = {
     children?: React.ReactNode; // Can accept another html elements or react components
@@ -41,8 +42,16 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
 
     return(
         <div className='base-container'>
+
+            
+
             <div className='form-left-container'>
                 <form className="auth-form" onSubmit={handleFormSubmision}>
+                    <SuccessMessage message="Juan"/>
+                    <WarningMessage message="Juan"/>
+                    <ErrorMessage message="Juan"/>
+                    <CustomMessage message="Juan" backgroundColor="royalblue" color="white"/>
+                    <CustomMessage/>
                     <h2 className="auth-title">Create Account</h2>
                     <input name="username" type="text" placeholder="Username" required className="auth-input" />
                     <input name="email" type="email" placeholder="Email" required className="auth-input" />
