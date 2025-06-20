@@ -10,6 +10,7 @@ import { checkUserAuthentication } from "../../utils/Authentication";
 // Utils
 import { pickOneRandomPetImage } from '../../utils/PetImage';
 import { fetchUserTasks, addTaskToUncompletedTasksList } from '../../utils/Tasks';
+import { useAuthContext } from "../../context/authContext";
 
 
 
@@ -21,9 +22,9 @@ const AppView = () => {
         root.classList.remove("light", "dark");
         root.classList.add(theme);
     }, [theme]);
-    
-    const [authUser, setAuthUser] = useState<any>(null);
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+    //Get auth context shared (kind of global) data
+    const {isAuthenticated, authUser, checkAuth} = useAuthContext()!;
 
     const [displayedPage, setDisplayedPage] = useState("home");
     const completedTasksPercentage = useRef<number>(0);
@@ -45,9 +46,12 @@ const AppView = () => {
 
     // Authentication check
     useEffect(() => {
-        checkUserAuthentication({setIsAuthenticated, setAuthUser});
+        if(!isAuthenticated){
+            checkAuth();
+        }
     }, []);
 
+    
     // Pick one random pet image
     useEffect(() => {
         pickOneRandomPetImage({completedTasksPercentage, setSelectedPetImage, setPetState});
