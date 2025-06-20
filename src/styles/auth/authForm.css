@@ -3,35 +3,20 @@
     display: flex;
     height: 100vh;
     width: 100%;
-    background-color: #f9fafb;
+    background-color: #0071e2;
     font-family: 'Inter', sans-serif;
 }
 
 /* Left form side */
-.form-left-container {
+.form-container {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 3rem;
-    background-color: #ffffff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
 }
 
-/* Right image side */
-.form-right-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to top right, #ffffffc7, #0634c9);
-}
-
-.form-right-container img {
-    max-width: 70%;
-    height: auto;
-    opacity: 0.9;
-}
 
 /* Auth form */
 .auth-form {
@@ -42,12 +27,14 @@
     gap: 1.2rem;
     padding: 2rem;
     border-radius: 12px;
+    border: 1px solid whitesmoke;
+    box-shadow: 2px 2px 1px white;
 }
 
 .auth-title {
     font-size: 1.75rem;
     font-weight: bold;
-    color: rgb(115, 104, 209);
+    color: rgb(226, 226, 226);
     margin-bottom: 1rem;
     text-align: center;
 }
@@ -74,7 +61,7 @@
     padding: 0.75rem 1rem;
     font-size: 1rem;
     font-weight: bold;
-    background-color: #2017a3;
+    background-color: #211a46;
     color: white;
     border: none;
     border-radius: 8px;
@@ -83,20 +70,27 @@
 }
 
 .auth-button:hover {
-    background-color: #2414b6;
+    background-color: #101246;
 }
 
 .auth-button:active {
     transform: scale(0.98);
 }
 
-
+.forgot-password-button {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    color: rgb(207, 204, 230);
+    font-weight: 500;
+    transition-duration: 0.8s;
+}
 
 .toggle-forms-button {
   display: flex;
   justify-content: center;
   cursor: pointer;
-  color: rgb(115, 104, 209);
+  color: rgb(207, 204, 230);
   font-weight: 500;
   transition-duration: 0.8s;
 }
