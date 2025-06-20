@@ -63,14 +63,15 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
 
     return(
         <div className='base-container'>
-            <div className='form-container' style={{backgroundImage:`url("/images/landscape1.png")`, backgroundSize: "cover", backgroundPosition: "center"}}>
+
+            <div className="form-container" style={{backgroundImage:`url("/images/landscape1.png")`, backgroundSize: "cover", backgroundPosition: "center"}}>
                 <form className="auth-form" style={{backgroundColor:"brown"}} onSubmit={handleFormSubmision}>
                     <h2 className="auth-title">Welcome Back!</h2>
                     <input name="input" type="text" placeholder="Username / Email" required className="auth-input" />
                     <input name="password" type="password" placeholder="Password" required className="auth-input" />
                     <button type="submit" className="auth-button">Continue</button>
                     <hr style={{width:"100%", color:"white"}}></hr>
-                    <p className="forgot-password-button">I forgot my password</p>
+                    <span className="forgot-password-button">I forgot my password</span>
                     {children}
                 </form>
             </div>
