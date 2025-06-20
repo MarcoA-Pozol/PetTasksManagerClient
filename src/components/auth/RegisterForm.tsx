@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/auth/authForm.css';
-import registerStainImage from '../../assets/login_stain_img.png';
 import { SuccessMessage, WarningMessage, ErrorMessage, CustomMessage } from '../temporaryMessages';
 
 type Props = {
