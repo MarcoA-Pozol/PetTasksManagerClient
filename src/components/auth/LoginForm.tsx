@@ -7,7 +7,6 @@ type Props = {
     children?: React.ReactNode; // Can accept another html elements or react components
 }
 
-
 const LoginForm: React.FC<Props> = ({children}:Props) => {
     const navigate = useNavigate();
 
@@ -33,11 +32,11 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
         });
 
         if (response.ok) {
-            setTemporaryMessageText("SignIn with success");
+            setTemporaryMessageText("SignIn was successful");
             setShowSuccessMessage(true);
-            navigate("/");
             setTimeout(() => {
                 setShowSuccessMessage(false);
+                navigate("/");
             }, 2000);
         } else if (response.status === 404) {
             setTemporaryMessageText("User was not found");
@@ -64,8 +63,8 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
     return(
         <div className='base-container'>
 
-            <div className="form-container" style={{backgroundImage:`url("/images/landscape1.png")`, backgroundSize: "cover", backgroundPosition: "center"}}>
-                <form className="auth-form" style={{backgroundColor:"brown"}} onSubmit={handleFormSubmision}>
+            <div className="form-container" style={{backgroundImage:`url("/images/landscape5.png")`, backgroundSize: "cover", backgroundPosition: "center"}}>
+                <form className="auth-form" style={{backgroundColor:"rgba(70, 10, 120, .6)"}} onSubmit={handleFormSubmision}>
                     <h2 className="auth-title">Welcome Back!</h2>
                     <input name="input" type="text" placeholder="Username / Email" required className="auth-input" />
                     <input name="password" type="password" placeholder="Password" required className="auth-input" />

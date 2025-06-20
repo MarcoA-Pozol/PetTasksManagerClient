@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/auth/authForm.css';
-import { SuccessMessage, WarningMessage, ErrorMessage, CustomMessage } from '../temporaryMessages';
+import { SuccessMessage, WarningMessage, ErrorMessage } from '../temporaryMessages';
+import { useState } from 'react';
 
 type Props = {
     children?: React.ReactNode; // Can accept another html elements or react components
@@ -9,6 +10,11 @@ type Props = {
 
 const RegisterForm: React.FC<Props> = ({children}:Props) => {
     const navigate = useNavigate();
+
+    const [temporaryMessageText, setTemporaryMessageText] = useState<string>("");
+    const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
+    const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
+    const [showUserAlreadyExistsMessage, setShowUserAlreadyExistsMessage] = useState<boolean>(false);
 
     const handleFormSubmision = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -28,10 +34,25 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
             });
 
             if (response.status === 201) {
-                navigate("/");
+                setTemporaryMessageText("User created!")
+                setShowSuccessMessage(true);
+                setTimeout(() => {
+                    setShowSuccessMessage(false);
+                    navigate("/");
+                }, 2000);
+            } else if (response.status === 400) {
+                setTemporaryMessageText("Username or email already taken")
+                setShowUserAlreadyExistsMessage(true);
+                setTimeout(() => {
+                    setShowUserAlreadyExistsMessage(false);
+                }, 2000)
             } else {
                 const data:any = await response.json();
-                alert(`SignUp Error: ${response.status} | ${data.message}`);
+                setTemporaryMessageText(`SignUp Error: ${response.status} | ${data.message}`);
+                setShowErrorMessage(true);
+                setTimeout(() => {
+                    setShowErrorMessage(false);
+                }, 2000)
             }
         } else {
             alert('Password fields must coincide.')
@@ -42,13 +63,8 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
     return(
         <div className='base-container'>
 
-            <div className="form-container" style={{backgroundImage:`url("/images/landscape3.png")`, backgroundSize: "cover", backgroundPosition: "center"}}>
-                <form className="auth-form" style={{backgroundColor:"darkslateblue"}} onSubmit={handleFormSubmision}>
-                    <SuccessMessage message="Juan"/>
-                    <WarningMessage message="Juan"/>
-                    <ErrorMessage message="Juan"/>
-                    <CustomMessage message="Juan" backgroundColor="royalblue" color="white"/>
-                    <CustomMessage/>
+            <div className="form-container" style={{backgroundImage:`url("/images/landscape1.png")`, backgroundSize: "cover", backgroundPosition: "center"}}>
+                <form className="auth-form" style={{backgroundColor:"brown"}} onSubmit={handleFormSubmision}>
                     <h2 className="auth-title">Create Account</h2>
                     <input name="username" type="text" placeholder="Username" required className="auth-input" />
                     <input name="email" type="email" placeholder="Email" required className="auth-input" />
@@ -59,6 +75,18 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
                     {children}
                 </form>
             </div>
+
+            {showSuccessMessage && (
+                <SuccessMessage message={temporaryMessageText}/>
+            )}
+
+            {showUserAlreadyExistsMessage && (
+                <WarningMessage message={temporaryMessageText}/>
+            )}
+
+            {showErrorMessage && (
+                <ErrorMessage message={temporaryMessageText}/>
+            )}
         </div>
     );
 };
