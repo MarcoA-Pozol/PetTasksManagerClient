@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/auth/authForm.css';
 import loginStainImg from '../../assets/login_stain_img.png';
-import { SuccessMessage, WarningMessage, ErrorMessage, CustomMessage } from '../temporaryMessages';
+import { SuccessMessage, WarningMessage, ErrorMessage } from '../temporaryMessages';
 
 type Props = {
     children?: React.ReactNode; // Can accept another html elements or react components
@@ -10,9 +10,13 @@ type Props = {
 
 
 const LoginForm: React.FC<Props> = ({children}:Props) => {
-    const [temporaryMessage, setTemporaryMessage] = useState<{ text: string; type: "success" | "warning" | "error" | "custom" } | null>(null);
     const navigate = useNavigate();
 
+    const [temporaryMessageText, setTemporaryMessageText] = useState<string>("");
+    const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
+    const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
+    const [showUserDoesNotExistsMessage, setShowUserDoesNotExistsMessage] = useState<boolean>(false);
+    const [showUnauthorizedMessage, setShowUnauthorizedMessage] = useState<boolean>(false);
 
     const handleFormSubmision = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -30,11 +34,31 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
         });
 
         if (response.ok) {
-            setTemporaryMessage({ text: "Login successful!", type: 'success' });
+            setTemporaryMessageText("SignIn with success");
+            setShowSuccessMessage(true);
             navigate("/");
+            setTimeout(() => {
+                setShowSuccessMessage(false);
+            }, 2000);
+        } else if (response.status === 404) {
+            setTemporaryMessageText("User was not found");
+            setShowUserDoesNotExistsMessage(true);
+            setTimeout(() => {
+                setShowUserDoesNotExistsMessage(false);
+            }, 2000);
+        } else if (response.status === 401) {
+            setTemporaryMessageText("Invalid password");
+            setShowUnauthorizedMessage(true);
+            setTimeout(() => {
+                setShowUnauthorizedMessage(false);
+            }, 2000);
         } else {
             const data:any = await response.json();
-            setTemporaryMessage({ text: `SignIn Error: ${response.status} | ${data.message}`, type: 'error' });
+            setTemporaryMessageText(`Server error ocurred: ${data}`);
+            setShowErrorMessage(true);
+            setTimeout(() => {
+                setShowErrorMessage(false);
+            }, 2000);
         }
     };
 
@@ -50,17 +74,21 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
                 </form>
             </div>
 
-            {temporaryMessage?.type === "success" ? (
-                <SuccessMessage message={temporaryMessage.text}/>
-            ) : temporaryMessage?.type === "warning" ? (
-                <WarningMessage message={temporaryMessage.text}/>
-            ) : temporaryMessage?.type === "error" ? (
-                <ErrorMessage message={temporaryMessage.text}/>
-            ) : temporaryMessage?.type === "custom" ? (
-                <CustomMessage message={temporaryMessage.text}/>
-            ) : (
-                <CustomMessage/>
-            )}
+                {showSuccessMessage && (
+                    <SuccessMessage message={temporaryMessageText}/>
+                )}
+
+                {showUserDoesNotExistsMessage && (
+                    <WarningMessage message={temporaryMessageText}/>
+                )}
+
+                {showUnauthorizedMessage && (
+                    <WarningMessage message={temporaryMessageText}/>
+                )}
+
+                {showErrorMessage && (
+                    <ErrorMessage message={temporaryMessageText}/>
+                )}
 
             <div className='form-right-container'>
                 <img src={loginStainImg} alt='Login stain img'></img>
