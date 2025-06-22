@@ -63,14 +63,14 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
     return(
         <div className='base-container'>
 
-            <div className="form-container" style={{backgroundImage:`url("/images/landscape1.png")`, backgroundSize: "cover", backgroundPosition: "center"}}>
-                <form className="auth-form" style={{backgroundColor:"brown"}} onSubmit={handleFormSubmision}>
-                    <h2 className="auth-title">Create Account</h2>
+            <div className="form-container" style={{backgroundImage:`url("/images/landscape6.png")`, backgroundSize: "cover", backgroundPosition: "center"}}>
+                <form className="auth-form" style={{backgroundColor:"rgba(120, 40, 70, 0.5)"}} onSubmit={handleFormSubmision}>
+                    <h2 className="auth-title">Create your account</h2>
                     <input name="username" type="text" placeholder="Username" required className="auth-input" />
                     <input name="email" type="email" placeholder="Email" required className="auth-input" />
                     <input name="password" type="password" placeholder="Password" required className="auth-input" />
                     <input name="confirmPassword" type="password" placeholder="Confirm Password" required className="auth-input" />
-                    <button type="submit" className="auth-button">Register</button>
+                    <button type="submit" className="auth-button">Continue</button>
                     <hr style={{width:"100%", color:"white"}}></hr>
                     {children}
                 </form>
