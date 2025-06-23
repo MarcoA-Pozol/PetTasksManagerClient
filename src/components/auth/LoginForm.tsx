@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/auth/authForm.css';
 import { SuccessMessage, WarningMessage, ErrorMessage } from '../temporaryMessages';
+import { useAuthContext } from '../../context/authContext';
 
 type Props = {
     children?: React.ReactNode; // Can accept another html elements or react components
@@ -9,6 +10,7 @@ type Props = {
 
 const LoginForm: React.FC<Props> = ({children}:Props) => {
     const navigate = useNavigate();
+    const {authenticate, setIsEmailVerified} = useAuthContext()!;
 
     const [temporaryMessageText, setTemporaryMessageText] = useState<string>("");
     const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
@@ -34,6 +36,13 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
         if (response.ok) {
             setTemporaryMessageText("SignIn was successful");
             setShowSuccessMessage(true);
+
+            // Save auth state in authentication context
+            const responseData = await response.json();
+            authenticate(responseData.user);
+            setIsEmailVerified(responseData.isEmailVerified);
+            
+
             setTimeout(() => {
                 setShowSuccessMessage(false);
                 navigate("/");

@@ -4,13 +4,12 @@ import HomePage from "./HomePage";
 import CreateTaskPage from "./CreateTaskPage";
 import LeftMenu from "./LeftMenu";
 import { TaskInterface } from "../../schemas/Task";
-import { authInterceptor, emailInterceptor } from "../../axios/Api";
-import { checkUserAuthentication } from "../../utils/Authentication";
 
 // Utils
 import { pickOneRandomPetImage } from '../../utils/PetImage';
 import { fetchUserTasks, addTaskToUncompletedTasksList } from '../../utils/Tasks';
 import { useAuthContext } from "../../context/authContext";
+import { Navigate } from "react-router-dom";
 
 
 
@@ -23,8 +22,8 @@ const AppView = () => {
         root.classList.add(theme);
     }, [theme]);
 
-    //Get auth context shared (kind of global) data
-    const {isAuthenticated, authUser, checkAuth} = useAuthContext()!;
+    // Get auth context shared (kind of global) data
+    const {authUser, isEmailVerified} = useAuthContext()!;
 
     const [displayedPage, setDisplayedPage] = useState("home");
     const completedTasksPercentage = useRef<number>(0);
@@ -37,21 +36,7 @@ const AppView = () => {
     const [uncompletedTasksCount, setUncompletedTasksCount] = useState<number>(0);
     const [completedTasksCount, setCompletedTasksCount] = useState<number>(0);
     const hasFetchedTasks = useRef(false); // Control fetching cards to only occur one time on component rendering
-    
 
-    //Include incerceptors
-    authInterceptor();
-    emailInterceptor();
-
-
-    // Authentication check
-    useEffect(() => {
-        if(!isAuthenticated){
-            checkAuth();
-        }
-    }, []);
-
-    
     // Pick one random pet image
     useEffect(() => {
         pickOneRandomPetImage({completedTasksPercentage, setSelectedPetImage, setPetState});
@@ -67,7 +52,7 @@ const AppView = () => {
     
     // Fetch tasks
     useEffect(() => {
-       if (!authUser || !authUser._id || hasFetchedTasks.current) return;
+       if (!authUser || !authUser._id || !isEmailVerified || hasFetchedTasks.current) return;
 
         hasFetchedTasks.current = true;
         
@@ -135,53 +120,49 @@ const AppView = () => {
        setUncompletedTasksCount(uncompletedTasksCount + 1);
     }
 
+    if(!isEmailVerified) return <Navigate to="/email-verify"/>;
 
     return (
         <> 
-            {!isAuthenticated ? 
-            (
-                <div>Loading...</div> // or a spinner
-            ) : 
-            (
-                <div className={`app-container ${theme}`}>
-                    <LeftMenu 
-                        theme={theme} 
-                        setTheme={setTheme} 
-                        setDisplayedPage={setDisplayedPage} 
-                    />
-                    <div className="content-container">
-                        {displayedPage === "home" && (
-                            <HomePage 
-                                theme={theme}
-                                setTheme={setTheme}
-                                authUser={authUser}
-                                setDisplayedPage={setDisplayedPage}
-                                selectedPetImage={selectedPetImage}
-                                petState={petState}
-                                completedTasksList={completedTasksList}
-                                uncompletedTasksList={uncompletedTasksList}
-                                completedTasksCount={completedTasksCount}
-                                uncompletedTasksCount={uncompletedTasksCount}
-                                removeTaskFromListOnCompleted={removeTaskFromListOnCompleted}
-                                removeTaskFromListOnDeletion={removeTaskFromListOnDeletion}
-                                diminishUncompletedTasksCount={diminishUncompletedTasksCount}
-                                diminishCompletedTasksCount={diminishCompletedTasksCount}
-                                increaseCompletedTasksCount={increaseCompletedTasksCount}
-                                completedTasksPercentage={completedTasksPercentage}
-                            />
-                        )}
-                        {displayedPage === "create" && (
-                            <CreateTaskPage 
-                                userId={authUser?._id}
-                                uncompletedTasksList={uncompletedTasksList}
-                                increaseUncompletedTasksCount={increaseUncompletedTasksCount}
-                                addTaskToUncompletedTasksList={(task: TaskInterface) => addTaskToUncompletedTasksList(task, setUncompletedTasksList)}
-                            />
-                        )}
-                    </div>
+        {
+            <div className={`app-container ${theme}`}>
+                <LeftMenu 
+                    theme={theme} 
+                    setTheme={setTheme} 
+                    setDisplayedPage={setDisplayedPage} 
+                />
+                <div className="content-container">
+                    {displayedPage === "home" && (
+                        <HomePage 
+                            theme={theme}
+                            setTheme={setTheme}
+                            authUser={authUser}
+                            setDisplayedPage={setDisplayedPage}
+                            selectedPetImage={selectedPetImage}
+                            petState={petState}
+                            completedTasksList={completedTasksList}
+                            uncompletedTasksList={uncompletedTasksList}
+                            completedTasksCount={completedTasksCount}
+                            uncompletedTasksCount={uncompletedTasksCount}
+                            removeTaskFromListOnCompleted={removeTaskFromListOnCompleted}
+                            removeTaskFromListOnDeletion={removeTaskFromListOnDeletion}
+                            diminishUncompletedTasksCount={diminishUncompletedTasksCount}
+                            diminishCompletedTasksCount={diminishCompletedTasksCount}
+                            increaseCompletedTasksCount={increaseCompletedTasksCount}
+                            completedTasksPercentage={completedTasksPercentage}
+                        />
+                    )}
+                    {displayedPage === "create" && (
+                        <CreateTaskPage 
+                            userId={authUser?._id}
+                            uncompletedTasksList={uncompletedTasksList}
+                            increaseUncompletedTasksCount={increaseUncompletedTasksCount}
+                            addTaskToUncompletedTasksList={(task: TaskInterface) => addTaskToUncompletedTasksList(task, setUncompletedTasksList)}
+                        />
+                    )}
                 </div>
-            )
-            }
+            </div>
+        }
         </>);
 };
 
