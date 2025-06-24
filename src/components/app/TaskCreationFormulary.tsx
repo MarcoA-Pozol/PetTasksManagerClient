@@ -3,8 +3,11 @@ import { useTranslation } from "react-i18next";
 import { useState, useRef, useEffect } from "react";
 import { TaskInterfaceTwo, TaskCreationFormularyProps } from "../../schemas/Task";
 
+import api from "../../axios/Api";
+
+
 const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskToUncompletedTasksList}: TaskCreationFormularyProps) => {
-    
+
     const { t } = useTranslation();
     
     const [title, setTitle] = useState("");
@@ -31,50 +34,45 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
 
         try {
             if (title!=="") {
+                
                 //Create task
                 const newTask: TaskInterfaceTwo  = {name: title, status: "to-do", userId};
     
                 //Update user tasks in server
-                const response = await fetch('http://localhost:5000/tasks/', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(newTask),
-                    credentials: 'include'
-                });
-                
-                if (!response.ok) {
+                await api.post('http://localhost:5000/tasks/', newTask)
+                .then((res: any) => {
+
+                    console.log("Task created on server: ", res);
+        
+                    const task = res.data.request_body;
+
+                    console.log("Task added to uncompleted tasks list: ", task);
+
+                    // Add task to uncompleted tasks list
+                    addTaskToUncompletedTasksList(task);
+
+                    // Increase uncompleted tasks count
+                    increaseUncompletedTasksCount();
+        
+                    // Clean form fields after submission
+                    setTitle("");
+        
+                    // Show success message
+                    setShowSuccessMessage(true);
+        
+                    setTimeout(() => {
+                        setShowSuccessMessage(false);
+                    }, 2000);
+                })
+                .catch(() => {
                     console.error("Failed to create task");
                     setTitle("");
                     setShowTaskAlraedyExistsMessage(true);
                     setTimeout(() => {
                         setShowTaskAlraedyExistsMessage(false);
                     }, 2000);
-                    return;
-                }
-
-                const data = await response.json();
-
-                console.log("Task created on server: ", data);
-    
-                const task = data.request_body;
-
-                console.log("Task added to uncompleted tasks list: ", task);
-
-                // Add task to uncompleted tasks list
-                addTaskToUncompletedTasksList(task);
-
-                // Increase uncompleted tasks count
-                increaseUncompletedTasksCount();
-    
-                // Clean form fields after submission
-                setTitle("");
-    
-                // Show success message
-                setShowSuccessMessage(true);
-    
-                setTimeout(() => {
-                    setShowSuccessMessage(false);
-                }, 2000);
+                });
+     
             } else {
                 // Show warning message
                 setShowWarningMessage(true);

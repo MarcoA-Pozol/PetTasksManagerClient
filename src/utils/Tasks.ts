@@ -1,4 +1,5 @@
 import { TaskInterface } from "../schemas/Task";
+import api from "../axios/Api";
 
 interface fetchUserTasksProps {
     authUser: any;
@@ -8,24 +9,21 @@ interface fetchUserTasksProps {
     setUncompletedTasksCount: React.Dispatch<React.SetStateAction<number>>;
 }
 export const fetchUserTasks = async ({authUser, setCompletedTasksList, setUncompletedTasksList, setCompletedTasksCount, setUncompletedTasksCount}:fetchUserTasksProps) => {
-    try {
-        const response = await fetch(`http://localhost:5000/tasks/search?userId=${authUser.id}`);
-        if (response.ok) {
-            const data = await response.json();
-            setCompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === true));
-            setUncompletedTasksList(data.tasks.filter((tasks: any) => tasks.isCompleted === false));
-            setCompletedTasksCount(data.completedCount);
-            setUncompletedTasksCount(data.uncompletedCount);
-            console.log("Tasks list:", data);
-        } else {
-            setCompletedTasksList([]);
-            setUncompletedTasksList([]);
-            setCompletedTasksCount(0);
-            setUncompletedTasksCount(0);
-        }
-    } catch (err) {
-        console.error("Error during fetching tasks for this user:", err);
-    };
+    
+    await api.get(`http://localhost:5000/tasks/search?userId=${authUser.id}`)
+    .then((res: any) => {
+        setCompletedTasksList(res.data.tasks.filter((tasks: any) => tasks.isCompleted === true));
+        setUncompletedTasksList(res.data.tasks.filter((tasks: any) => tasks.isCompleted === false));
+        setCompletedTasksCount(res.data.completedCount);
+        setUncompletedTasksCount(res.data.uncompletedCount);
+        console.log("Tasks list: ", res);
+    })
+    .catch(() => {
+        setCompletedTasksList([]);
+        setUncompletedTasksList([]);
+        setCompletedTasksCount(0);
+        setUncompletedTasksCount(0);
+    });
  }
 
 export const addTaskToUncompletedTasksList = (task: TaskInterface, setUncompletedTasksList: React.Dispatch<React.SetStateAction<TaskInterface[]>>) => {

@@ -1,37 +1,37 @@
 import '../../styles/app/taskCard.css';
 import { TaskCardProps } from '../../schemas/Task';
   
+import api from '../../axios/Api';
+
 export default function TaskCard({ title, status, themeMode, taskId, onComplete, onDelete}: TaskCardProps) {
     
     const setTaskAsCompleted = async () => {
         /* Set a task as completed in server */
         try {
-            const response = await fetch(`http://localhost:5000/tasks?taskId=${taskId}`, {
-                method: 'PATCH'
-            });
-            if (response.ok) {
+
+            await api.patch(`http://localhost:5000/tasks?taskId=${taskId}`)
+            .then(() => {
                 console.log("Task set as completed");
                 onComplete();
-            } else {
-                console.log("Error during seting task as completed.");
-            }
+            })
+            .catch(() => console.log("Error during seting task as completed."));
+                
         } catch (err) {
-            console.error("Internal server error:", err);
+            console.error("Internal server error: ", err);
         }
     }
 
     const deleteTask = async () => {
         /* Delete a task in server */
         try {
-            const response = await fetch(`http://localhost:5000/tasks?taskId=${taskId}`, {
-                method: 'DELETE'
-            });
-            if (response.ok) {
+
+            await api.delete(`http://localhost:5000/tasks?taskId=${taskId}`)
+            .then(() => {
                 console.log("Task deleted.")
                 onDelete();
-            } else {
-                console.log("Error during deleting task.");
-            }
+            })
+            .catch(() => console.log("Error during deleting task."));
+
         } catch (err) {
             console.error("Internal server error:", err);
         }
