@@ -4,16 +4,22 @@ import HomePage from "./HomePage";
 import CreateTaskPage from "./CreateTaskPage";
 import LeftMenu from "./LeftMenu";
 import { TaskInterface } from "../../schemas/Task";
+import { expiredTokenInterceptor } from "../../axios/Api";
 
 // Utils
 import { pickOneRandomPetImage } from '../../utils/PetImage';
 import { fetchUserTasks, addTaskToUncompletedTasksList } from '../../utils/Tasks';
 import { useAuthContext } from "../../context/authContext";
-import { Navigate } from "react-router-dom";
-
 
 
 const AppView = () => {
+
+    // Get auth context shared (kind of global) data
+    const {authUser, isEmailVerified} = useAuthContext()!;
+    
+    //Include auth responses interceptor
+    expiredTokenInterceptor();
+
 
     const [theme, setTheme] = useState("light");
     useEffect(() => {
@@ -22,8 +28,6 @@ const AppView = () => {
         root.classList.add(theme);
     }, [theme]);
 
-    // Get auth context shared (kind of global) data
-    const {authUser, isEmailVerified} = useAuthContext()!;
 
     const [displayedPage, setDisplayedPage] = useState("home");
     const completedTasksPercentage = useRef<number>(0);
@@ -52,14 +56,12 @@ const AppView = () => {
     
     // Fetch tasks
     useEffect(() => {
-       if (!authUser || !authUser._id || !isEmailVerified || hasFetchedTasks.current) return;
 
-        hasFetchedTasks.current = true;
-        
+       if (!authUser || !authUser.id || !isEmailVerified || hasFetchedTasks.current) return;
         hasFetchedTasks.current = true;
         
         fetchUserTasks({authUser, setCompletedTasksList, setUncompletedTasksList, setCompletedTasksCount, setUncompletedTasksCount});
-    }, [authUser?._id]); // Fetch only when authUser change or is set first time on login
+    }, [authUser?.id]); // Fetch only when authUser change or is set first time on login
 
 
     // Function: Remove task from list on deletion
@@ -120,8 +122,6 @@ const AppView = () => {
        setUncompletedTasksCount(uncompletedTasksCount + 1);
     }
 
-    if(!isEmailVerified) return <Navigate to="/email-verify"/>;
-
     return (
         <> 
         {
@@ -154,7 +154,7 @@ const AppView = () => {
                     )}
                     {displayedPage === "create" && (
                         <CreateTaskPage 
-                            userId={authUser?._id}
+                            userId={authUser?.id}
                             uncompletedTasksList={uncompletedTasksList}
                             increaseUncompletedTasksCount={increaseUncompletedTasksCount}
                             addTaskToUncompletedTasksList={(task: TaskInterface) => addTaskToUncompletedTasksList(task, setUncompletedTasksList)}

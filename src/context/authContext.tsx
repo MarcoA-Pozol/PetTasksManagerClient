@@ -20,20 +20,25 @@ export const AuthProvider = ({children}: React.PropsWithChildren<{}>) => {
     const [authUser, setAuthUser] = useState<any>(null);
     const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false);
 
+    let isCheckingAuth = false;
     const checkAuth = async () => {
 
-        await api.get('/auth/check').then((res:any) =>{
+        if(!isCheckingAuth) {
 
-            setAuthUser(res.data.user);
-            setIsAuthenticated(true);
-            setIsEmailVerified(res.data.isEmailVerified);
-        })
-        .catch(() => {
+            isCheckingAuth = true;
 
-            setAuthUser(null);
-            setIsAuthenticated(false);
-            setIsEmailVerified(false);
-        });
+            await api.get('/auth/check').then((res:any) =>{
+                isCheckingAuth = false;
+                authenticate(res.data.user);
+                setIsEmailVerified(res.data.isEmailVerified);
+            })
+            .catch(() => {
+                isCheckingAuth = false;
+                setAuthUser(null);
+                setIsAuthenticated(false);
+                setIsEmailVerified(false);
+            });
+        }
     };
 
     const authenticate = (authUser_p: any) => {

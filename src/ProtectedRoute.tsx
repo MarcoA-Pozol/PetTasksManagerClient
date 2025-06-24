@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { useAuthContext } from "./context/authContext";
 import { Navigate } from "react-router-dom";
 import { expiredTokenInterceptor } from "./axios/Api";
+import EmailVerificationForm from "./components/auth/EmailVerificationForm";
 
 interface PropsWithChildren {
     children: ReactNode;
@@ -10,7 +11,7 @@ interface PropsWithChildren {
 export const ProtectedRoute = ({children}:PropsWithChildren) => {
 
     // Start loading auth context data
-    const {isAuthenticated, checkAuth} = useAuthContext()!;
+    const {isAuthenticated, checkAuth, isEmailVerified} = useAuthContext()!;
     const [isLoadingAuthContext, setIsLoadingAuthContext] = useState<boolean>(true);
  
     // Include incerceptors
@@ -19,8 +20,8 @@ export const ProtectedRoute = ({children}:PropsWithChildren) => {
     useEffect(() => {
         
         // On page refresh, check auth (and email verified status) since react contexts reset on refreshs
-        if(!isAuthenticated) checkAuth();
-        
+        if(!isAuthenticated || !isEmailVerified) checkAuth();
+
         // Delay (ms) to complete the auth context loading
         const timer = setTimeout(() => setIsLoadingAuthContext(false), 100);
 
@@ -32,7 +33,8 @@ export const ProtectedRoute = ({children}:PropsWithChildren) => {
     }, []);
 
 
-    if(isLoadingAuthContext) return <div>Loading...</div>;
-
-    return (!isAuthenticated) ? <Navigate to="/auth"/> : <>{children}</>;
+    return (isLoadingAuthContext) ? <div>Loading...</div>
+    : (!isAuthenticated) ? <Navigate to="/auth"/>
+    : (!isEmailVerified) ? <EmailVerificationForm/>
+    : <>{children}</>;
 };
