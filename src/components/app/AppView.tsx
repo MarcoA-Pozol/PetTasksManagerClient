@@ -4,7 +4,6 @@ import HomePage from "./HomePage";
 import CreateTaskPage from "./CreateTaskPage";
 import LeftMenu from "./LeftMenu";
 import { TaskInterface } from "../../schemas/Task";
-import { expiredTokenInterceptor } from "../../axios/Api";
 
 // Utils
 import { pickOneRandomPetImage } from '../../utils/PetImage';
@@ -16,10 +15,6 @@ const AppView = () => {
 
     // Get auth context shared (kind of global) data
     const {authUser, isEmailVerified} = useAuthContext()!;
-    
-    //Include auth responses interceptor
-    expiredTokenInterceptor();
-
 
     const [theme, setTheme] = useState("light");
     useEffect(() => {
