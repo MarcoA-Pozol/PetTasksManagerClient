@@ -39,8 +39,6 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
 
             // Save auth state in authentication context
             const responseData = await response.json();
-            console.log(responseData.user);
-            console.log(responseData.isEmailVerified);
             authenticate(responseData.user);
             setIsEmailVerified(responseData.isEmailVerified);
 
