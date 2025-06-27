@@ -7,13 +7,18 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import CreateIcon from '@mui/icons-material/Create';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import LanguageIcon from '@mui/icons-material/Language';
+
 // Language
 import "../../../i18n";
 import { useTranslation } from "react-i18next";
+import { useAuthContext } from "../../context/authContext";
 
 const LeftMenu = ({theme, setTheme, setDisplayedPage}: LeftMenuProps) => {
-    const navigate = useNavigate();
     const { i18n } = useTranslation();
+
+    // Load auth context
+    const {logout} = useAuthContext()!;
+
 
     const toggleTheme = () => {
         setTheme(theme === "light" ? "dark" : "light");
@@ -21,9 +26,7 @@ const LeftMenu = ({theme, setTheme, setDisplayedPage}: LeftMenuProps) => {
     };
 
     const handleLogout = async () => {
-        await fetch("http://localhost:5000/auth/logout", { method: "POST", credentials: "include" });
-        // setIsAuthenticated(false);
-        navigate("/auth");
+        logout();
     };
 
     // Switch language
@@ -69,4 +72,4 @@ const LeftMenu = ({theme, setTheme, setDisplayedPage}: LeftMenuProps) => {
     );
 }
 
-export default LeftMenu
+export default LeftMenu;

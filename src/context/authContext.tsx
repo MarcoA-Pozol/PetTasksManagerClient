@@ -46,11 +46,14 @@ export const AuthProvider = ({children}: React.PropsWithChildren<{}>) => {
         setAuthUser(authUser_p);
     }
 
-    const logout = () => {
-        setAuthUser(null);
-        setIsAuthenticated(false);
-        setIsEmailVerified(false);
-        window.location.href = "/auth";
+    const logout = async () => {
+
+        await api.post('http://localhost:5000/auth/logout').then(() => {
+            setAuthUser(null);
+            setIsAuthenticated(false);
+            setIsEmailVerified(false);
+            window.location.href = "/auth";
+        });
     };
 
     return (
