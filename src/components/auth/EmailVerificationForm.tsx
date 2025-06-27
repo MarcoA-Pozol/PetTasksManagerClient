@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
 import { sendEmailVerificationCode } from "../../utils/EmailVerification";
-import { expiredTokenInterceptor } from "../../axios/Api";
 import { useAuthContext } from "../../context/authContext";
 import api from '../../axios/Api';
 
@@ -14,9 +13,6 @@ const EmailVerificationForm = () => {
     
     //Get shared auth context
     const {isAuthenticated, isEmailVerified, setIsEmailVerified} = useAuthContext()!;
-
-    //Include auth responses interceptor
-    expiredTokenInterceptor();
 
     //Place cursor in text area just after load page
     useEffect(() => {
