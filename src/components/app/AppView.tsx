@@ -24,6 +24,7 @@ const AppView = () => {
     }, [theme]);
 
 
+    const [hideSignOutWindow, setHideSignOutWindow] = useState<boolean>(true);
     const [displayedPage, setDisplayedPage] = useState("home");
     const completedTasksPercentage = useRef<number>(0);
     const [selectedPetImage, setSelectedPetImage] = useState<string>("");
@@ -125,6 +126,7 @@ const AppView = () => {
                     theme={theme} 
                     setTheme={setTheme} 
                     setDisplayedPage={setDisplayedPage} 
+                    setHideSignOutWindow={setHideSignOutWindow}
                 />
                 <div className="content-container">
                     {displayedPage === "home" && (
@@ -145,6 +147,8 @@ const AppView = () => {
                             diminishCompletedTasksCount={diminishCompletedTasksCount}
                             increaseCompletedTasksCount={increaseCompletedTasksCount}
                             completedTasksPercentage={completedTasksPercentage}
+                            hideSignOutWindow={hideSignOutWindow}
+                            setHideSignOutWindow={setHideSignOutWindow}
                         />
                     )}
                     {displayedPage === "create" && (

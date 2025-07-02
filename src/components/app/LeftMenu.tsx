@@ -1,4 +1,3 @@
-import { SignOutPopUpWindow } from "../auth/SignOutPopUpWindow";
 import { LeftMenuProps } from "../../schemas/LeftMenu";
 // Icons
 import HomeIcon from '@mui/icons-material/Home';
@@ -11,13 +10,8 @@ import LanguageIcon from '@mui/icons-material/Language';
 // Language
 import "../../../i18n";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
-
-const LeftMenu = ({theme, setTheme, setDisplayedPage}: LeftMenuProps) => {
+const LeftMenu = ({theme, setTheme, setDisplayedPage, setHideSignOutWindow}: LeftMenuProps) => {
     const { i18n } = useTranslation();
-    const [hideSignOutWindow, setHideSignOutWindow] = useState<boolean>(true);
-
-
     const toggleTheme = () => {
         setTheme(theme === "light" ? "dark" : "light");
         localStorage.setItem("theme", theme === "light" ? "dark" : "light");
@@ -62,7 +56,6 @@ const LeftMenu = ({theme, setTheme, setDisplayedPage}: LeftMenuProps) => {
                 </select>
             </label>
             <button className={`logout-button ${theme}`} onClick={() => {setHideSignOutWindow(false)}}><LogoutIcon/></button>
-            <SignOutPopUpWindow hideSignOutWindow={hideSignOutWindow} setHideSignOutWindow={setHideSignOutWindow}/>
         </div>
     );
 }

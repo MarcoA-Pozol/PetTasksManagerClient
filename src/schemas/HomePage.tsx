@@ -17,4 +17,6 @@ export interface HomePageProps {
     diminishCompletedTasksCount: () => void;
     increaseCompletedTasksCount: () => void;
     completedTasksPercentage: React.MutableRefObject<number>;
+    hideSignOutWindow: boolean;
+    setHideSignOutWindow: React.Dispatch<React.SetStateAction<boolean>>;
 }
