@@ -23,7 +23,7 @@ export const ProtectedRoute = ({children}:PropsWithChildren) => {
         if(!isAuthenticated || !isEmailVerified) checkAuth();
 
         // Delay (ms) to complete the auth context loading
-        const timer = setTimeout(() => setIsLoadingAuthContext(false), 100);
+        const timer = setTimeout(() => setIsLoadingAuthContext(false), 1000);
 
         // Clear timer in case component is ummounted (redirection to other page, for example) 
         return () => {
