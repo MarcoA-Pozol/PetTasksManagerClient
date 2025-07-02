@@ -1,0 +1,111 @@
+import React from "react";
+import { FaUserCircle, FaLock, FaSave } from "react-icons/fa";
+
+export const SettingsView = () => {
+    return (
+        <div style={styles.baseProfileView}>
+            <div style={styles.card}>
+                <FaUserCircle size={50} style={styles.icon} />
+                <h2 style={styles.sectionTitle}>My Profile</h2>
+                <form method="PUT" style={styles.form}>
+                    <label style={styles.label}>Username
+                        <input type="text" placeholder="Enter username" style={styles.input} />
+                    </label>
+                    <label style={styles.label}>Email
+                        <input type="email" placeholder="Enter email" style={styles.input} />
+                    </label>
+                    <button type="submit" style={styles.saveButton}>
+                        <FaSave style={styles.buttonIcon}/> Save
+                    </button>
+                </form>
+            </div>
+
+            <div style={styles.card}>
+                <FaLock size={50} style={styles.icon} />
+                <h2 style={styles.sectionTitle}>Change Password</h2>
+                <form method="PUT" style={styles.form}>
+                    <label style={styles.label}>New Password
+                        <input type="password" placeholder="Enter new password" style={styles.input} />
+                    </label>
+                    <label style={styles.label}>Repeat New Password
+                        <input type="password" placeholder="Repeat new password" style={styles.input} />
+                    </label>
+                    <button type="submit" style={styles.saveButton}>
+                        <FaSave style={styles.buttonIcon}/> Save
+                    </button>
+                </form>
+            </div>
+        </div>
+    );
+}
+
+const styles: { [key: string]: React.CSSProperties } = {
+    baseProfileView: {
+        width: "100%",
+        minHeight: "100vh",
+        backgroundColor: "#f0f2f5",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "40px",
+        padding: "40px 20px"
+    },
+    card: {
+        backgroundColor: "#ffffff",
+        padding: "30px",
+        borderRadius: "12px",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
+        width: "90%",
+        maxWidth: "500px",
+        textAlign: "center",
+    },
+    sectionTitle: {
+        fontSize: "1.5rem",
+        fontWeight: "bold",
+        color: "#24155E",
+        marginBottom: "20px",
+    },
+    icon: {
+        color: "#24155E",
+        marginBottom: "10px"
+    },
+    form: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "16px"
+    },
+    label: {
+        fontWeight: 500,
+        fontSize: "0.9rem",
+        textAlign: "left",
+        color: "#333"
+    },
+    input: {
+        marginTop: "5px",
+        padding: "10px",
+        borderRadius: "8px",
+        border: "1px solid #ccc",
+        fontSize: "1rem",
+        width: "100%",
+        boxSizing: "border-box"
+    },
+    saveButton: {
+        backgroundColor: "#24155E",
+        color: "white",
+        border: "none",
+        borderRadius: "8px",
+        padding: "10px 20px",
+        fontSize: "1rem",
+        fontWeight: "bold",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "8px",
+        marginTop: "10px",
+        transition: "background-color 0.3s ease"
+    },
+    buttonIcon: {
+        fontSize: "1.1rem"
+    }
+};

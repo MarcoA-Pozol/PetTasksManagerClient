@@ -1,4 +1,5 @@
 import { LeftMenuProps } from "../../schemas/LeftMenu";
+import { useNavigate } from "react-router-dom";
 // Icons
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -6,6 +7,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import CreateIcon from '@mui/icons-material/Create';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import LanguageIcon from '@mui/icons-material/Language';
+import ProfileIcon from "@mui/icons-material/AccountBox";
 
 // Language
 import "../../../i18n";
@@ -16,6 +18,7 @@ const LeftMenu = ({theme, setTheme, setDisplayedPage, setHideSignOutWindow}: Lef
         setTheme(theme === "light" ? "dark" : "light");
         localStorage.setItem("theme", theme === "light" ? "dark" : "light");
     };
+    const navigate = useNavigate();
 
     // Switch language
     const changeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -55,6 +58,7 @@ const LeftMenu = ({theme, setTheme, setDisplayedPage, setHideSignOutWindow}: Lef
 
                 </select>
             </label>
+            <p onClick={() => {navigate("/profile")}}><ProfileIcon/></p>
             <button className={`logout-button ${theme}`} onClick={() => {setHideSignOutWindow(false)}}><LogoutIcon/></button>
         </div>
     );

@@ -1,10 +1,12 @@
 import { useTranslation } from "react-i18next";
 import "../../../i18n";
 import { PetContainerProps } from "../../schemas/PetContainer";
+import { useNavigate } from "react-router-dom";
 
 const PetContainer = ({authUser, theme, uncompletedTasksCount, completedTasksCount, selectedPetImage, petState, completedTasksPercentage}: PetContainerProps) => {
     const { t } = useTranslation();
     const totalTasks = completedTasksCount + uncompletedTasksCount;
+    const navigate = useNavigate();
 
     let petStateTextColor;
     if (petState==="I'm lazy") {
@@ -24,7 +26,7 @@ const PetContainer = ({authUser, theme, uncompletedTasksCount, completedTasksCou
 
     return (
         <div className={`right-content rounded-border ${theme}`}>
-            <h3 style={{fontFamily:"monospace", fontSize:"1.2rem"}}>{authUser ? authUser.username : "Loading..."}</h3>
+            <h3 style={{fontFamily:"monospace", fontSize:"1.2rem"}} onClick={() => {return navigate("/profile")}}>{authUser ? authUser.username : "Loading..."}</h3>
             <img src={selectedPetImage} alt="pet image" style={{width:"100%", height:"250px"}}></img>
             <span style={{color:`${petStateTextColor}`, fontWeight:"bold", fontSize:"1.4rem"}}>{petState}</span>
             <div className="tasks-stats rounded-border spaced-around">
