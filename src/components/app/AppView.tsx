@@ -158,7 +158,7 @@ const AppView = () => {
                 </div>
             </div>
         }
-        </>);
+    </>);
 };
 
 export default AppView;
