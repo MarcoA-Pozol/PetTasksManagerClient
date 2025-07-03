@@ -58,7 +58,7 @@ const LeftMenu = ({theme, setTheme, setDisplayedPage, setHideSignOutWindow}: Lef
 
                 </select>
             </label>
-            <p onClick={() => {navigate("/profile")}}><ProfileIcon/></p>
+            <p onClick={() => {navigate("/settings")}}><ProfileIcon/></p>
             <button className={`logout-button ${theme}`} onClick={() => {setHideSignOutWindow(false)}}><LogoutIcon/></button>
         </div>
     );

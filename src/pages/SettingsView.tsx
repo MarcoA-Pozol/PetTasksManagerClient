@@ -1,46 +1,14 @@
 import React from "react";
-import { FaUserCircle, FaLock, FaSave, FaTrash, FaMailBulk, FaUserEdit, FaUserLock } from "react-icons/fa";
+import { UpdateProfileDataForm } from "../components/settings/UpdateProfileDataForm";
+import { UpdatePasswordForm } from "../components/settings/UpdatePasswordForm";
+import { DeleteAccountButton } from "../components/settings/DeleteAccountButton";
 
 export const SettingsView = () => {
     return (
         <div style={styles.baseProfileView}>
-            <div style={styles.card}>
-                <FaUserCircle size={50} style={styles.icon} />
-                <h2 style={styles.sectionTitle}>My Profile</h2>
-                <form method="PUT" style={styles.form}>
-                    <label style={styles.label}>
-                        <FaUserEdit/>
-                        <input type="text" placeholder="Username" style={styles.input} />
-                    </label>
-                    <label style={styles.label}>
-                        <FaMailBulk/>
-                        <input type="email" placeholder="Email" style={styles.input} />
-                    </label>
-                    <button type="submit" style={styles.saveButton}>
-                        <FaSave style={styles.buttonIcon}/> Save
-                    </button>
-                </form>
-            </div>
-
-            <div style={styles.card}>
-                <FaLock size={50} style={styles.icon} />
-                <h2 style={styles.sectionTitle}>Change Password</h2>
-                <form method="PUT" style={styles.form}>
-                    <label style={styles.label}>
-                        <FaUserLock/>
-                        <input type="password" placeholder="Enter new password" style={styles.input} />
-                    </label>
-                    <label style={styles.label}>
-                        <FaUserLock/>
-                        <input type="password" placeholder="Repeat new password" style={styles.input} />
-                    </label>
-                    <button type="submit" style={styles.saveButton}>
-                        <FaSave style={styles.buttonIcon}/> Save
-                    </button>
-                </form>
-            </div>
-
-            <button style={styles.deleteAccountButton}><FaTrash/> Delete Account</button>
+            <UpdateProfileDataForm styles={styles}/>
+            <UpdatePasswordForm styles={styles}/>
+            <DeleteAccountButton styles={styles}/>
         </div>
     );
 }
