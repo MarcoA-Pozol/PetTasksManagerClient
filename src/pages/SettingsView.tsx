@@ -1,5 +1,5 @@
 import React from "react";
-import { FaUserCircle, FaLock, FaSave } from "react-icons/fa";
+import { FaUserCircle, FaLock, FaSave, FaTrash, FaMailBulk, FaUserEdit, FaUserLock } from "react-icons/fa";
 
 export const SettingsView = () => {
     return (
@@ -8,11 +8,13 @@ export const SettingsView = () => {
                 <FaUserCircle size={50} style={styles.icon} />
                 <h2 style={styles.sectionTitle}>My Profile</h2>
                 <form method="PUT" style={styles.form}>
-                    <label style={styles.label}>Username
-                        <input type="text" placeholder="Enter username" style={styles.input} />
+                    <label style={styles.label}>
+                        <FaUserEdit/>
+                        <input type="text" placeholder="Username" style={styles.input} />
                     </label>
-                    <label style={styles.label}>Email
-                        <input type="email" placeholder="Enter email" style={styles.input} />
+                    <label style={styles.label}>
+                        <FaMailBulk/>
+                        <input type="email" placeholder="Email" style={styles.input} />
                     </label>
                     <button type="submit" style={styles.saveButton}>
                         <FaSave style={styles.buttonIcon}/> Save
@@ -24,10 +26,12 @@ export const SettingsView = () => {
                 <FaLock size={50} style={styles.icon} />
                 <h2 style={styles.sectionTitle}>Change Password</h2>
                 <form method="PUT" style={styles.form}>
-                    <label style={styles.label}>New Password
+                    <label style={styles.label}>
+                        <FaUserLock/>
                         <input type="password" placeholder="Enter new password" style={styles.input} />
                     </label>
-                    <label style={styles.label}>Repeat New Password
+                    <label style={styles.label}>
+                        <FaUserLock/>
                         <input type="password" placeholder="Repeat new password" style={styles.input} />
                     </label>
                     <button type="submit" style={styles.saveButton}>
@@ -35,6 +39,8 @@ export const SettingsView = () => {
                     </button>
                 </form>
             </div>
+
+            <button style={styles.deleteAccountButton}><FaTrash/> Delete Account</button>
         </div>
     );
 }
@@ -78,7 +84,10 @@ const styles: { [key: string]: React.CSSProperties } = {
         fontWeight: 500,
         fontSize: "0.9rem",
         textAlign: "left",
-        color: "#333"
+        color: "#333",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "10px"
     },
     input: {
         marginTop: "5px",
@@ -107,5 +116,17 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
     buttonIcon: {
         fontSize: "1.1rem"
+    },
+    deleteAccountButton: {
+        backgroundColor:"red",
+        color:"white",
+        padding: "5px 10px",
+        borderRadius: "10px",
+        fontSize: "0.8rem",
+        fontFamily: "monospace",
+        fontWeight: "bold",
+        width: "90%",
+        maxWidth: "500px",
+        marginTop: "50px"
     }
 };
