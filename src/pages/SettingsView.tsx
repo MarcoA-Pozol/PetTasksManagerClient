@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { UpdateProfileDataForm } from "../components/settings/UpdateProfileDataForm";
 import { UpdatePasswordForm } from "../components/settings/UpdatePasswordForm";
 import { DeleteAccountButton } from "../components/settings/DeleteAccountButton";
+import { DeleteAccountForm } from "../components/settings/DeleteAccountForm";
 
 export const SettingsView = () => {
+    const [hideAccountDeleteForm, setHideAccountDeleteForm] = useState<boolean>(true);
+
     return (
         <div style={styles.baseProfileView}>
             <UpdateProfileDataForm styles={styles}/>
             <UpdatePasswordForm styles={styles}/>
-            <DeleteAccountButton styles={styles}/>
+            <DeleteAccountButton styles={styles} setHideAccountDeleteForm={setHideAccountDeleteForm}/>
+            <DeleteAccountForm hideAccountDeleteForm={hideAccountDeleteForm} setHideAccountDeleteForm={setHideAccountDeleteForm}/>
         </div>
     );
 }
