@@ -9,7 +9,7 @@ export default function TaskCard({ title, status, themeMode, taskId, onComplete,
         /* Set a task as completed in server */
         try {
 
-            await api.patch(`http://localhost:5000/tasks?taskId=${taskId}`, {timeToResetInSeconds: 10})
+            await api.patch(`http://localhost:5000/tasks?taskId=${taskId}`)
             .then(() => {
                 console.log("Task set as completed");
                 onComplete();

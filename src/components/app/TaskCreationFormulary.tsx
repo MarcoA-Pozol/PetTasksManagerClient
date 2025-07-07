@@ -13,6 +13,11 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
     const [title, setTitle] = useState("");
     const titleElementRef = useRef<HTMLInputElement>(null);
 
+    const [showAgainIn, setShowAgainIn] = useState(0);
+    const showAgainInElementRef = useRef<HTMLInputElement>(null);
+
+    const [timeFormat, setTimeFormat] = useState("d");
+
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [showWarningMessage, setShowWarningMessage] = useState(false);
@@ -26,17 +31,34 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
     }, []);
 
 
-
     //Create new task on form submision
     const handleFormSubmision = async (event: React.FormEvent<HTMLFormElement>) => {
         
         event.preventDefault();
-
+        
         try {
             if (title!=="") {
                 
                 //Create task
-                const newTask: TaskInterfaceTwo  = {name: title, status: "to-do", userId};
+
+                // Format time to show again when completed (in seconds)
+                let timeToResetInSeconds = 60 * 60 * 24;
+                switch(timeFormat) {
+                    case "h":
+                        timeToResetInSeconds = showAgainIn * 60 * 60;
+                        break;
+                    case "d":
+                        timeToResetInSeconds = showAgainIn * 60 * 60 * 24;
+                        break;
+                    case "w":
+                        timeToResetInSeconds = showAgainIn * 60 * 60 * 24 * 7;
+                        break;
+                    case "m":
+                        timeToResetInSeconds = showAgainIn * 60 * 60 * 24 * 7 * 4;
+                        break;
+                }
+
+                const newTask: TaskInterfaceTwo  = {name: title, status: "to-do", timeToResetInSeconds, userId};
     
                 //Update user tasks in server
                 await api.post('http://localhost:5000/tasks/', newTask)
@@ -100,6 +122,13 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
             <form className={`create-task-form`} onSubmit={handleFormSubmision}>
                 <h2>{t("Create a Task")}</h2>
                 <input type="text" placeholder={t("Title")} ref={titleElementRef} value={title} onChange={(e) => setTitle(e.target.value)}></input>
+                <input type="number" placeholder={t("Show again in")} ref={showAgainInElementRef} value={showAgainIn} onChange={(e) => setShowAgainIn(e.target.valueAsNumber)}></input>
+                <select name="time-formats" onChange={(e) => setTimeFormat(e.target.value)}>
+                    <option value="h">Hours</option>
+                    <option value="d" selected>Days</option>
+                    <option value="w">Weeks</option>
+                    <option value="m">Months</option>
+                </select>
                 <button type="submit">{t("Create")}</button>
                 
                 {showSuccessMessage && (
