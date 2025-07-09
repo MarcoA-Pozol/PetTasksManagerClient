@@ -40,7 +40,8 @@ export interface TasksContainerProps {
 export interface TaskInterfaceTwo {
     name: string;
     status: "to-do" | "done";
-    timeToResetInSeconds: number;
+    type: string;
+    timeToResetInSeconds: number | undefined;
     userId: string;
 }
 
