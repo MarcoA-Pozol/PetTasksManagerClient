@@ -14,7 +14,7 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
     const titleElementRef = useRef<HTMLInputElement>(null);
 
     // Task type: daily, one-use, custom, etc
-    const [type, setType] = useState("");
+    const [type, setType] = useState("d");
     const typeElementRef = useRef<HTMLSelectElement>(null);
 
     const [showAgainIn, setShowAgainIn] = useState(3);

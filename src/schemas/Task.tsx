@@ -1,6 +1,7 @@
 export interface TaskInterface {
     _id: string;
     name: string;
+    type: string;
     status: "to-do" | "done";
 };
 

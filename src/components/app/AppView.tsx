@@ -83,7 +83,10 @@ const AppView = () => {
 
         //Remove from uncompleted list
         setUncompletedTasksList(prev => prev.filter(task => task._id !== completedTask._id));
-        setCompletedTasksList(prev => prev.concat(completedTask)); //and pass to completed ones  
+
+        // Handle no daily type tasks (daily ones auto delete on complete)
+        if(completedTask.type != "o")
+            setCompletedTasksList(prev => prev.concat(completedTask)); //and pass to completed ones      
     }
 
     // Function: Diminish uncompleted Tasks Count by one
