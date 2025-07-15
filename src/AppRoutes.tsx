@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AppView from "./components/app/AppView.tsx";
 import AuthenticationView from "./components/auth/AuthenticationView.tsx";
 import PageNotFoundView from "./components/PageNotFoundView.tsx";
-import { SettingsView } from "./pages/SettingsView.tsx";
 import { ProfileView } from "./pages/ProfileView.tsx";
 import { AnimatePresence } from "framer-motion"; // Motion transition effect between pages change
 import EmailVerificationForm from "./components/auth/EmailVerificationForm.tsx";
@@ -36,12 +35,6 @@ const AppRoutes = () => {
                             <ProfileView/>
                         </AuthProvider>
                     }/>
-
-                    <Route path="/settings" element={
-                        <AuthProvider>
-                            <SettingsView/>
-                        </AuthProvider>}/>
-
                     <Route path="*" element={<PageNotFoundView/>} />
                 </Routes>
             </Router>

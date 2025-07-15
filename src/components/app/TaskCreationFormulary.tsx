@@ -23,7 +23,7 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [showWarningMessage, setShowWarningMessage] = useState(false);
-    const [showTaskAlradyExistsMessage, setShowTaskAlraedyExistsMessage] = useState(false);
+    const [showTaskAlreadyExistsMessage, setShowTaskAlreadyExistsMessage] = useState(false);
 
 
     
@@ -108,9 +108,9 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
                 .catch(() => {
                     console.error("Failed to create task");
                     setTitle("");
-                    setShowTaskAlraedyExistsMessage(true);
+                    setShowTaskAlreadyExistsMessage(true);
                     setTimeout(() => {
-                        setShowTaskAlraedyExistsMessage(false);
+                        setShowTaskAlreadyExistsMessage(false);
                     }, 2000);
                 });
      
@@ -181,7 +181,7 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
                 </div>
                 )}
 
-                {showTaskAlradyExistsMessage && (
+                {showTaskAlreadyExistsMessage && (
                 <div style={{backgroundColor:"rgb(202, 81, 1)"}} className="temporary-message">
                     {t("Task already exists")}
                 </div>

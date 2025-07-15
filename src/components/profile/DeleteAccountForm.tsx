@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { handleAccountDeletion } from "../../functions/handleAccountDeletion";
 
 interface DeleteAccountFormProps {
   hideAccountDeleteForm: boolean;
@@ -6,13 +7,10 @@ interface DeleteAccountFormProps {
 }
 
 export const DeleteAccountForm = ({ hideAccountDeleteForm, setHideAccountDeleteForm }: DeleteAccountFormProps) => {
+  const [username, setUsername] = useState<string>("");
 
-  const handleHideContent = () => {
+  const handleHideForm = () => {
     setHideAccountDeleteForm(true);
-  };
-
-  const handleConfirmDelete = () => {
-    // Logic goes here (to be implemented by you)
   };
 
   return (
@@ -21,22 +19,22 @@ export const DeleteAccountForm = ({ hideAccountDeleteForm, setHideAccountDeleteF
         <h4 style={styles.questionText}>Are you sure you want to delete your account?</h4>
 
         <p style={styles.warningText}>
-          Warning: All your data will be permanently deleted 24 hours after this request. This action cannot be undone.
+          Warning: All your data will be permanently deleted after this request. This action cannot be undone.
         </p>
 
         <div style={styles.formGroup}>
-          <label style={styles.label}>Type <strong>"I accept"</strong> to confirm:</label>
+          <label style={styles.label}>Type <strong>"I agree"</strong>:</label>
           <input type="text" name="confirmation" style={styles.input} />
         </div>
 
         <div style={styles.formGroup}>
-          <label style={styles.label}>Password:</label>
-          <input type="password" name="password" style={styles.input} />
+          <label style={styles.label}>Enter your username to confirm:</label>
+          <input type="text" name="username" value={username} onChange={(e) => {setUsername(e.target.value)}} style={styles.input}/>
         </div>
 
         <div style={styles.buttonsContainer}>
-          <button style={styles.cancelButton} onClick={handleHideContent}>Cancel</button>
-          <button style={styles.deleteButton} onClick={handleConfirmDelete}>Delete Account</button>
+          <button style={styles.cancelButton} onClick={handleHideForm}>Cancel</button>
+          <button style={styles.deleteButton} onClick={() => {handleAccountDeletion(username)}}>Delete Account</button>
         </div>
       </div>
     </div>
