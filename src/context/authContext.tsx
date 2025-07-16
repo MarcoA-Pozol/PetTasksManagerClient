@@ -4,6 +4,7 @@ import api from '../axios/Api';
 interface AuthContextI{
     isAuthenticated: boolean;
     authUser: any;
+    authUserUsername: string;
     isEmailVerified: boolean;
     setIsEmailVerified: Dispatch<SetStateAction<boolean>>;
     checkAuth: () => void;
@@ -19,6 +20,7 @@ export const AuthProvider = ({children}: React.PropsWithChildren<{}>) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [authUser, setAuthUser] = useState<any>(null);
     const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false);
+    const [authUserUsername, setAuthUserUsername] = useState<string>("");
 
     let isCheckingAuth = false;
     const checkAuth = async () => {
@@ -31,6 +33,7 @@ export const AuthProvider = ({children}: React.PropsWithChildren<{}>) => {
                 isCheckingAuth = false;
                 authenticate(res.data.user);
                 setIsEmailVerified(res.data.isEmailVerified);
+                setAuthUserUsername(res.data.user.username);
             })
             .catch(() => {
                 isCheckingAuth = false;
@@ -44,6 +47,7 @@ export const AuthProvider = ({children}: React.PropsWithChildren<{}>) => {
     const authenticate = (authUser_p: any) => {
         setIsAuthenticated(true);
         setAuthUser(authUser_p);
+        setAuthUserUsername(authUser_p.username)
     }
 
     const logout = async () => {
@@ -52,6 +56,7 @@ export const AuthProvider = ({children}: React.PropsWithChildren<{}>) => {
             setAuthUser(null);
             setIsAuthenticated(false);
             setIsEmailVerified(false);
+            setAuthUserUsername("");
             window.location.href = "/auth";
         });
     };
@@ -60,6 +65,7 @@ export const AuthProvider = ({children}: React.PropsWithChildren<{}>) => {
         <AuthContext.Provider value={{
             isAuthenticated,
             authUser,
+            authUserUsername,
             isEmailVerified,
             setIsEmailVerified,
             checkAuth,

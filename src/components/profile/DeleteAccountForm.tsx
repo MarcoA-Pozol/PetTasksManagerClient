@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { handleAccountDeletion } from "../../functions/handleAccountDeletion";
+import { useAuthContext } from "../../context/authContext";
 
 interface DeleteAccountFormProps {
   hideAccountDeleteForm: boolean;
@@ -9,6 +10,8 @@ interface DeleteAccountFormProps {
 export const DeleteAccountForm = ({ hideAccountDeleteForm, setHideAccountDeleteForm }: DeleteAccountFormProps) => {
   const [username, setUsername] = useState<string>("");
   const [confirmationMessage, setConfirmationMessage] = useState<string>("");
+  const authContext = useAuthContext();
+  const authUserUsername = authContext ? authContext.authUserUsername : "";
 
   const handleHideForm = () => {
     setHideAccountDeleteForm(true);
@@ -35,7 +38,7 @@ export const DeleteAccountForm = ({ hideAccountDeleteForm, setHideAccountDeleteF
 
         <div style={styles.buttonsContainer}>
           <button style={styles.cancelButton} onClick={handleHideForm}>Cancel</button>
-          <button style={styles.deleteButton} onClick={() => {handleAccountDeletion(username, confirmationMessage)}}>Delete Account</button>
+          <button style={styles.deleteButton} onClick={() => {if (username !== authUserUsername) {alert("Invalid username.");console.log(authUserUsername, username)} else {handleAccountDeletion(username, confirmationMessage)}}}>Delete Account</button>
         </div>
       </div>
     </div>

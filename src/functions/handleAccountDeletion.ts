@@ -10,9 +10,7 @@ export const handleAccountDeletion = async (username:string, confirmationMessage
         alert(`Your account was deleted.`);
     })
     .catch((err) => {
-        if (err.status === 404) {
-            alert("This username was not found.")
-        } else if (err.status === 400) {
+        if (err.status === 400) {
             alert("Invalid username.");
         } else if (err.status === 401) {
             alert("Not authenticated.");
