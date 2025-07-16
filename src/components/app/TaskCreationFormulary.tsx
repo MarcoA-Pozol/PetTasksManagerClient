@@ -147,15 +147,14 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
                 <h2>{t("Create a Task")}</h2>
                 <input type="text" placeholder={t("Title")} ref={titleElementRef} value={title} onChange={(e) => setTitle(e.target.value)}></input>
                 
-                <label>Type</label>
-                <select name="type" defaultValue="d" onChange={(e) => setType(e.target.value)} ref={typeElementRef}>
-                    <option value="d">Daily</option>
-                    <option value="o">One-Use</option>
-                    <option value="c">Custom</option>
-                </select>
+                <div className="taskTypes__container">
+                    <p onClick={() => setType('d')} className={`taskType daily ${type === 'd' ? 'selected' : ''}`}>Daily</p>
+                    <p onClick={() => setType('o')} className={`taskType oneUse ${type === 'o' ? 'selected' : ''}`}>One-Use</p>
+                    <p onClick={() => setType('c')} className={`taskType custom ${type === 'c' ? 'selected' : ''}`}>Custom</p>
+                </div>
 
                 {type=="c" && (
-                    <div>
+                    <div style={{display:"flex", flexDirection:"column"}}>
                         <label>Show again in</label>
                         <input type="number" placeholder={t("Time")} value={showAgainIn} onChange={(e) => updateShowAgainIn(e)} min={1}></input>
                         <select name="time-formats" defaultValue="d" onChange={(e) => setTimeFormat(e.target.value)}>

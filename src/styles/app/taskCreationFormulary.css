@@ -31,6 +31,47 @@
     cursor: pointer;
 }
 
+
+
+/* Task types */
+.taskTypes__container {
+    display: flex;
+	align-items: center;
+}
+
+.taskType {
+    height: 20px;
+    width: 60px;
+    text-align: center;
+    margin-left: 5px;
+	margin-right: 12px;
+	font-size: 13px;
+    border: 2px solid black;
+	border-radius: 15px;
+	color: white;
+    opacity: 60%;
+    cursor: pointer;
+}
+
+.selected {
+    opacity: 100%;
+	cursor: default;
+}
+
+.daily {
+    background-color: #d8c773;
+}
+
+.oneUse {
+    background-color: #73d8b5;
+}
+
+.custom {
+    background-color: #bb73d8;
+}
+
+
+
 /* Themes */
 .dark input{
     border: 1px solid white;
