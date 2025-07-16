@@ -46,6 +46,11 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
     }, [timeFormat, showAgainIn]);
 
 
+    const updateShowAgainIn = (e: any) => {
+        const input = e.target.value;
+        if(input > 0)
+            setShowAgainIn(input);
+    }
 
 
     //Create new task on form submision
@@ -152,7 +157,7 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
                 {type=="c" && (
                     <div>
                         <label>Show again in</label>
-                        <input type="number" placeholder={t("Time")} value={showAgainIn} onChange={(e) => setShowAgainIn(e.target.valueAsNumber)}></input>
+                        <input type="number" placeholder={t("Time")} value={showAgainIn} onChange={(e) => updateShowAgainIn(e)} min={1}></input>
                         <select name="time-formats" defaultValue="d" onChange={(e) => setTimeFormat(e.target.value)}>
                             <option value="d">Days</option>
                             <option value="w">Weeks</option>
