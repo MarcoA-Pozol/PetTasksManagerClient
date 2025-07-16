@@ -39,11 +39,11 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
 
             setTimeout(() => navigate("/"), 800);
         } else if (response.status === 404) {
-            temporaryMessage.display("User was not found", "orange");
+            temporaryMessage.display("User was not found", "orangered");
         } else if (response.status === 401) {
-            temporaryMessage.display("Invalid password", "orange");
+            temporaryMessage.display("Invalid password", "orangered");
         } else if (password.length < 8) {
-            temporaryMessage.display("Password is too short, insert 8 characters at least.", "orange");
+            temporaryMessage.display("Password is too short, insert 8 characters at least.", "orangered");
         } else {
             const data:any = await response.json();
             temporaryMessage.display(`Server error: ${data.error}`, "red");

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/auth/authForm.css';
-import { SuccessMessage, WarningMessage, ErrorMessage } from '../temporaryMessages';
-import { useState } from 'react';
+import { TemporaryMessage } from '../temporaryMessages';
+import { useTemporaryMessage } from '../../hooks/useTemporaryMesage';
 import { useAuthContext } from '../../context/authContext';
 
 type Props = {
@@ -13,10 +13,7 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
     const navigate = useNavigate();
     const {authenticate} = useAuthContext()!;
 
-    const [temporaryMessageText, setTemporaryMessageText] = useState<string>("");
-    const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
-    const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
-    const [showUserAlreadyExistsMessage, setShowUserAlreadyExistsMessage] = useState<boolean>(false);
+    const temporaryMessage = useTemporaryMessage();
 
     const handleFormSubmision = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -36,33 +33,19 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
             });
 
             if (response.status === 201) {
-                setTemporaryMessageText("User created!")
-                setShowSuccessMessage(true);
-
                 // Save auth state in authentication context
                 const responseData = await response.json();
                 authenticate(responseData.user);
-
-                setTimeout(() => {
-                    setShowSuccessMessage(false);
-                    navigate("/");
-                }, 2000);
-            } else if (response.status === 400) {
-                setTemporaryMessageText("Username or email already taken")
-                setShowUserAlreadyExistsMessage(true);
-                setTimeout(() => {
-                    setShowUserAlreadyExistsMessage(false);
-                }, 2000)
+                temporaryMessage.display("Ready to start!", "green");
+                setTimeout(() => {navigate("/")}, 800);
+            } else if (response.status === 500) {
+                temporaryMessage.display("Username or email already in use.", "orangered")               
             } else {
                 const data:any = await response.json();
-                setTemporaryMessageText(`SignUp Error: ${response.status} | ${data.message}`);
-                setShowErrorMessage(true);
-                setTimeout(() => {
-                    setShowErrorMessage(false);
-                }, 2000)
+                temporaryMessage.display(`SignUp Error: ${response.status} | ${data.message}`, "red");
             }
         } else {
-            alert('Password fields must coincide.')
+            temporaryMessage.display('Password fields must coincide.', "orangered")
         }
 
     };
@@ -83,17 +66,7 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
                 </form>
             </div>
 
-            {showSuccessMessage && (
-                <SuccessMessage message={temporaryMessageText}/>
-            )}
-
-            {showUserAlreadyExistsMessage && (
-                <WarningMessage message={temporaryMessageText}/>
-            )}
-
-            {showErrorMessage && (
-                <ErrorMessage message={temporaryMessageText}/>
-            )}
+            {temporaryMessage.show && <TemporaryMessage message={temporaryMessage.text} color={temporaryMessage.color}/>}
         </div>
     );
 };
