@@ -8,6 +8,7 @@ interface DeleteAccountFormProps {
 
 export const DeleteAccountForm = ({ hideAccountDeleteForm, setHideAccountDeleteForm }: DeleteAccountFormProps) => {
   const [username, setUsername] = useState<string>("");
+  const [confirmationMessage, setConfirmationMessage] = useState<string>("");
 
   const handleHideForm = () => {
     setHideAccountDeleteForm(true);
@@ -24,7 +25,7 @@ export const DeleteAccountForm = ({ hideAccountDeleteForm, setHideAccountDeleteF
 
         <div style={styles.formGroup}>
           <label style={styles.label}>Type <strong>"I agree"</strong>:</label>
-          <input type="text" name="confirmation" style={styles.input} />
+          <input type="text" name="confirmationMessage" value={confirmationMessage} onChange={(e) => {setConfirmationMessage(e.target.value)}} style={styles.input} />
         </div>
 
         <div style={styles.formGroup}>
@@ -34,7 +35,7 @@ export const DeleteAccountForm = ({ hideAccountDeleteForm, setHideAccountDeleteF
 
         <div style={styles.buttonsContainer}>
           <button style={styles.cancelButton} onClick={handleHideForm}>Cancel</button>
-          <button style={styles.deleteButton} onClick={() => {handleAccountDeletion(username)}}>Delete Account</button>
+          <button style={styles.deleteButton} onClick={() => {handleAccountDeletion(username, confirmationMessage)}}>Delete Account</button>
         </div>
       </div>
     </div>
