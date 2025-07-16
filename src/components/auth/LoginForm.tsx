@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/auth/authForm.css';
-import { SuccessMessage, WarningMessage, ErrorMessage } from '../temporaryMessages';
+import { TemporaryMessage } from '../temporaryMessages';
 import { useAuthContext } from '../../context/authContext';
 import { useTemporaryMessage } from '../../hooks/useTemporaryMesage';
 
@@ -13,11 +13,7 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
     const navigate = useNavigate();
     const {authenticate, setIsEmailVerified} = useAuthContext()!;
 
-    const successMsg = useTemporaryMessage();
-    const warningMsg = useTemporaryMessage();
-    const userNotFoundMsg = useTemporaryMessage();
-    const unauthorizedMsg = useTemporaryMessage();
-    const errorMsg = useTemporaryMessage();
+    const temporaryMessage = useTemporaryMessage();
 
     const handleFormSubmision = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -39,19 +35,18 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
             const responseData = await response.json();
             authenticate(responseData.user);
             setIsEmailVerified(responseData.isEmailVerified);
-            successMsg.display("Welcome back!");
+            temporaryMessage.display("Welcome back!", "green");
 
             setTimeout(() => navigate("/"), 800);
         } else if (response.status === 404) {
-            userNotFoundMsg.display("User was not found");
+            temporaryMessage.display("User was not found", "orange");
         } else if (response.status === 401) {
-            unauthorizedMsg.display("Invalid password");
+            temporaryMessage.display("Invalid password", "orange");
         } else if (password.length < 8) {
-            warningMsg.display("Password is too short, insert 8 characters at least.");
+            temporaryMessage.display("Password is too short, insert 8 characters at least.", "orange");
         } else {
             const data:any = await response.json();
-            console.log(data);
-            errorMsg.display(`Server error: ${data.error}`);
+            temporaryMessage.display(`Server error: ${data.error}`, "red");
         }
     };
 
@@ -70,12 +65,7 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
                 </form>
             </div>
 
-            {successMsg.show && <SuccessMessage message={successMsg.text}/>}
-            {userNotFoundMsg.show && <WarningMessage message={userNotFoundMsg.text}/>}
-            {unauthorizedMsg.show && <WarningMessage message={unauthorizedMsg.text}/>}
-            {warningMsg.show && <WarningMessage message={warningMsg.text}/>}
-            {errorMsg.show && <ErrorMessage message={errorMsg.text}/>}
-
+            {temporaryMessage.show && <TemporaryMessage message={temporaryMessage.text} color={temporaryMessage.color}/>}
         </div>
     );
 };
