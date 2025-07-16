@@ -38,7 +38,7 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
                 authenticate(responseData.user);
                 temporaryMessage.display("Ready to start!", "green");
                 setTimeout(() => {navigate("/")}, 800);
-            } else if (response.status === 500) {
+            } else if (response.status === 400) {
                 temporaryMessage.display("Username or email already in use.", "orangered")               
             } else {
                 const data:any = await response.json();
