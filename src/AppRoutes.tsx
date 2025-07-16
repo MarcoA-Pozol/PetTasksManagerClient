@@ -32,7 +32,7 @@ const AppRoutes = () => {
 
                     <Route path="/profile" element={
                         <AuthProvider>
-                            <ProfileView/>
+                            <ProtectedRoute><ProfileView/></ProtectedRoute>
                         </AuthProvider>
                     }/>
                     <Route path="*" element={<PageNotFoundView/>} />
