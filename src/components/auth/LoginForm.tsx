@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/auth/authForm.css';
 import { SuccessMessage, WarningMessage, ErrorMessage } from '../temporaryMessages';
 import { useAuthContext } from '../../context/authContext';
+import { useTemporaryMessage } from '../../hooks/useTemporaryMesage';
 
 type Props = {
     children?: React.ReactNode; // Can accept another html elements or react components
@@ -12,11 +13,11 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
     const navigate = useNavigate();
     const {authenticate, setIsEmailVerified} = useAuthContext()!;
 
-    const [temporaryMessageText, setTemporaryMessageText] = useState<string>("");
-    const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
-    const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
-    const [showUserDoesNotExistsMessage, setShowUserDoesNotExistsMessage] = useState<boolean>(false);
-    const [showUnauthorizedMessage, setShowUnauthorizedMessage] = useState<boolean>(false);
+    const successMsg = useTemporaryMessage();
+    const warningMsg = useTemporaryMessage();
+    const userNotFoundMsg = useTemporaryMessage();
+    const unauthorizedMsg = useTemporaryMessage();
+    const errorMsg = useTemporaryMessage();
 
     const handleFormSubmision = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -34,37 +35,23 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
         });
 
         if (response.ok) {
-            setTemporaryMessageText("SignIn was successful");
-            setShowSuccessMessage(true);
-
             // Save auth state in authentication context
             const responseData = await response.json();
             authenticate(responseData.user);
             setIsEmailVerified(responseData.isEmailVerified);
+            successMsg.display("Welcome back!");
 
-            setTimeout(() => {
-                setShowSuccessMessage(false);
-                navigate("/");
-            }, 2000);
+            setTimeout(() => navigate("/"), 800);
         } else if (response.status === 404) {
-            setTemporaryMessageText("User was not found");
-            setShowUserDoesNotExistsMessage(true);
-            setTimeout(() => {
-                setShowUserDoesNotExistsMessage(false);
-            }, 2000);
+            userNotFoundMsg.display("User was not found");
         } else if (response.status === 401) {
-            setTemporaryMessageText("Invalid password");
-            setShowUnauthorizedMessage(true);
-            setTimeout(() => {
-                setShowUnauthorizedMessage(false);
-            }, 2000);
+            unauthorizedMsg.display("Invalid password");
+        } else if (password.length < 8) {
+            warningMsg.display("Password is too short, insert 8 characters at least.");
         } else {
             const data:any = await response.json();
-            setTemporaryMessageText(`Server error ocurred: ${data}`);
-            setShowErrorMessage(true);
-            setTimeout(() => {
-                setShowErrorMessage(false);
-            }, 2000);
+            console.log(data);
+            errorMsg.display(`Server error: ${data.error}`);
         }
     };
 
@@ -83,21 +70,11 @@ const LoginForm: React.FC<Props> = ({children}:Props) => {
                 </form>
             </div>
 
-                {showSuccessMessage && (
-                    <SuccessMessage message={temporaryMessageText}/>
-                )}
-
-                {showUserDoesNotExistsMessage && (
-                    <WarningMessage message={temporaryMessageText}/>
-                )}
-
-                {showUnauthorizedMessage && (
-                    <WarningMessage message={temporaryMessageText}/>
-                )}
-
-                {showErrorMessage && (
-                    <ErrorMessage message={temporaryMessageText}/>
-                )}
+            {successMsg.show && <SuccessMessage message={successMsg.text}/>}
+            {userNotFoundMsg.show && <WarningMessage message={userNotFoundMsg.text}/>}
+            {unauthorizedMsg.show && <WarningMessage message={unauthorizedMsg.text}/>}
+            {warningMsg.show && <WarningMessage message={warningMsg.text}/>}
+            {errorMsg.show && <ErrorMessage message={errorMsg.text}/>}
 
         </div>
     );
