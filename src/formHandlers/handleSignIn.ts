@@ -1,7 +1,6 @@
-import { HandleSignInParams } from "../schemas/loginForm";
+import { handleSignInParams } from "../schemas/signInForm";
 
-export const handleSignIn =
-  ({ authenticate, setIsEmailVerified, temporaryMessage, navigate }: HandleSignInParams) =>
+export const handleSignIn = ({ authenticate, setIsEmailVerified, temporaryMessage, navigate }: handleSignInParams) =>
   async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -33,4 +32,4 @@ export const handleSignIn =
       const data: any = await response.json();
       temporaryMessage.display(`Server error: ${data.error}`, "red");
     }
-  };
+};

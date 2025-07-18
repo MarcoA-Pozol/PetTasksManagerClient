@@ -1,7 +1,7 @@
 import { SetStateAction } from "react";
 import { NavigateFunction } from "react-router-dom";
 
-export interface HandleSignInParams {
+export interface handleSignInParams {
     authenticate: (user: any) => void;
     setIsEmailVerified: (verified: boolean) => void | React.Dispatch<SetStateAction<boolean>>;
     temporaryMessage: {
