@@ -39,18 +39,6 @@
 	align-items: center;
 }
 
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
 .taskType {
     height: 20px;
     width: 60px;
@@ -80,6 +68,20 @@ input[type=number] {
 
 .custom {
     background-color: #bb73d8;
+}
+
+/* Disable arrows in inputs of type number */
+
+/* For chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* and Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 
