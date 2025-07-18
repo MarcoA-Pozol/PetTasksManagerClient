@@ -148,16 +148,16 @@ const TaskCreationFormulary = ({userId, increaseUncompletedTasksCount, addTaskTo
                 <input type="text" placeholder={t("Title")} ref={titleElementRef} value={title} onChange={(e) => setTitle(e.target.value)}></input>
                 
                 <div className="taskTypes__container">
-                    <p onClick={() => setType('d')} className={`taskType daily ${type === 'd' ? 'selected' : ''}`}>Daily</p>
                     <p onClick={() => setType('o')} className={`taskType oneUse ${type === 'o' ? 'selected' : ''}`}>One-Use</p>
+                    <p onClick={() => setType('d')} className={`taskType daily ${type === 'd' ? 'selected' : ''}`}>Daily</p>
                     <p onClick={() => setType('c')} className={`taskType custom ${type === 'c' ? 'selected' : ''}`}>Custom</p>
                 </div>
 
                 {type=="c" && (
-                    <div style={{display:"flex", flexDirection:"column"}}>
+                    <div style={{marginTop:"7px", marginBottom:"7px", alignItems: "center", display:"flex", flexDirection:"column"}}>
                         <label>Show again in</label>
-                        <input type="number" placeholder={t("Time")} value={showAgainIn} onChange={(e) => updateShowAgainIn(e)} min={1}></input>
-                        <select name="time-formats" defaultValue="d" onChange={(e) => setTimeFormat(e.target.value)}>
+                        <input style={{marginTop:"1px"}} type="number" placeholder={t("Time")} value={showAgainIn} onChange={(e) => updateShowAgainIn(e)} min={1}></input>
+                        <select style={{backgroundColor: "white"}} name="time-formats" defaultValue="d" onChange={(e) => setTimeFormat(e.target.value)}>
                             <option value="d">Days</option>
                             <option value="w">Weeks</option>
                             <option value="m">Months</option>
