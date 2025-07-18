@@ -102,20 +102,21 @@
 
 /* Temporary Messages */
 .temporary-message {
-  position: fixed;
-  top: 50vh;
-  right: 38vw;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  opacity: 1;
-  animation: fadeOut 2s forwards;
-  z-index: 1000;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    padding: 12px 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    opacity: 1;
+    animation: fadeOut 2s forwards;
+    z-index: 1000;
 }
 
 @keyframes fadeOut {
-  0%   { opacity: 1; }
-  80%  { opacity: 1; }
-  100% { opacity: 0; }
+    0%   { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { opacity: 0; }
 }
