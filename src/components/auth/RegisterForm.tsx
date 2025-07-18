@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/auth/authForm.css';
+import { useAuthFormStyles } from '../../styles/auth/authForm';
 import { TemporaryMessage } from '../temporaryMessages';
 import { useTemporaryMessage } from '../../hooks/useTemporaryMesage';
 import { useAuthContext } from '../../context/authContext';
@@ -13,7 +13,7 @@ type Props = {
 const RegisterForm: React.FC<Props> = ({children}:Props) => {
     const navigate = useNavigate();
     const {authenticate} = useAuthContext()!;
-
+    const styles = useAuthFormStyles();
     const temporaryMessage = useTemporaryMessage();
 
 

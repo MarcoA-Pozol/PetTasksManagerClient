@@ -1,13 +1,15 @@
 import { useState } from "react";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
+import { useAuthFormStyles } from "../../styles/auth/authForm";
 
 export default function AuthenticationView() {
-    
+
+    const styles = useAuthFormStyles();
+    const [isNoAccountButtonHovered, setIsNoAccountButtonHovered] = useState<boolean>(false);
     const [isLoginVisible, setIsLoginVisible] = useState(true);
 
     const toggleForm = () => {
-        // Toggle between displaying login and register formularies
         setIsLoginVisible((prev) => !prev);
     };
 
@@ -17,7 +19,7 @@ export default function AuthenticationView() {
             {isLoginVisible ? (
                     <>
                         <LoginForm>
-                            <b><span className='toggle-forms-button' onClick={toggleForm}>I do not have an account yet</span></b>
+                            <b><span style={{...styles.toggleFormsButton, ...(isNoAccountButtonHovered && styles.toggleFormsButtonHover)}} onClick={(toggleForm)} onMouseEnter={() => setIsNoAccountButtonHovered(true)} onMouseLeave={() => setIsNoAccountButtonHovered(false)}>I do not have an account yet</span></b>
                         </LoginForm>
                     </>
                     
