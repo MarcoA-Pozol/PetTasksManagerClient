@@ -16,18 +16,17 @@ const RegisterForm: React.FC<Props> = ({children}:Props) => {
     const styles = useAuthFormStyles();
     const temporaryMessage = useTemporaryMessage();
 
-
     return(
-        <div className='base-container'>
+        <div style={styles.baseContainer}>
 
-            <div className="form-container" style={{backgroundImage:`url("/images/landscape1.png")`, backgroundSize: "cover", backgroundPosition: "center"}}>
-                <form className="auth-form" style={{backgroundColor:"brown"}} onSubmit={handleSignUp({authenticate, temporaryMessage, navigate})}>
-                    <h2 className="auth-title">Create Account</h2>
-                    <input name="username" type="text" placeholder="Username" required className="auth-input" />
-                    <input name="email" type="email" placeholder="Email" required className="auth-input" />
-                    <input name="password" type="password" placeholder="Password" required className="auth-input" />
-                    <input name="confirmPassword" type="password" placeholder="Confirm Password" required className="auth-input" />
-                    <button type="submit" className="auth-button">Register</button>
+            <div style={{...styles.formContainer, backgroundImage:`url("/images/landscape1.png")`, backgroundSize: "cover", backgroundPosition: "center"}}>
+                <form style={{...styles.authForm, backgroundColor:"brown"}} onSubmit={handleSignUp({authenticate, temporaryMessage, navigate})}>
+                    <h2 style={styles.authTitle}>Create Account</h2>
+                    <input style={styles.authInput} name="username" type="text" placeholder="Username" required/>
+                    <input style={styles.authInput} name="email" type="email" placeholder="Email" required/>
+                    <input style={styles.authInput} name="password" type="password" placeholder="Password" required/>
+                    <input style={styles.authInput} name="confirmPassword" type="password" placeholder="Confirm Password" required/>
+                    <button style={styles.authButton} type="submit">Register</button>
                     <hr style={{width:"100%", color:"white"}}></hr>
                     {children}
                 </form>

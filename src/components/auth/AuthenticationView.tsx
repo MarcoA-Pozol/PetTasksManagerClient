@@ -7,6 +7,7 @@ export default function AuthenticationView() {
 
     const styles = useAuthFormStyles();
     const [isNoAccountButtonHovered, setIsNoAccountButtonHovered] = useState<boolean>(false);
+    const [isExistingAccountButtonHovered, setIsExistingAccountButtonHovered] = useState<boolean>(false);
     const [isLoginVisible, setIsLoginVisible] = useState(true);
 
     const toggleForm = () => {
@@ -26,7 +27,7 @@ export default function AuthenticationView() {
                 ): (
                     <>
                         <RegisterForm>
-                            <b><span className='toggle-forms-button' onClick={toggleForm}>I already have an account</span></b>
+                            <b><span style={{...styles.toggleFormsButton, ...(isExistingAccountButtonHovered && styles.toggleFormsButtonHover)}} onClick={toggleForm}  onMouseEnter={() => setIsExistingAccountButtonHovered(true)} onMouseLeave={() => setIsExistingAccountButtonHovered(false)}>I already have an account</span></b>
                         </RegisterForm>
                     </>
             )}
